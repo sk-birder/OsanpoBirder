@@ -11,14 +11,17 @@
   </head>
 
   <body>
+    <!-- ヘッダーは画面最上部に常時表示する -->
     <header style="background-color: springgreen">
-      <h3>お散歩BIRDER</h3>
+      <%= link_to 'お散歩BIRDER', root_path %>
+      <%= link_to 'About', about_path %>
     </header>
 
     <%= yield %>
 
-    <footer>
-      <h4>テスト</h4>
+    <footer style="background-color: darkolivegreen">
+      <p>お散歩BIRDER</p>
+      <p>散歩や自然観察を愛する人のためのSNS</h4>
     </footer>
   </body>
 </html>
