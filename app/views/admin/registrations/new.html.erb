@@ -1,8 +1,8 @@
-<!-- エンドユーザ作成 -->
+<!-- 管理者作成 -->
 <h2>Sign up</h2>
 
-<%= form_with model: @user, url: user_registration_path do |f| %>
-  <%= render "public/shared/error_messages", resource: resource %>
+<%= form_with model: @admin, url: admin_registration_path do |f| %>
+  <%= render "admin/shared/error_messages", resource: resource %>
 
   <div class="field">
     <%= f.label :email %><br />
@@ -27,4 +27,4 @@
   </div>
 <% end %>
 
-<%= render "public/shared/links" %>
+<%= render "admin/shared/links" %>
