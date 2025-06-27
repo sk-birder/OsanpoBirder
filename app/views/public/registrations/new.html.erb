@@ -1,5 +1,5 @@
 <!-- エンドユーザ作成 -->
-<h2>Sign up</h2>
+<h2>Sign up eu</h2>
 
 <%= form_with model: @user, url: user_registration_path do |f| %>
   <%= render "public/shared/error_messages", resource: resource %>
@@ -22,8 +22,40 @@
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
-  <div class="actions">
-    <%= f.submit "Sign up" %>
+  <div class="field">
+    <%= f.label :ユーザー名 %><br />
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :拠点地 %><br />
+    <%= f.text_field :area %>
+  </div>
+
+  <div class="field">
+    <%= f.label :拠点地の公開 %><br />
+    <%= f.radio_button(:hide_area, 'true', checked: true) %>
+    <%= f.label(:hide_area, '非公開', value: 'true') %>
+    <%= f.radio_button(:hide_area, 'false') %>
+    <%= f.label(:hide_area, '公開', value: 'false') %>
+  </div>
+
+  <div class="field">
+    <%= f.label :誕生年 %><br />
+    <%= f.select :birth_year, (1900..2100).to_a, selected: '2000' %>
+  </div>
+
+  <div class="field">
+    <%= f.label :誕生年の公開 %><br />
+    <%= f.radio_button(:hide_birth_year, 'true', checked: true) %>
+    <%= f.label(:hide_birth_year, '非公開', value: 'true') %>
+    <%= f.radio_button(:hide_birth_year, 'false') %>
+    <%= f.label(:hide_birth_year, '公開', value: 'false') %>
+  </div>
+
+  <div class="field">
+    <%= f.label :自己紹介 %><br />
+    <%= f.text_area :introduction %>
   </div>
 <% end %>
 
