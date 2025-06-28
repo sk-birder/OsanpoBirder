@@ -5,35 +5,35 @@
   <%= render "public/shared/error_messages", resource: resource %>
 
   <div class="field">
-    <%= f.label :email %><br />
+    <%= f.label :メールアドレス %><br />
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div>
 
   <div class="field">
-    <%= f.label :password %>
+    <%= f.label :パスワード %>
     <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    (<%= @minimum_password_length %>文字以上)
     <% end %><br />
     <%= f.password_field :password, autocomplete: "new-password" %>
   </div>
 
   <div class="field">
-    <%= f.label :password_confirmation %><br />
+    <%= f.label :パスワード（確認） %><br />
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
   <div class="field">
-    <%= f.label :ユーザー名 %><br />
+    <%= f.label :名前（２～２０文字） %><br />
     <%= f.text_field :name %>
   </div>
 
   <div class="field">
-    <%= f.label :拠点地 %><br />
+    <%= f.label :都道府県 %><br />
     <%= f.select :area, User.areas.keys, {} %>
   </div>
 
   <div class="field">
-    <%= f.label :拠点地の公開 %><br />
+    <%= f.label :都道府県の公開 %><br />
     <%= f.radio_button(:hide_area, 'true', checked: true) %>
     <%= f.label(:hide_area, '非公開', value: 'true') %>
     <%= f.radio_button(:hide_area, 'false') %>
