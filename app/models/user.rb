@@ -7,7 +7,7 @@ class User < ApplicationRecord
 
   validates :email, uniqueness: true
   validates :name, uniqueness: true, length: {minimum: 2, maximum: 20}
-  validates :introduction, presence: true, length: {maximum: 200}
+  validates :introduction, length: {maximum: 200}
   # validates :area, numericality: {greater_than_or_equal_to: 1, less_than_or_equal_to: 47}
 
   enum area: {
