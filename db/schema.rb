@@ -46,12 +46,12 @@ ActiveRecord::Schema.define(version: 2025_06_27_131043) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
     t.string "name", null: false
     t.string "introduction", null: false
     t.boolean "main_admin", default: false, null: false
     t.boolean "is_active", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
@@ -62,15 +62,15 @@ ActiveRecord::Schema.define(version: 2025_06_27_131043) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.string "name", null: false
+    t.integer "area", null: false
+    t.boolean "hide_area", null: false
+    t.integer "birth_year", null: false
+    t.boolean "hide_birth_year", null: false
+    t.string "introduction", null: false
+    t.boolean "is_active", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "name"
-    t.integer "area"
-    t.boolean "hide_area"
-    t.integer "birth_year"
-    t.boolean "hide_birth_year"
-    t.string "introduction"
-    t.boolean "is_active"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

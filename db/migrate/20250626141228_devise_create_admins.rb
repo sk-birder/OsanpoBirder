@@ -14,6 +14,12 @@ class DeviseCreateAdmins < ActiveRecord::Migration[6.1]
       ## Rememberable
       t.datetime :remember_created_at
 
+      # 追加（deviseでの管理者認証）
+      t.string  :name,         null: false
+      t.string  :introduction, null: false
+      t.boolean :main_admin,   null: false, default: false
+      t.boolean :is_active,    null: false, default: false
+
       ## Trackable
       # t.integer  :sign_in_count, default: 0, null: false
       # t.datetime :current_sign_in_at
@@ -32,14 +38,7 @@ class DeviseCreateAdmins < ActiveRecord::Migration[6.1]
       # t.string   :unlock_token # Only if unlock strategy is :email or :both
       # t.datetime :locked_at
 
-
       t.timestamps null: false
-
-      # 追加（deviseでの管理者認証）
-      t.string  :name,         null: false
-      t.string  :introduction, null: false
-      t.boolean :main_admin,   null: false, default: false
-      t.boolean :is_active,    null: false, default: false
     end
 
     add_index :admins, :email,                unique: true

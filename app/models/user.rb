@@ -5,10 +5,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_one_attached :profile_image
 
-  validates :email, uniqueness: true
   validates :name, uniqueness: true, length: {minimum: 2, maximum: 20}
-  validates :introduction, length: {maximum: 200}
   # validates :area, numericality: {greater_than_or_equal_to: 1, less_than_or_equal_to: 47}
+  validates :introduction, length: {maximum: 200}
 
   enum area: {
     選択してください: 0,

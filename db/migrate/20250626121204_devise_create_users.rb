@@ -14,6 +14,15 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.1]
       ## Rememberable
       t.datetime :remember_created_at
 
+      # 追加（deviseでのエンドユーザ認証）
+      t.string  :name,            null: false
+      t.integer :area,            null: false
+      t.boolean :hide_area,       null: false
+      t.integer :birth_year,      null: false
+      t.boolean :hide_birth_year, null: false
+      t.string  :introduction,    null: false
+      t.boolean :is_active,       null: false, default: true
+
       ## Trackable
       # t.integer  :sign_in_count, default: 0, null: false
       # t.datetime :current_sign_in_at
@@ -32,17 +41,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.1]
       # t.string   :unlock_token # Only if unlock strategy is :email or :both
       # t.datetime :locked_at
 
-
       t.timestamps null: false
-
-      # 追加（deviseでのエンドユーザ認証）
-      t.string  :name,            null: false
-      t.integer :area,            null: false
-      t.boolean :hide_area,       null: false
-      t.integer :birth_year,      null: false
-      t.boolean :hide_birth_year, null: false
-      t.string  :introduction,    null: false
-      t.boolean :is_active,       null: false, default: true
     end
 
     add_index :users, :email,                unique: true
