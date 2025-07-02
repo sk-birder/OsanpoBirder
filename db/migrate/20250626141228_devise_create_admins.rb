@@ -16,9 +16,9 @@ class DeviseCreateAdmins < ActiveRecord::Migration[6.1]
 
       # 追加（deviseでの管理者認証）
       t.string  :name,         null: false
-      t.string  :introduction, null: false
+      t.string  :introduction, null: false, length: {maximum: 200}
       t.boolean :main_admin,   null: false, default: false
-      t.boolean :is_active,    null: false, default: false
+      t.boolean :is_active,    null: false, default: true
 
       ## Trackable
       # t.integer  :sign_in_count, default: 0, null: false

@@ -7,6 +7,7 @@ class User < ApplicationRecord
 
   validates :name, uniqueness: true, length: {minimum: 2, maximum: 20}
   # validates :area, numericality: {greater_than_or_equal_to: 1, less_than_or_equal_to: 47}
+  validates :area, length: {maximum: 4, message: '都道府県を選択してください。'}
   validates :introduction, length: {maximum: 200}
 
   enum area: {

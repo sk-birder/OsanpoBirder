@@ -1,5 +1,4 @@
-<!-- エンドユーザ作成 -->
-<h2>Sign up eu</h2>
+<h2>新規会員登録</h2>
 
 <%= form_with model: @user, url: user_registration_path do |f| %>
   <%= render "public/shared/error_messages", resource: resource %>
@@ -12,7 +11,7 @@
   <div class="field">
     <%= f.label :パスワード %>
     <% if @minimum_password_length %>
-    (<%= @minimum_password_length %>文字以上)
+    （<%= @minimum_password_length %>文字以上）
     <% end %><br />
     <%= f.password_field :password, autocomplete: "new-password" %>
   </div>
@@ -54,12 +53,12 @@
   </div>
 
   <div class="field">
-    <%= f.label :自己紹介 %><br />
+    <%= f.label :自己紹介（２００文字以下） %><br />
     <%= f.text_area :introduction %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Sign up" %>
+    <%= f.submit "会員登録" %>
   </div>
 <% end %>
 

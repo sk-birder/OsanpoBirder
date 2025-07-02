@@ -1,5 +1,4 @@
-<!-- 管理者ログイン -->
-<h2>Log in admin</h2>
+<h2>Administrator log in</h2>
 
 <%= form_with model: @admin, url: admin_session_path do |f| %>
   <div class="field">
@@ -23,5 +22,3 @@
     <%= f.submit "Log in" %>
   </div>
 <% end %>
-
-<%= render "admin/shared/links" %>

@@ -6,6 +6,7 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <script src="https://kit.fontawesome.com/16d350bfe1.js" crossorigin="anonymous"></script>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
@@ -13,15 +14,43 @@
   <body>
     <!-- ヘッダーは画面最上部に常時表示する -->
     <header style="background-color: springgreen">
-      <%= link_to 'お散歩BIRDER', root_path %>
-      <%= link_to 'About', about_path %>
-      <%= link_to 'Sign up', new_user_registration_path %>
-      <%= link_to 'Sign in', new_user_session_path %>
+      <%= link_to root_path  do %>
+        <i class="fa-solid fa-dove"></i>お散歩BIRDER
+      <% end %>
+      <% if admin_signed_in? %>
+        <!-- 投稿一覧 -->
+        <!-- 地図 -->
+        <!-- コメント一覧 -->
+        <!-- 管理者コメント一覧 -->
+        <!-- ユーザー一覧 -->
+        <!-- 管理者掲示板 -->
+        <%= link_to 'Sign Out', destroy_admin_session_path, method: :delete %>
+      <% elsif user_signed_in? %>
+        <!-- About -->
+        <!-- 投稿一覧 -->
+        <!-- 地図 -->
+        <!-- 新規投稿 -->
+        <%= link_to 'Sign Out', destroy_user_session_path, method: :delete %>
+      <% else %>
+        <%= link_to 'About', about_path %>
+        <%= link_to 'Sign up', new_user_registration_path %>
+        <%= link_to 'Sign in', new_user_session_path %>
+      <% end %>
     </header>
 
     <%= yield %>
 
     <footer style="background-color: darkolivegreen">
+      <p style="color: white">
+        <% if admin_signed_in? %>
+          ログインステータス：<span style="color: red">管理者</sapn>
+        <% elsif user_signed_in? %>
+          ログインステータス：<span style="color: blue">エンドユーザー</sapn>
+        <% else %>
+          ログインステータス：なし<br />
+          <%= link_to '管理者ログイン', new_admin_session_path %><br />
+        <% end %>
+      </p>
       <p>お散歩BIRDER</p>
       <p>散歩や自然観察を愛する人のためのSNS</h4>
     </footer>
