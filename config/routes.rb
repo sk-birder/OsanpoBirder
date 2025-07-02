@@ -2,9 +2,19 @@ Rails.application.routes.draw do
   # エンドユーザ側
   scope module: :public do
     devise_for :users
-    root to: 'homes#top'
-    get 'about' => 'homes#about'
   end
+
+  # public/homes ルートディレクトリの設定を兼ねる
+  root to: 'public/homes#top'
+  get 'about' => 'public/homes#about'
+
+  # public/users
+  resources :users, only: [:index, :show, :edit], controller: 'public/users'
+  get 'mypage' => 'public/users#mypage'
+  get 'users/confirm' => 'public/users#confirm'
+
+  # public/posts
+  resources :posts, controller: 'public/posts'
 
   # 管理者側
   # 副管理者機能を実装する際に使用
