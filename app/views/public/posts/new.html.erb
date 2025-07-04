@@ -1,2 +1,35 @@
-<h1>Public::Posts#new</h1>
-<p>Find me in app/views/public/posts/new.html.erb</p>
+<p>Public::Posts#new</p>
+<%= form_with model: @user, url: posts_path do |f| %>
+  <p>地図座標</p>
+  <p>未実装</p>
+
+  <p>タイトル</p>
+  <%= f.text_field :title %>
+  
+  <p>カテゴリ(大分類)</p>
+  <%= f.select :main_class_id, MainClass.name, {} %>
+
+  <p>カテゴリ(小分類)</p>
+  <p>未実装</p>
+  <!-- 大分類の選択に応じて内容が変わるようにすること -->
+
+  <p>都道府県</p>
+  <%= f.select :area, Post.areas.keys, {selected: '東京都'}  %>
+
+  <p>時期</p>
+  <%= f.select :month, Post.months.keys, {} %>
+  
+  <p>本文</p>
+  <%= f.text_area :body %>
+
+  <p>公開・非公開</p>
+  <%= f.radio_button(:publicity, 0, checked: true) %>
+  <%= f.label(:publicity, '公開', value: 0) %>
+  <%= f.radio_button(:publicity, 1) %>
+  <%= f.label(:publicity, '非公開', value: 1) %>
+
+  <p></p>
+  <%= f.submit '投稿' %>
+<% end %>
+
+<!-- 入力不要だが保存が必要なもの。一部はダミーを入れること user_id, sub_class_id -->
