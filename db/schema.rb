@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 2025_07_03_145251) do
     t.string "name", null: false
     t.string "introduction", null: false
     t.boolean "main_admin", default: false, null: false
-    t.boolean "is_active", default: false, null: false
+    t.boolean "is_active", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_admins_on_email", unique: true
@@ -85,7 +85,8 @@ ActiveRecord::Schema.define(version: 2025_07_03_145251) do
     t.integer "month", null: false
     t.string "title", null: false
     t.text "body", null: false
-    t.integer "publicity", null: false
+    t.boolean "is_public", null: false
+    t.boolean "is_forbidden", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

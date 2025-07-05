@@ -8,7 +8,8 @@ class CreatePosts < ActiveRecord::Migration[6.1]
       t.integer :month,         null: false
       t.string  :title,         null: false
       t.text    :body,          null: false
-      t.integer :publicity,     null: false
+      t.boolean :is_public,     null: false
+      t.boolean :is_forbidden,  null: false, default: false
       t.timestamps
     end
   end
