@@ -10,7 +10,6 @@ class Post < ApplicationRecord
   validates :sub_class_id, presence: true
   validates :prefecture, presence: true
   validates :month, presence: true
-  validates :is_public, presence: true
 
   enum prefecture: {
     北海道: 1, 青森県: 2, 岩手県: 3, 宮城県: 4, 秋田県: 5, 山形県: 6, 福島県: 7,
