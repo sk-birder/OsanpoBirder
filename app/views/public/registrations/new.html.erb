@@ -28,15 +28,15 @@
 
   <div class="field">
     <%= f.label :都道府県 %><br />
-    <%= f.select :area, User.areas.keys, {} %>
+    <%= f.select :prefecture, User.prefectures.keys, {selected: '東京都'} %>
   </div>
 
   <div class="field">
     <%= f.label :都道府県の公開 %><br />
-    <%= f.radio_button(:hide_area, 'true', checked: true) %>
-    <%= f.label(:hide_area, '非公開', value: 'true') %>
-    <%= f.radio_button(:hide_area, 'false') %>
-    <%= f.label(:hide_area, '公開', value: 'false') %>
+    <%= f.radio_button(:hide_prefecture, 'true', checked: true) %>
+    <%= f.label(:hide_prefecture, '非公開', value: 'true') %>
+    <%= f.radio_button(:hide_prefecture, 'false') %>
+    <%= f.label(:hide_prefecture, '公開', value: 'false') %>
   </div>
 
   <div class="field">

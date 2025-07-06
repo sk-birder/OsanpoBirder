@@ -16,8 +16,8 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.1]
 
       # 追加（deviseでのエンドユーザ認証）
       t.string  :name,            null: false
-      t.integer :area,            null: false
-      t.boolean :hide_area,       null: false
+      t.integer :prefecture,      null: false
+      t.boolean :hide_prefecture, null: false
       t.integer :birth_year,      null: false
       t.boolean :hide_birth_year, null: false
       t.string  :introduction,    null: false

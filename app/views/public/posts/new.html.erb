@@ -3,7 +3,7 @@
   <p>地図座標</p>
   <p>未実装</p>
 
-  <p>タイトル</p>
+  <p>タイトル(100文字まで)</p>
   <%= f.text_field :title, autofocus: true %>
   
   <p>カテゴリ(大分類)</p>
@@ -13,15 +13,16 @@
   <p>カテゴリ(小分類)</p>
   <!-- SubClassモデルからデータを呼び出しセレクトボックスに表示 -->
   <!-- 大分類の選択に応じて内容が変わるようにすること -->
+  <!-- 小分類が存在しないときはnilではなく0が入るようにすること -->
   (仮実装)<%= f.text_field :sub_class_id %>
 
   <p>都道府県</p>
-  <%= f.select :area, Post.areas.keys, {selected: '東京都'}  %>
+  <%= f.select :prefecture, Post.prefectures.keys, {selected: '東京都'}  %>
 
-  <p>時期</p>
+  <p>月</p>
   <%= f.select :month, Post.months.keys, {} %>
   
-  <p>本文</p>
+  <p>本文(1000文字まで)</p>
   <%= f.text_area :body %>
 
   <p>公開・非公開</p>
@@ -33,5 +34,3 @@
   <p></p>
   <%= f.submit '投稿' %>
 <% end %>
-
-<!-- 入力不要だが保存が必要なもの。一部はダミーを入れること user_id, main_class_id, sub_class_id -->

@@ -81,7 +81,7 @@ ActiveRecord::Schema.define(version: 2025_07_03_145251) do
     t.integer "user_id", null: false
     t.integer "main_class_id", null: false
     t.integer "sub_class_id", null: false
-    t.integer "area", null: false
+    t.integer "prefecture", null: false
     t.integer "month", null: false
     t.string "title", null: false
     t.text "body", null: false
@@ -122,8 +122,8 @@ ActiveRecord::Schema.define(version: 2025_07_03_145251) do
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.string "name", null: false
-    t.integer "area", null: false
-    t.boolean "hide_area", null: false
+    t.integer "prefecture", null: false
+    t.boolean "hide_prefecture", null: false
     t.integer "birth_year", null: false
     t.boolean "hide_birth_year", null: false
     t.string "introduction", null: false
