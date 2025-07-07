@@ -1,2 +1,86 @@
-<h1>Public::Users#mypage</h1>
-<p>Find me in app/views/public/users/mypage.html.erb</p>
+<p>Public::Users#mypage</p>
+<div>
+  <h2>プロフィール</h2>
+  <table>
+    <tr>
+      <td>メールアドレス</td>
+      <td><%= @profile.email %></td>
+    </tr>
+    <tr>
+      <td>名前</td>
+      <td><%= @profile.name %></td>
+    </tr>
+    <tr>
+      <td>都道府県</td>
+      <td><%= @profile.prefecture %></td>
+    </tr>
+    <tr>
+      <td>都道府県の公開ステータス</td>
+      <td>
+        <% if @profile.hide_prefecture == true %>
+          非公開
+        <% else %>
+          公開
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <td>誕生年</td>
+      <td><%= @profile.birth_year %></td>
+    </tr>
+    <tr>
+      <td>誕生年の公開ステータス</td>
+      <td>
+        <% if @profile.hide_birth_year == true %>
+          非公開
+        <% else %>
+          公開
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <td>自己紹介</td>
+      <td><%= @profile.introduction %></td>
+    </tr>
+  </table>
+  <%= link_to 'プロフィール編集', edit_user_path(@profile.id) %><br />
+  <%= link_to '退会', user_deactivate_path(@profile.id) %>
+</div>
+
+<div>
+  <h2>投稿一覧</h2>
+  <table>
+    <thead>
+      <th>タイトル</th>
+      <th>都道府県</th>
+      <th>月</th>
+      <th>本文</th>
+      <th>公開ステータス</th>
+      <th></th> <!-- 公開ステータスとくっつけても良い -->
+      <th></th> <!-- 公開ステータスとくっつけても良い -->
+    </thead>
+    <% @posts.each do |posts| %>
+      <tr>
+        <td>
+          <%= link_to post_path(posts.id) do %>
+            <%= posts.title %>
+          <% end %>
+        </td>
+        <td><%= posts.prefecture %></td>
+        <td><%= posts.month %></td>
+        <td><%= posts.body %></td>
+        <td>
+          <% if posts.is_forbidden == true %>
+            <span style="color: red">管理者による非公開</span>
+          <% elsif posts.is_public == false %>
+            非公開
+          <% else %>
+            公開
+          <% end %>
+        </td>
+        <td><%= link_to '編集', edit_post_path(posts.id) %></td>
+        <td><%= link_to '削除', post_path(posts.id), method: :delete, "data-confirm" => "本当に削除しますか？" %></td>
+      </tr>
+    <% end %>
+</table>
+</div>

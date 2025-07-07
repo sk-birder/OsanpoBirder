@@ -27,6 +27,7 @@
         <%= link_to 'Sign Out', destroy_admin_session_path, method: :delete %>
       <% elsif user_signed_in? %>
         <!-- About -->
+        <%= link_to 'マイページ', mypage_path %>
         <%= link_to '投稿一覧', posts_path %>
         <!-- 地図 -->
         <%= link_to '新規投稿', new_post_path %>

@@ -5,6 +5,10 @@
   <tbody>
     <% if user_signed_in? %>
       <tr>
+        <td><%= link_to 'マイページ', mypage_path %></td>
+        <td>マイページ</td>
+      </tr>
+      <tr>
         <td><%= link_to '投稿一覧', posts_path %></td>
         <td>公開されている投稿を一覧表示</td>
       </tr>

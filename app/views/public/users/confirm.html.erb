@@ -1,2 +1,9 @@
-<h1>Public::Users#confirm</h1>
-<p>Find me in app/views/public/users/confirm.html.erb</p>
+<p>Public::Users#confirm</p>
+<h2>退会確認画面</h2>
+<h4>退会処理は取り消すことが出来ません。</h4>
+<h4>本当に退会しますか？</h4>
+
+<!-- 退会確認のチェックボックスを追加予定 -->
+<!-- 投稿などデータを削除するか選択するチェックボックスを追加予定 -->
+
+<%= link_to '退会する', user_deactivate_path, method: :patch %>

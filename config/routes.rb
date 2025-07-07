@@ -11,15 +11,16 @@ Rails.application.routes.draw do
 
   # public/users
   # Nest: follows, likes(index), comments(index)
-  resources :users, only: [:index, :show, :edit], controller: 'public/users' do
+  resources :users, only: [:index, :show, :edit, :update], controller: 'public/users' do
     resource :follows, only: [:create, :destroy], controller: 'public/follows'
     get 'following' => 'public/follows#following'
     get 'follower' => 'public/follows#follower'
     get 'likes' => 'public/likes#index'
     get 'comments' => 'public/comments#index'
+    get 'deactivate' => 'public/users#confirm'
+    patch 'deactivate' => 'public/users#deactivate'
   end
   get 'mypage' => 'public/users#mypage'
-  get 'users/confirm' => 'public/users#confirm'
 
   # public/posts
   # Nest: likes(create, destroy), reports, comments(create, destroy)

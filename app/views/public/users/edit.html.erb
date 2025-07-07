@@ -1,2 +1,56 @@
-<h1>Public::Users#edit</h1>
-<p>Find me in app/views/public/users/edit.html.erb</p>
+<p>Public::Users#edit</p>
+<% if @user.errors.any? %>
+  <p><%= @user.errors.count %>件のエラーが発生しました。</p>
+  <ul>
+    <% @user.errors.full_messages.each do |m| %>
+      <li><%= m %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_with model: @user, url: user_path, method: :patch do |f| %>
+  <div>
+    <p>メールアドレス</p>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  </div>
+
+  <div>
+    <p>名前（２～２０文字）</p>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <p>都道府県</p>
+    <%= f.select :prefecture, User.prefectures.keys, {} %>
+  </div>
+
+  <div>
+    <p>都道府県の公開</p>
+    <%= f.radio_button(:hide_prefecture, 'true', checked: true) %>
+    <%= f.label(:hide_prefecture, '非公開', value: 'true') %>
+    <%= f.radio_button(:hide_prefecture, 'false') %>
+    <%= f.label(:hide_prefecture, '公開', value: 'false') %>
+  </div>
+
+  <div>
+    <p>誕生年</p>
+    <%= f.select :birth_year, (1900..2100).to_a, selected: '2000' %>
+  </div>
+
+  <div>
+    <p>誕生年の公開</p>
+    <%= f.radio_button(:hide_birth_year, 'true', checked: true) %>
+    <%= f.label(:hide_birth_year, '非公開', value: 'true') %>
+    <%= f.radio_button(:hide_birth_year, 'false') %>
+    <%= f.label(:hide_birth_year, '公開', value: 'false') %>
+  </div>
+
+  <div>
+    <p>自己紹介（２００文字以下）</p>
+    <%= f.text_area :introduction %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "編集完了" %>
+  </div>
+<% end %>
