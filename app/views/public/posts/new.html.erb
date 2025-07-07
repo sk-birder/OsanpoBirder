@@ -17,13 +17,13 @@
   
   <p>カテゴリ(大分類)</p>
   <!-- MainClassモデルからデータを呼び出しセレクトボックスに表示 -->
-  (仮実装)<%= f.text_field :main_class_id %>
+  <p>未実装</p>
 
   <p>カテゴリ(小分類)</p>
   <!-- SubClassモデルからデータを呼び出しセレクトボックスに表示 -->
   <!-- 大分類の選択に応じて内容が変わるようにすること -->
   <!-- 小分類が存在しないときはnilではなく0が入るようにすること -->
-  (仮実装)<%= f.text_field :sub_class_id %>
+  <p>未実装</p>
 
   <p>都道府県</p>
   <%= f.select :prefecture, Post.prefectures.keys, {selected: '東京都'}  %>

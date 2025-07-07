@@ -36,7 +36,7 @@ class Public::SessionsController < Devise::SessionsController
 
   private
   # is_active判定用のメソッド
-  def user_statusg
+  def user_status
     # 入力されたメールアドレスがUserテーブルにあるか確認して、無ければdeviseに返して拒否してもらう
     user = User.find_by(email: params[:user][:email])
     return if user.nil?

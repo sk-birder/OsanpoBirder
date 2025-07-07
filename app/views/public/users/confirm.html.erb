@@ -6,4 +6,4 @@
 <!-- 退会確認のチェックボックスを追加予定 -->
 <!-- 投稿などデータを削除するか選択するチェックボックスを追加予定 -->
 
-<%= link_to '退会する', user_deactivate_path, method: :patch %>
+<%= link_to '退会する', user_deactivate_path, method: :patch, "data-confirm" => "本当に退会しますか？" %>

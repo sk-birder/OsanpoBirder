@@ -6,8 +6,6 @@
     <th>都道府県</th>
     <th>月</th>
     <th>本文</th>
-    <th>公開ステータス</th>
-    <th>管理者差止</th>
   </thead>
   <% @posts.each do |posts| %>
     <tr>
@@ -20,8 +18,6 @@
       <td><%= posts.prefecture %></td>
       <td><%= posts.month %></td>
       <td><%= posts.body %></td>
-      <td><%= posts.is_public %></td>
-      <td><%= posts.is_forbidden %></td>
     </tr>
   <% end %>
 </table>

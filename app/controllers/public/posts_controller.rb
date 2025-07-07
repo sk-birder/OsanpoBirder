@@ -55,7 +55,7 @@ class Public::PostsController < ApplicationController
   def destroy
     is_matching_login_user
     @post.destroy
-    redirect_to posts_path
+    redirect_to mypage_path
   end
 
   private
