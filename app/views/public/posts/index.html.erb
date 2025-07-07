@@ -1,2 +1,27 @@
-<h1>Public::Posts#index</h1>
-<p>Find me in app/views/public/posts/index.html.erb</p>
+<p>Public::Posts#index</p>
+<table>
+  <thead>
+    <th>ユーザID</th>
+    <th>タイトル</th>
+    <th>都道府県</th>
+    <th>月</th>
+    <th>本文</th>
+    <th>公開ステータス</th>
+    <th>管理者差止</th>
+  </thead>
+  <% @posts.each do |posts| %>
+    <tr>
+      <td><%= posts.user_id %></td>
+      <td>
+        <%= link_to post_path(posts.id) do %>
+          <%= posts.title %>
+        <% end %>
+      </td>
+      <td><%= posts.prefecture %></td>
+      <td><%= posts.month %></td>
+      <td><%= posts.body %></td>
+      <td><%= posts.is_public %></td>
+      <td><%= posts.is_forbidden %></td>
+    </tr>
+  <% end %>
+</table>

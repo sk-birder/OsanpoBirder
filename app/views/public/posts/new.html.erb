@@ -1,4 +1,13 @@
 <p>Public::Posts#new</p>
+<% if @post.errors.any? %>
+  <p><%= @post.errors.count %>件のエラーが発生しました。</p>
+  <ul>
+    <% @post.errors.full_messages.each do |m| %>
+      <li><%= m %></li>
+    <% end %>
+  </ul>
+<% end %>
+
 <%= form_with model: @post, url: posts_path do |f| %>
   <p>地図座標</p>
   <p>未実装</p>

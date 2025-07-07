@@ -5,8 +5,14 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_one_attached :profile_image
 
+  has_many :posts,         dependent: :destroy
+  has_many :user_comments, dependent: :destroy
+  has_many :likes,         dependent: :destroy
+  has_many :reports,       dependent: :destroy
+  has_many :followers, class_name: 'Follow', foreign_key: 'follower_id', dependent: :destroy
+  has_many :followeds, class_name: 'Follow', foreign_key: 'follower_id', dependent: :destroy
+
   validates :name, uniqueness: true, length: {minimum: 2, maximum: 20}
-  # validates :prefecture, numericality: {greater_than_or_equal_to: 1, less_than_or_equal_to: 47}
   validates :introduction, length: {maximum: 200}
 
   enum prefecture: {

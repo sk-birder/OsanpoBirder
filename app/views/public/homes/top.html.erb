@@ -3,21 +3,36 @@
 <h4>お散歩BIRDERはお散歩時間を充実させるSNSです☆</h4> <!-- SNSって文言を除けば、びっくりするほど平成初期… -->
 <table>
   <tbody>
-    <tr>
-      <td><%= link_to 'About', about_path %></td>
-      <td>このサイトについて</td>
-    </tr>
-    <tr>
-      <td>Guest</td>
-      <td>試しに使ってみる</td>
-    </tr>
-    <tr>
-      <td><%= link_to 'Sign up', new_user_registration_path %></td>
-      <td>サインアップ</td>
-    </tr>
-    <tr>
-      <td><%= link_to 'Sign in', new_user_session_path %></td>
-      <td>サインイン</td>
-    </tr>
+    <% if user_signed_in? %>
+      <tr>
+        <td><%= link_to '投稿一覧', posts_path %></td>
+        <td>公開されている投稿を一覧表示</td>
+      </tr>
+      <tr>
+        <td><%= link_to '新規投稿', new_post_path %></td>
+        <td>投稿作成</td>
+      </tr>
+      <tr>
+        <td><%= link_to 'Sign Out', destroy_user_session_path, method: :delete %></td>
+        <td>サインアウト</td>
+      </tr>
+    <% else %>
+      <tr>
+        <td><%= link_to 'About', about_path %></td>
+        <td>このサイトについて</td>
+      </tr>
+      <tr>
+        <td>Guest</td>
+        <td>試しに使ってみる</td>
+      </tr>
+      <tr>
+        <td><%= link_to 'Sign up', new_user_registration_path %></td>
+        <td>サインアップ</td>
+      </tr>
+      <tr>
+        <td><%= link_to 'Sign in', new_user_session_path %></td>
+        <td>サインイン</td>
+      </tr>
+    <% end %>
   </tbody>
 </table>

@@ -1,5 +1,9 @@
 class Post < ApplicationRecord
-  has_many :cooridnate, dependent: :destroy
+  has_many :coordinates,   dependent: :destroy
+  has_many :user_comments, dependent: :destroy
+  has_many :likes,         dependent: :destroy
+  has_many :reports,       dependent: :destroy
+  belongs_to :user
 
   # 必須のバリデーション
   validates :title, presence: true, length: {maximum:100}

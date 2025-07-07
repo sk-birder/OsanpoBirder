@@ -49,7 +49,7 @@
       <%= link_to '編集', edit_post_path %>
     </p>
     <p>
-      <%= link_to '削除', post_path, method: :delete %>
+      <%= link_to '削除', post_path, method: :delete,  "data-confirm" => "本当に削除しますか？"  %>
     </p>
   <% end %>
 <% end %>

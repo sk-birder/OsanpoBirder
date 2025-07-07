@@ -1,4 +1,6 @@
 class Public::PostsController < ApplicationController
+  before_action :authenticate_user!
+
   def new
     @post = Post.new
   end
@@ -12,12 +14,13 @@ class Public::PostsController < ApplicationController
       flash[:notice] = '投稿に成功しました。'
       redirect_to post_path(@post.id)
     else
-      flash[:notice] = '投稿に失敗しました。'
+      flash.now[:notice] = '投稿に失敗しました。'
       render :new
     end
   end
 
   def index
+    @posts = Post.where("(is_public == ?) AND (is_forbidden == ?)", true, false)
   end
 
   def show
@@ -35,28 +38,35 @@ class Public::PostsController < ApplicationController
   end
 
   def edit
-    @post = Post.find(params[:id])
+    is_matching_login_user
   end
 
   def update
-    @post = Post.find(params[:id])
+    is_matching_login_user
     if @post.update(post_params)
       flash[:notice] = '編集に成功しました。'
       redirect_to post_path(@post.id)
     else
-      flash[:notice] = '編集に失敗しました。'
+      flash.now[:notice] = '編集に失敗しました。'
       render :edit
     end
   end
 
   def destroy
-    # post = Post.find(params[:id])
-    # post.destroy
-    # redirect_to root_path
+    is_matching_login_user
+    @post.destroy
+    redirect_to posts_path
   end
 
   private
   def post_params
     params.require(:post).permit(:title, :main_class_id, :sub_class_id, :prefecture, :month, :body, :is_public)
+  end
+
+  def is_matching_login_user
+    @post = Post.find(params[:id])
+    if @post.user_id != current_user.id
+      redirect_to posts_path
+    end
   end
 end
