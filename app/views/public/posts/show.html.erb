@@ -1,7 +1,6 @@
 <p>Public::Posts#show</p>
 <!-- Controllerで投稿ユーザ本人であるかと公開ステータスを確認 -->
 <% if @show_post == nil %>
-  <% byebug %>
   <p>この投稿は非公開です。</p>
 <% else %>
   <div>
@@ -33,21 +32,24 @@
       <%= @show_post.body %>
     </p>
   </div>
-<% end %>
 
-<!-- 以下は投稿者本人のみ表示 -->
-<% if @show_post.user_id == current_user.id %>
-  <p>
-    公開・非公開<br />
-    <% if @show_post.is_forbidden == true %>
-      <span style="color: red">管理者による非公開</span>
-    <% elsif @show_post.is_public == false %>
-      非公開
-    <% else %>
-      公開
-    <% end %>
-  </p>
-  <p>
-    <%= link_to '編集', edit_post_path %>
-  </p>
+  <!-- 以下は投稿ユーザ本人のみ表示 -->
+  <% if @show_post.user_id == current_user.id %>
+    <p>
+      公開・非公開<br />
+      <% if @show_post.is_forbidden == true %>
+        <span style="color: red">管理者による非公開</span>
+      <% elsif @show_post.is_public == false %>
+        非公開
+      <% else %>
+        公開
+      <% end %>
+    </p>
+    <p>
+      <%= link_to '編集', edit_post_path %>
+    </p>
+    <p>
+      <%= link_to '削除', post_path, method: :delete %>
+    </p>
+  <% end %>
 <% end %>

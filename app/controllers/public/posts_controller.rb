@@ -25,7 +25,7 @@ class Public::PostsController < ApplicationController
     # 投稿ユーザか判定
     if @show_post.user_id != current_user.id
       # 投稿ユーザではない場合はis_publicとis_forbiddenの内容を確認し、
-      # 非公開ならばViewにデータを渡さないようにする(@show_post = nil)
+      # 非公開ならば@show_post = nilとしViewにデータを渡さないようにする
       if @show_post.is_public == false
         @show_post = nil
       elsif @show_post.is_forbidden == true
@@ -35,6 +35,24 @@ class Public::PostsController < ApplicationController
   end
 
   def edit
+    @post = Post.find(params[:id])
+  end
+
+  def update
+    @post = Post.find(params[:id])
+    if @post.update(post_params)
+      flash[:notice] = '編集に成功しました。'
+      redirect_to post_path(@post.id)
+    else
+      flash[:notice] = '編集に失敗しました。'
+      render :edit
+    end
+  end
+
+  def destroy
+    # post = Post.find(params[:id])
+    # post.destroy
+    # redirect_to root_path
   end
 
   private

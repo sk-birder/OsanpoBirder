@@ -1,2 +1,39 @@
-<h1>Public::Posts#edit</h1>
-<p>Find me in app/views/public/posts/edit.html.erb</p>
+<p>Public::Posts#edit</p>
+<%= form_with model: @post, url: post_path, method: :patch do |f| %>
+  <p>地図座標</p>
+  <p>未実装</p>
+
+  <p>タイトル(100文字まで)</p>
+  <%= f.text_field :title, autofocus: true %>
+  
+  <p>カテゴリ(大分類)</p>
+  <!-- MainClassモデルからデータを呼び出しセレクトボックスに表示 -->
+  (仮実装)<%= f.text_field :main_class_id %>
+
+  <p>カテゴリ(小分類)</p>
+  <!-- SubClassモデルからデータを呼び出しセレクトボックスに表示 -->
+  <!-- 大分類の選択に応じて内容が変わるようにすること -->
+  <!-- 小分類が存在しないときはnilではなく0が入るようにすること -->
+  (仮実装)<%= f.text_field :sub_class_id %>
+
+  <p>都道府県</p>
+  <%= f.select :prefecture, Post.prefectures.keys, {}  %>
+
+  <p>月</p>
+  <%= f.select :month, Post.months.keys, {} %>
+  
+  <p>本文(1000文字まで)</p>
+  <%= f.text_area :body %>
+
+  <p>公開・非公開</p>
+  <% if @post.is_forbidden == true %>
+    <p style="color: red">管理者による非公開状態のため、公開を選択しても公開されません。</p>
+  <% end %>
+  <%= f.radio_button(:is_public, true, checked: true) %>
+  <%= f.label(:is_public, '公開', value: true) %>
+  <%= f.radio_button(:is_public, false) %>
+  <%= f.label(:is_public, '非公開', value: false) %>
+
+  <p></p>
+  <%= f.submit '投稿' %>
+<% end %>
