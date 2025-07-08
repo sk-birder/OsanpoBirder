@@ -46,16 +46,14 @@
     <footer style="background-color: darkolivegreen">
       <p style="color: white">
         <% if admin_signed_in? %>
-          ログインステータス：<span style="color: red">管理者</sapn>
+          <i class="fa-solid fa-user-tie"></i>お散歩BIRDER
         <% elsif user_signed_in? %>
-          ログインステータス：<span style="color: blue">エンドユーザー</sapn>
+          <i class="fa-solid fa-crow"></i>お散歩BIRDER
         <% else %>
-          ログインステータス：なし<br />
-          <%= link_to '管理者ログイン', new_admin_session_path %><br />
+          お散歩BIRDER
         <% end %>
       </p>
-      <p>お散歩BIRDER</p>
-      <p>散歩や自然観察を愛する人のためのSNS</h4>
+      <p style="color: white">散歩や自然観察を愛する人のためのSNS</h4>
     </footer>
   </body>
 </html>
