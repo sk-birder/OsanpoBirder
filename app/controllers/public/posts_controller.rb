@@ -1,5 +1,6 @@
 class Public::PostsController < ApplicationController
   before_action :authenticate_user!
+  before_action :deny_deactivated_user
 
   def new
     @post = Post.new
@@ -31,7 +32,8 @@ class Public::PostsController < ApplicationController
       # 非公開ならば@show_post = nilとしViewにデータを渡さないようにする
       if @show_post.is_public == false
         @show_post = nil
-      elsif @show_post.is_forbidden == true
+      end
+      if @show_post.is_forbidden == true
         @show_post = nil
       end
     end
