@@ -1,2 +1,38 @@
-<h1>Public::Users#show</h1>
-<p>Find me in app/views/public/users/show.html.erb</p>
+<h2>ユーザープロフィール</h2>
+<div>
+  <h6>ユーザーネーム</h6>
+  <p><%= @user.name %></p>
+  <p style="color: red">
+    <% if @user.is_active == false %>
+      退会済みユーザー
+    <% end %>
+  </p>
+</div>
+<div>
+  <h6>都道府県</h6>
+  <p>
+    <% if @user.hide_prefecture == false %>
+      <%= @user.prefecture %>
+    <% else %>
+      非公開
+    <% end %>
+  </p>
+</div>
+<div>
+  <h6>誕生年</h6>
+  <p>
+    <% if @user.hide_birth_year == false %>
+      <%= @user.birth_year %>
+    <% else %>
+      非公開
+    <% end %>
+  </p>
+</div>
+<div>
+  <h6>自己紹介</h6>
+  <p><%= @user.introduction %></p>
+</div>
+
+<% if @user.id == current_user.id %>
+  <%= link_to '編集', edit_user_path(@user.id) %>
+<% end %>

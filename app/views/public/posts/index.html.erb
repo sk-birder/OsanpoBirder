@@ -1,7 +1,7 @@
 <p>Public::Posts#index</p>
 <table>
   <thead>
-    <th>ユーザID</th>
+    <th>ユーザ名</th>
     <th>タイトル</th>
     <th>都道府県</th>
     <th>月</th>
@@ -9,7 +9,11 @@
   </thead>
   <% @posts.each do |posts| %>
     <tr>
-      <td><%= posts.user_id %></td>
+      <td>
+        <%= link_to user_path(posts.user_id) do %>
+          <%= posts.user.name %>
+        <% end %>
+      </td>
       <td>
         <%= link_to post_path(posts.id) do %>
           <%= posts.title %>

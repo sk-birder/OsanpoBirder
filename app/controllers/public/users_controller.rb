@@ -26,6 +26,16 @@ class Public::UsersController < ApplicationController
   end
 
   def show
+    @user = User.find(params[:id])
+    # Viewに渡す必要のないカラムにnilを代入
+    @user.email = nil
+    @user.encrypted_password = nil
+    if @user.hide_prefecture == true
+      @user.prefecture = nil # enum設定のため'非公開'は代入不可
+    end
+    if @user.hide_birth_year == true
+      @user.birth_year = nil
+    end
   end
 
   def confirm
@@ -36,6 +46,7 @@ class Public::UsersController < ApplicationController
     is_matching_login_user_deactivate
     @user.update(is_active: false)
     sign_out(current_user)
+    flash[:notice] = '退会処理が完了しました。'
     redirect_to root_path
   end
 
@@ -56,5 +67,11 @@ class Public::UsersController < ApplicationController
     if @user.id != current_user.id
       redirect_to mypage_path
     end
-  end  
+  end
+
+  # 未使用のメソッド 不要ならば消去
+  def safe_user
+    @user = User.find(params[:id])
+    @safe_user = @user.attributes.except('email')
+  end
 end

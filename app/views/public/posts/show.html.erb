@@ -31,6 +31,12 @@
       本文<br />
       <%= @show_post.body %>
     </p>
+    <p>
+      投稿ユーザー<br />
+      <%= link_to user_path(@show_post.user_id) do %>
+        <%= @show_post.user.name %>
+      <% end %>
+    </p>
   </div>
 
   <!-- 以下は投稿ユーザ本人のみ表示 -->

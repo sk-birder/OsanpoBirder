@@ -11,6 +11,7 @@ class Public::PostsController < ApplicationController
     @post.user_id = current_user.id
     @post.main_class_id = 1 # テスト用のダミーデータ登録
     @post.sub_class_id = 2  # テスト用のダミーデータ登録
+    @post.is_forbidden = false # 本番環境でのエラー回避用の応急処置
     if @post.save
       flash[:notice] = '投稿に成功しました。'
       redirect_to post_path(@post.id)
