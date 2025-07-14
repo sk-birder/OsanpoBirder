@@ -29,4 +29,18 @@ class User < ApplicationRecord
     徳島県: 36, 香川県: 37, 愛媛県: 38, 高知県: 39,
     福岡県: 40, 佐賀県: 41, 長崎県: 42, 熊本県: 43, 大分県: 44, 宮崎県: 45, 鹿児島県: 46, 沖縄県: 47
   }
+
+  # 検索用のメソッド
+  # 入力テキストをtext, 検索方式をmethodとする ローカル変数でいいのか？
+  def self.search_for(text, method)
+    if method == 'perfect'
+      User.where(title: text) # 完全一致
+    elsif method == 'forward'
+      User.where('title LIKE ?', text + '%') # 前方一致
+    elsif method == 'backward'
+      User.where('title LIKE ?', '%' + text) # 後方一致
+    else
+      User.where('title LIKE ?', '%' + text + '%') # 部分一致
+  end
+
 end

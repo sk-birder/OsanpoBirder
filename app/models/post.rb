@@ -30,4 +30,17 @@ class Post < ApplicationRecord
     １月: 1, ２月: 2, ３月: 3, ４月: 4, ５月: 5, ６月: 6,
     ７月: 7, ８月: 8, ９月: 9, １０月: 10, １１月: 11, １２月: 12
   }
+
+  # 検索用のメソッド
+  # 入力テキストをtext, 検索方式をmethodとする ローカル変数でいいのか？
+  def self.search_for(text, method)
+    if method == 'perfect'
+      Post.where(title: text) # 完全一致
+    elsif method == 'forward'
+      Post.where('title LIKE ?', text + '%') # 前方一致
+    elsif method == 'backward'
+      Post.where('title LIKE ?', '%' + text) # 後方一致
+    else
+      Post.where('title LIKE ?', '%' + text + '%') # 部分一致
+  end
 end
