@@ -22,7 +22,7 @@ class Public::PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.where("(is_public = ?) AND (is_forbidden == ?)", true, false)
+    @posts = Post.where("(is_public = ?) AND (is_forbidden = ?)", true, false)
   end
 
   def show
