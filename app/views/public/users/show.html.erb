@@ -1,6 +1,7 @@
 <h2>ユーザープロフィール</h2>
+
 <div>
-  <h6>ユーザーネーム</h6>
+  <h4>ユーザーネーム</h4>
   <p><%= @user.name %></p>
   <p style="color: red">
     <% if @user.is_active == false %>
@@ -9,7 +10,7 @@
   </p>
 </div>
 <div>
-  <h6>都道府県</h6>
+  <h4>都道府県</h4>
   <p>
     <% if @user.hide_prefecture == false %>
       <%= @user.prefecture %>
@@ -19,7 +20,7 @@
   </p>
 </div>
 <div>
-  <h6>誕生年</h6>
+  <h4>誕生年</h4>
   <p>
     <% if @user.hide_birth_year == false %>
       <%= @user.birth_year %>
@@ -29,7 +30,7 @@
   </p>
 </div>
 <div>
-  <h6>自己紹介</h6>
+  <h4>自己紹介</h4>
   <p><%= @user.introduction %></p>
 </div>
 

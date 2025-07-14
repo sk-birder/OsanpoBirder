@@ -1,6 +1,7 @@
-<p>Public::Users#mypage</p>
+<h2>マイページ</h2>
+
 <div>
-  <h2>プロフィール</h2>
+  <h4>プロフィール</h4>
   <table>
     <tr>
       <td>メールアドレス</td>
@@ -44,11 +45,10 @@
     </tr>
   </table>
   <%= link_to 'プロフィール編集', edit_user_path(@profile.id) %><br />
-  <%= link_to '退会', user_deactivate_path(@profile.id) %>
 </div>
 
 <div>
-  <h2>投稿一覧</h2>
+  <h4>投稿一覧</h4>
   <table>
     <thead>
       <th>タイトル</th>
