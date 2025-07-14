@@ -7,7 +7,7 @@ class Public::UsersController < ApplicationController
 
   def mypage
     @profile = User.find(current_user.id) # 不要かも
-    @posts = Post.where("user_id == ?", current_user.id)
+    @posts = Post.where("user_id = ?", current_user.id)
   end
 
   def edit
