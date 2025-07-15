@@ -40,7 +40,9 @@
     </header>
 
     <%= flash[:notice] %>
-
+    <p>
+      <%= render 'public/searches/search_form' %>
+    </p>
     <%= yield %>
 
     <footer style="background-color: darkolivegreen">

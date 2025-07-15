@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  namespace :public do
-    get 'searches/search'
-  end
   # --- エンドユーザ側 ---
   # devise
   scope module: :public do
@@ -32,6 +29,9 @@ Rails.application.routes.draw do
     resource :reports, only: [:create, :destroy], controller: 'public/reports'
     resources :comments, only: [:create, :destroy], controller: 'public/comments'
   end
+
+  # public/searches
+  get 'search' => 'public/searches#search'
 
   # --- 管理者側 ---
   # 副管理者機能を実装する際に使用

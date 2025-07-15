@@ -42,5 +42,6 @@ class Post < ApplicationRecord
       Post.where('title LIKE ?', '%' + text) # 後方一致
     else
       Post.where('title LIKE ?', '%' + text + '%') # 部分一致
+    end
   end
 end
