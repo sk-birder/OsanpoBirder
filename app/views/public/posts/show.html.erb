@@ -40,7 +40,7 @@
     </p>
   </div>
 
-  <!-- 以下は投稿ユーザ本人のみ表示 -->
+  <!-- 投稿ユーザ本人のみ表示 公開状態・編集・削除 -->
   <% if @show_post.user_id == current_user.id %>
     <p>
       公開・非公開<br />
@@ -59,4 +59,14 @@
       <%= link_to '削除', post_path, method: :delete,  "data-confirm" => "本当に削除しますか？"  %>
     </p>
   <% end %>
+
+  <!-- コメントフォーム -->
+  <%= form_with model: @new_user_comment, url: post_comments_path(@show_post), method: :post, local: true do |f| %>
+    <h4>コメントフォーム</h4>
+    <%= f.text_area :body, rows: 3, placeholder: "最大200文字" %> <br />
+    <%= f.submit 'コメントする' %>
+  <% end %>
+
+  <!-- コメント一覧 -->
+  
 <% end %>
