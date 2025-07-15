@@ -27,6 +27,7 @@ class Public::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @posts = Post.where('user_id = ?', params[:id])
     # Viewに渡す必要のないカラムにnilを代入
     @user.email = nil
     @user.encrypted_password = nil

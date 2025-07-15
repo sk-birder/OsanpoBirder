@@ -2,19 +2,19 @@
 
 <table>
   <thead>
-    <th>ユーザ名</th>
+    <th>画像</th>
     <th>タイトル</th>
     <th>都道府県</th>
     <th>月</th>
     <th>本文</th>
+    <th>コメント件数</th>
+    <th>プロフィール画像</th>
+    <th>ユーザ名</th>
+    <th>更新日</th>
   </thead>
   <% @posts.each do |posts| %>
     <tr>
-      <td>
-        <%= link_to user_path(posts.user_id) do %>
-          <%= posts.user.name %>
-        <% end %>
-      </td>
+      <td><!-- 画像 予定地 --></td>
       <td>
         <%= link_to post_path(posts.id) do %>
           <%= posts.title %>
@@ -23,6 +23,14 @@
       <td><%= posts.prefecture %></td>
       <td><%= posts.month %></td>
       <td><%= posts.body %></td>
+      <td><%= posts.user_comments.count %> 件</td>
+      <td><!-- プロフィール画像 予定地 --></td>
+      <td>
+        <%= link_to user_path(posts.user_id) do %>
+          <%= posts.user.name %>
+        <% end %>
+      </td>
+      <td><%= posts.updated_at.strftime('%Y/%m/%d') %></td>
     </tr>
   <% end %>
 </table>
