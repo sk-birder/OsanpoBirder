@@ -30,6 +30,9 @@ Rails.application.routes.draw do
     resources :comments, only: [:create, :destroy], controller: 'public/comments'
   end
 
+  # public/searches
+  get 'search' => 'public/searches#search'
+
   # --- 管理者側 ---
   # 副管理者機能を実装する際に使用
   # devise_for :admin, controllers: {

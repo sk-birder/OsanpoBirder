@@ -1,0 +1,77 @@
+<% if @model == 'user' %>
+	<h2>ユーザー検索：<%= @text %></h2>
+  <table>
+    <thead>
+      <th>画像</th>
+      <th>名前</th>
+      <th>都道府県</th>
+      <th>誕生年</th>
+      <th>自己紹介</th>
+    </thead>
+    <tbody>
+      <% @records.each do |record| %>
+        <tr>
+          <td><!-- プロフィール画像 予定地 --></td>
+          <td>
+            <%= link_to user_path(record.id) do %>
+              <%= record.name %>
+            <% end %>
+          </td>
+          <td>
+            <% if record.hide_prefecture == true %>
+              非公開
+            <% else %>
+              <%= record.prefecture %>
+            <% end %>
+          </td>
+          <td>
+            <% if record.hide_birth_year == true %>
+              非公開
+            <% else %>
+              <%= record.birth_year %>
+            <% end %>
+          </td>
+          <td><%= record.introduction %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  <table>
+<% elsif @model == 'post' %>
+	<h2>投稿タイトル検索：<%= @text %></h2>
+  <table>
+    <thead>
+      <th>投稿画像</th>
+      <th>タイトル</th>
+      <th>カテゴリ大</th>
+      <th>カテゴリ小</th>
+      <th>都道府県</th>
+      <th>月</th>
+      <th>プロフィール画像</th>
+      <th>投稿ユーザー</th>
+      <th>更新日</th>
+    </thead>
+    <tbody>
+      <% @records.each do |record| %>
+        <tr>
+          <td><!-- 投稿画像 予定地 --></td>
+          <td>
+            <%= link_to post_path(record.id) do %>
+              <%= record.title %>
+            <% end %>
+          </td>
+          <td><!-- カテゴリ大 予定地 --></td>
+          <td><!-- カテゴリ小 予定地 --></td>
+          <td><%= record.prefecture %></td>
+          <td><%= record.month %></td>
+          <td><!-- プロフィール画像 予定地 --></td>
+          <td>
+            <%= link_to user_path(record.user_id) do %>
+              <%= record.user.name %>
+            <% end %>
+          </td>
+          <td><%= record.updated_at.strftime('%Y/%m/%d') %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  <table>
+<% end %>

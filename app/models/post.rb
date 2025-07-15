@@ -30,4 +30,19 @@ class Post < ApplicationRecord
     １月: 1, ２月: 2, ３月: 3, ４月: 4, ５月: 5, ６月: 6,
     ７月: 7, ８月: 8, ９月: 9, １０月: 10, １１月: 11, １２月: 12
   }
+
+  # 検索用のメソッド
+  # 入力テキストをtext, 検索方式をmethodとする
+  def self.search_for(text, method)
+    post = Post.where("(is_public = ?) AND (is_forbidden = ?)", true, false) # 投稿者非公開と管理者非公開を除外
+    if method == 'perfect'
+      post.where(title: text) # 完全一致
+    elsif method == 'forward'
+      post.where('title LIKE ?', text + '%') # 前方一致
+    elsif method == 'backward'
+      post.where('title LIKE ?', '%' + text) # 後方一致
+    else
+      post.where('title LIKE ?', '%' + text + '%') # 部分一致
+    end
+  end
 end
