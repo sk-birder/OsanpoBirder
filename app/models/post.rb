@@ -32,16 +32,17 @@ class Post < ApplicationRecord
   }
 
   # 検索用のメソッド
-  # 入力テキストをtext, 検索方式をmethodとする ローカル変数でいいのか？
+  # 入力テキストをtext, 検索方式をmethodとする
   def self.search_for(text, method)
+    post = Post.where("(is_public = ?) AND (is_forbidden = ?)", true, false) # 投稿者非公開と管理者非公開を除外
     if method == 'perfect'
-      Post.where(title: text) # 完全一致
+      post.where(title: text) # 完全一致
     elsif method == 'forward'
-      Post.where('title LIKE ?', text + '%') # 前方一致
+      post.where('title LIKE ?', text + '%') # 前方一致
     elsif method == 'backward'
-      Post.where('title LIKE ?', '%' + text) # 後方一致
+      post.where('title LIKE ?', '%' + text) # 後方一致
     else
-      Post.where('title LIKE ?', '%' + text + '%') # 部分一致
+      post.where('title LIKE ?', '%' + text + '%') # 部分一致
     end
   end
 end

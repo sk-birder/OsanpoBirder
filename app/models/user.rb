@@ -31,16 +31,17 @@ class User < ApplicationRecord
   }
 
   # 検索用のメソッド
-  # 入力テキストをtext, 検索方式をmethodとする ローカル変数でいいのか？
+  # 入力テキストをtext, 検索方式をmethodとする
   def self.search_for(text, method)
+    user = User.where('is_active = ?', true) # 退会済会員を除外
     if method == 'perfect'
-      User.where(name: text) # 完全一致
+      user.where(name: text) # 完全一致
     elsif method == 'forward'
-      User.where('name LIKE ?', text + '%') # 前方一致
+      user.where('name LIKE ?', text + '%') # 前方一致
     elsif method == 'backward'
-      User.where('name LIKE ?', '%' + text) # 後方一致
+      user.where('name LIKE ?', '%' + text) # 後方一致
     else
-      User.where('name LIKE ?', '%' + text + '%') # 部分一致
+      user.where('name LIKE ?', '%' + text + '%') # 部分一致
     end
   end
 
