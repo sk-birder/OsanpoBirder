@@ -51,16 +51,20 @@
   <h4>投稿一覧</h4>
   <table>
     <thead>
+      <th>画像</th>
       <th>タイトル</th>
       <th>都道府県</th>
       <th>月</th>
       <th>本文</th>
+      <th>コメント件数</th>
+      <th>更新日</th>
       <th>公開ステータス</th>
       <th></th> <!-- 公開ステータスとくっつけても良い -->
       <th></th> <!-- 公開ステータスとくっつけても良い -->
     </thead>
     <% @posts.each do |posts| %>
       <tr>
+        <td><!-- 画像 予定地 --></td>
         <td>
           <%= link_to post_path(posts.id) do %>
             <%= posts.title %>
@@ -69,6 +73,8 @@
         <td><%= posts.prefecture %></td>
         <td><%= posts.month %></td>
         <td><%= posts.body %></td>
+        <td><%= posts.user_comments.count %> 件</td>
+        <td><%= posts.updated_at.strftime('%Y/%m/%d') %></td>
         <td>
           <% if posts.is_forbidden == true %>
             <span style="color: red">管理者による非公開</span>
