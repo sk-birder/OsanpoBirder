@@ -20,6 +20,12 @@ class Public::CommentsController < ApplicationController
   end
 
   def destroy
+    comment = UserComment.find(params[:id])
+    if comment.user_id == current_user.id
+      comment.destroy # コメントしたユーザーでない場合は実行しない
+      flash[:notice] = 'コメントを削除しました。'
+    end
+    redirect_to post_path(params[:post_id])
   end
 
 
