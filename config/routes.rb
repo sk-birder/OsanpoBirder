@@ -42,7 +42,37 @@ Rails.application.routes.draw do
   devise_for :admin, skip: [:password, :registrations], controllers: {
     sessions: 'admin/sessions'
   }
+
   namespace :admin do
-     root to: 'homes#top'
+    # admin/homes admin空間のルートディレクトリの設定を兼ねる
+    root to: 'homes#top'
+
+    # admin/users
+    # 除名関連のRoutingが未実装
+    resources :users, only: [:index, :show, :update, :edit]
+
+    # admin/posts
+    # Nest: comments(create, destroy), reports(destroy)
+    resources :posts, only: [:index, :show, :update, :destroy] do
+      resources :comments, only: [:create, :destroy]
+      resources :reports, only: [:destroy]
+    end
+
+    # admin/reports
+    get 'reports' => 'reports#index'
+
+    # admin/boards
+    resources :boards, only: [:new, :create, :index, :show, :destroy] do
+      resources :board_comments, only: [:create, :destroy]
+    end
+  end
+
+  # admin/admins
+  # URLがadmin/adminsだと煩わしいためnamespace :adminに含めない
+  # 他のadmin/xxxが正常に機能しなくなるため最後に記述
+  get 'admins_list' => 'admin/admins#index'
+  resources :admin, only: [:show, :update, :edit], controller: 'admin/admins' do
+    get 'deactivate' => 'admin/admins#confirm'
+    patch 'deactivate' => 'admin/admins#deactivate'
   end
 end
