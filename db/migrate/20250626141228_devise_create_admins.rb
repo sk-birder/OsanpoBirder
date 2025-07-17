@@ -19,6 +19,7 @@ class DeviseCreateAdmins < ActiveRecord::Migration[6.1]
       t.string  :introduction, null: false, length: {maximum: 200}
       t.boolean :main_admin,   null: false, default: false
       t.boolean :is_active,    null: false, default: true
+      t.boolean :is_forbidden, null: false, default: false
 
       ## Trackable
       # t.integer  :sign_in_count, default: 0, null: false

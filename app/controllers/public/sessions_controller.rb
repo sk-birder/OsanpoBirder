@@ -47,5 +47,10 @@ class Public::SessionsController < Devise::SessionsController
       flash[:notice] = '退会済みのアカウントです。'
       redirect_to new_user_registration_path
     end
+    # is_forbiddenがtrueのときdeviseの処理を中断してサインアップ画面に遷移する
+    if user.is_forbidden == true
+      flash[:notice] = '除名済みのアカウントです。'
+      redirect_to new_user_registration_path
+    end
   end
 end

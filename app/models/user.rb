@@ -5,10 +5,12 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_one_attached :profile_image
 
-  has_many :posts,         dependent: :destroy
-  has_many :user_comments, dependent: :destroy
-  has_many :likes,         dependent: :destroy
-  has_many :reports,       dependent: :destroy
+  has_many :posts,          dependent: :destroy
+  has_many :post_comments,  dependent: :destroy
+  has_many :likes,          dependent: :destroy
+  has_many :reports,        dependent: :destroy
+  has_many :boards,         dependent: :destroy
+  has_many :board_comments, dependent: :destroy
   has_many :followers, class_name: 'Follow', foreign_key: 'follower_id', dependent: :destroy
   has_many :followeds, class_name: 'Follow', foreign_key: 'follower_id', dependent: :destroy
 
@@ -33,7 +35,7 @@ class User < ApplicationRecord
   # 検索用のメソッド
   # 入力テキストをtext, 検索方式をmethodとする
   def self.search_for(text, method)
-    user = User.where('is_active = ?', true) # 退会済会員を除外
+    user = User.where("(is_active = ?) AND (is_forbidden = ?)", true, false) # 退会済会員・除名済会員を除外
     if method == 'perfect'
       user.where(name: text) # 完全一致
     elsif method == 'forward'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_07_15_075242) do
+ActiveRecord::Schema.define(version: 2025_07_17_100008) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -50,10 +50,30 @@ ActiveRecord::Schema.define(version: 2025_07_15_075242) do
     t.string "introduction", null: false
     t.boolean "main_admin", default: false, null: false
     t.boolean "is_active", default: true, null: false
+    t.boolean "is_forbidden", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+  end
+
+  create_table "board_comments", force: :cascade do |t|
+    t.integer "board_id", null: false
+    t.integer "poster_id", null: false
+    t.boolean "is_admin", null: false
+    t.text "body", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "boards", force: :cascade do |t|
+    t.integer "poster_id", null: false
+    t.boolean "is_admin", null: false
+    t.string "title", null: false
+    t.text "body", null: false
+    t.boolean "is_public", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "coordinates", force: :cascade do |t|
@@ -84,13 +104,22 @@ ActiveRecord::Schema.define(version: 2025_07_15_075242) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "post_comments", force: :cascade do |t|
+    t.integer "post_id", null: false
+    t.integer "poster_id", null: false
+    t.boolean "is_admin", null: false
+    t.text "body", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "posts", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "main_class_id", null: false
     t.integer "sub_class_id", null: false
+    t.string "title", null: false
     t.integer "prefecture", null: false
     t.integer "month", null: false
-    t.string "title", null: false
     t.text "body", null: false
     t.boolean "is_public", null: false
     t.boolean "is_forbidden", default: false, null: false
@@ -113,15 +142,6 @@ ActiveRecord::Schema.define(version: 2025_07_15_075242) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "user_comments", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "post_id", null: false
-    t.string "body", null: false
-    t.boolean "is_public", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -135,6 +155,7 @@ ActiveRecord::Schema.define(version: 2025_07_15_075242) do
     t.boolean "hide_birth_year", null: false
     t.string "introduction", null: false
     t.boolean "is_active", default: true, null: false
+    t.boolean "is_forbidden", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_users_on_email", unique: true

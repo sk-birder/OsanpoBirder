@@ -15,7 +15,8 @@ User.create!(
   birth_year: 2005,
   hide_birth_year: true,
   introduction: 'テストユーザ1 非公開-非公開-有効',
-  is_active: true
+  is_active: true,
+  is_forbidden: false
 )
 User.create!(
   email: 'b@b',
@@ -26,7 +27,8 @@ User.create!(
   birth_year: 2000,
   hide_birth_year: false,
   introduction: 'テストユーザ2 非公開-公開-有効',
-  is_active: true
+  is_active: true,
+  is_forbidden: false
 )
 User.create!(
   email: 'c@c',
@@ -37,7 +39,8 @@ User.create!(
   birth_year: 1995,
   hide_birth_year: false,
   introduction: 'テストユーザ3 公開-公開-有効',
-  is_active: true
+  is_active: true,
+  is_forbidden: false
 )
 User.create!(
   email: 'd@d',
@@ -48,7 +51,8 @@ User.create!(
   birth_year: 1990,
   hide_birth_year: true,
   introduction: 'テストユーザ4 非公開-非公開-退会済み',
-  is_active: false
+  is_active: false,
+  is_forbidden: false
 )
 User.create!(
   email: 'e@e',
@@ -59,7 +63,8 @@ User.create!(
   birth_year: 1985,
   hide_birth_year: true,
   introduction: 'テストユーザ5 公開-非公開-退会済み',
-  is_active: false
+  is_active: false,
+  is_forbidden: false
 )
 User.create!(
   email: 'f@f',
@@ -70,14 +75,56 @@ User.create!(
   birth_year: 1980,
   hide_birth_year: false,
   introduction: 'テストユーザ6 公開-公開-退会済み',
-  is_active: false
+  is_active: false,
+  is_forbidden: false
+)
+User.create!(
+  email: 'z@z',
+  password: 'zzzzzz',
+  name: 'forbidden',
+  prefecture: '沖縄県',
+  hide_prefecture: false,
+  birth_year: 1980,
+  hide_birth_year: false,
+  introduction: 'テストユーザ7 除名済み',
+  is_active: false,
+  is_forbidden: false
 )
 
+
 Admin.create!(
-  email: 'admin@hoge.com',
-  password: 'hogehoge',
+  email: 'admin@admin',
+  password: 'mainadmin',
   name: '主管理者',
   introduction: 'テスト',
   main_admin: true,
-  is_active: true
+  is_active: true,
+  is_forbidden: false
+)
+Admin.create!(
+  email: 'subadmin@subadmin',
+  password: 'subadmin',
+  name: '副管理者',
+  introduction: 'テスト',
+  main_admin: false,
+  is_active: true,
+  is_forbidden: false
+)
+Admin.create!(
+  email: 'deadmin@deadmin',
+  password: 'deadmin',
+  name: '退会副管理者',
+  introduction: 'テスト',
+  main_admin: false,
+  is_active: false,
+  is_forbidden: false
+)
+Admin.create!(
+  email: 'banadmin@banadmin',
+  password: 'banadmin',
+  name: '除名副管理者',
+  introduction: 'テスト',
+  main_admin: false,
+  is_active: true,
+  is_forbidden: true
 )
