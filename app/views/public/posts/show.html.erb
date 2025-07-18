@@ -1,7 +1,8 @@
 <h2>投稿詳細</h2>
 
-<!-- Controllerで投稿ユーザ本人であるかと公開ステータスを確認 -->
-<% if @show_post == nil %>
+<% if @show_post.is_public == false && @show_post.user_id != current_user.id %>
+  <p>この投稿は非公開です。</p>
+<% elsif @show_post.is_forbidden == true && @show_post.user_id != current_user.id %>
   <p>この投稿は非公開です。</p>
 <% else %>
   <div>
@@ -82,14 +83,14 @@
         <tr>
           <td><!-- プロフィール画像 予定地 --></td>
           <td>
-            <%= link_to user_path(comment.poster_id) do %>
+            <%= link_to user_path(comment.user_id) do %>
               <%= comment.user.name %>
             <% end %>
           </td>
           <td><%= comment.body %></td>
           <td><%= comment.created_at.strftime('%Y/%m/%d') %></td>
           <td>
-            <% if comment.poster_id == current_user.id %>
+            <% if comment.user_id == current_user.id %>
               <%= link_to '削除', post_comment_path(comment.post_id, comment.id), method: :delete, "data-confirm" => "本当に削除しますか？" %>
             <% end %>
           </td>

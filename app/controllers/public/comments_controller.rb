@@ -6,13 +6,10 @@ class Public::CommentsController < ApplicationController
   end
 
   def create
-    byebug
     post = Post.find(params[:post_id])
     comment = PostComment.new(comment_params)
     comment.post_id = post.id
-    comment.poster_id = current_user.id
-    comment.is_admin = false
-    byebug
+    comment.user_id = current_user.id
     if comment.save
       flash[:notice] = 'コメントに成功しました。'
     else
@@ -23,7 +20,7 @@ class Public::CommentsController < ApplicationController
 
   def destroy
     comment = PostComment.find(params[:id])
-    if comment.poster_id == current_user.id
+    if comment.user_id == current_user.id
       comment.destroy # コメントしたユーザーでない場合は実行しない
       flash[:notice] = 'コメントを削除しました。'
     end

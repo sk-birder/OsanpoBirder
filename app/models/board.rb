@@ -1,5 +1,4 @@
 class Board < ApplicationRecord
-  belongs_to :user
   belongs_to :admin
   has_many :board_comments
 

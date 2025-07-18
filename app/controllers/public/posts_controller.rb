@@ -29,17 +29,6 @@ class Public::PostsController < ApplicationController
     @show_post = Post.find(params[:id])
     @new_user_comment = PostComment.new
     @comments = PostComment.where('post_id = ?', params[:id])
-    # 投稿ユーザか判定
-    if @show_post.user_id != current_user.id
-      # 投稿ユーザではない場合はis_publicとis_forbiddenの内容を確認し、
-      # 非公開ならば@show_post = nilとしViewにデータを渡さないようにする
-      if @show_post.is_public == false
-        @show_post = nil
-      end
-      if @show_post.is_forbidden == true
-        @show_post = nil
-      end
-    end
   end
 
   def edit

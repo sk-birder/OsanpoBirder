@@ -59,19 +59,16 @@ ActiveRecord::Schema.define(version: 2025_07_17_100008) do
 
   create_table "board_comments", force: :cascade do |t|
     t.integer "board_id", null: false
-    t.integer "poster_id", null: false
-    t.boolean "is_admin", null: false
+    t.integer "admin_id", null: false
     t.text "body", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "boards", force: :cascade do |t|
-    t.integer "poster_id", null: false
-    t.boolean "is_admin", null: false
+    t.integer "admin_id", null: false
     t.string "title", null: false
     t.text "body", null: false
-    t.boolean "is_public", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -106,8 +103,7 @@ ActiveRecord::Schema.define(version: 2025_07_17_100008) do
 
   create_table "post_comments", force: :cascade do |t|
     t.integer "post_id", null: false
-    t.integer "poster_id", null: false
-    t.boolean "is_admin", null: false
+    t.integer "user_id", null: false
     t.text "body", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

@@ -82,13 +82,13 @@ User.create!(
   email: 'z@z',
   password: 'zzzzzz',
   name: 'forbidden',
-  prefecture: '沖縄県',
+  prefecture: '東京都',
   hide_prefecture: false,
-  birth_year: 1980,
+  birth_year: 2000,
   hide_birth_year: false,
   introduction: 'テストユーザ7 除名済み',
   is_active: false,
-  is_forbidden: false
+  is_forbidden: true
 )
 
 
@@ -120,8 +120,8 @@ Admin.create!(
   is_forbidden: false
 )
 Admin.create!(
-  email: 'banadmin@banadmin',
-  password: 'banadmin',
+  email: 'banedadmin@banedadmin',
+  password: 'banedadmin',
   name: '除名副管理者',
   introduction: 'テスト',
   main_admin: false,

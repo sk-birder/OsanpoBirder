@@ -35,22 +35,26 @@ class Public::SessionsController < Devise::SessionsController
   # end
 
   private
-  # is_active判定用のメソッド
+  # is_active, is_forbiddenの判定用メソッド
   def user_status
     # 入力されたメールアドレスがUserテーブルにあるか確認して、無ければdeviseに返して拒否してもらう
     user = User.find_by(email: params[:user][:email])
     return if user.nil?
     # パスワードが一致しているか確認して、無ければdeviseに返して拒否してもらう
     return unless user.valid_password?(params[:user][:password])
-    # is_activeがfalseのときdeviseの処理を中断してサインアップ画面に遷移する
-    if user.is_active == false
-      flash[:notice] = '退会済みのアカウントです。'
-      redirect_to new_user_registration_path
-    end
     # is_forbiddenがtrueのときdeviseの処理を中断してサインアップ画面に遷移する
-    if user.is_forbidden == true
-      flash[:notice] = '除名済みのアカウントです。'
+    if user.is_forbidden == true || user.is_active == false
+      if user.is_forbidden == true
+        flash[:notice] = '除名済みのアカウントです。'
+      else
+        flash[:notice] = '退会済みのアカウントです。'
+      end
       redirect_to new_user_registration_path
     end
+    # is_activeがfalseのときdeviseの処理を中断してサインアップ画面に遷移する
+    # if user.is_active == false
+    #   flash[:notice] = '退会済みのアカウントです。'
+    #   redirect_to new_user_registration_path
+    # end
   end
 end

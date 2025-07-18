@@ -5,7 +5,6 @@ class Admin < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_one_attached :profile_image
 
-  has_many :post_comments,  dependent: :destroy
   has_many :boards,         dependent: :destroy
   has_many :board_comments, dependent: :destroy
 
