@@ -1,6 +1,6 @@
 class Post < ApplicationRecord
   has_many :coordinates,   dependent: :destroy
-  has_many :user_comments, dependent: :destroy
+  has_many :post_comments, dependent: :destroy
   has_many :likes,         dependent: :destroy
   has_many :reports,       dependent: :destroy
   belongs_to :user

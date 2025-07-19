@@ -28,15 +28,6 @@ class Public::UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @posts = Post.where('user_id = ?', params[:id])
-    # Viewに渡す必要のないカラムにnilを代入
-    @user.email = nil
-    @user.encrypted_password = nil
-    if @user.hide_prefecture == true
-      @user.prefecture = nil # enum設定のため'非公開'は代入不可
-    end
-    if @user.hide_birth_year == true
-      @user.birth_year = nil
-    end
   end
 
   def confirm

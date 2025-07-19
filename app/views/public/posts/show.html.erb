@@ -1,7 +1,8 @@
 <h2>投稿詳細</h2>
 
-<!-- Controllerで投稿ユーザ本人であるかと公開ステータスを確認 -->
-<% if @show_post == nil %>
+<% if @show_post.is_public == false && @show_post.user_id != current_user.id %>
+  <p>この投稿は非公開です。</p>
+<% elsif @show_post.is_forbidden == true && @show_post.user_id != current_user.id %>
   <p>この投稿は非公開です。</p>
 <% else %>
   <div>
@@ -62,7 +63,7 @@
 
   <h4>コメントフォーム</h4>
   <%= form_with model: @new_user_comment, url: post_comments_path(@show_post), method: :post, local: true do |f| %>
-    <%= f.text_area :body, rows: 3, placeholder: "最大200文字" %> <br />
+    <%= f.text_area :body, rows: 3, placeholder: "最大1000文字" %> <br />
     <%= f.submit 'コメントする' %>
   <% end %>
 
