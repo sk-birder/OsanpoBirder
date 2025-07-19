@@ -1,4 +1,4 @@
-class Public::CommentsController < ApplicationController
+class Public::PostCommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :deny_deactivated_user
   
@@ -7,7 +7,7 @@ class Public::CommentsController < ApplicationController
 
   def create
     post = Post.find(params[:post_id])
-    comment = PostComment.new(comment_params)
+    comment = PostComment.new(post_comment_params)
     comment.post_id = post.id
     comment.user_id = current_user.id
     if comment.save
@@ -29,7 +29,7 @@ class Public::CommentsController < ApplicationController
 
 
   private
-  def comment_params
+  def post_comment_params
     params.require(:post_comment).permit(:body)
   end
 end
