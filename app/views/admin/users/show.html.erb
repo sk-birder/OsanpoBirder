@@ -1,2 +1,96 @@
-<h1>Admin::Users#show</h1>
-<p>Find me in app/views/admin/users/show.html.erb</p>
+<h2>エンドユーザープロフィール</h2>
+
+<table>
+  <tr>
+    <td>画像</td>
+    <td><!-- 画像予定地 --></td>
+  </tr>
+  <tr>
+    <td>ユーザー名</td>
+    <td><%= @user.name %></td>
+  </tr>
+  <tr>
+    <td>都道府県</td>
+    <td><%= @user.prefecture %></td>
+  </tr>
+  <tr>
+    <td>誕生年</td>
+    <td><%= @user.birth_year %></td>
+  </tr>
+  <tr>
+    <td>自己紹介</td>
+    <td><%= @user.introduction %></td>
+  </tr>
+  <tr>
+    <td>ステータス</td>
+    <td><%= @user.is_active %></td>
+  </tr>
+  <tr>
+    <td>登録日</td>
+    <td><%= @user.created_at.strftime('%Y/%m/%d') %></td>
+  </tr>
+  <tr>
+    <td>プロフィール更新日</td>
+    <td><%= @user.updated_at.strftime('%Y/%m/%d') %></td>
+  </tr>
+</table>
+
+<h4>管理メニュー</h4>
+<table>
+  <tr>
+    <td>
+      <%= link_to 'プロフィールを編集する', edit_admin_user_path(@user) %>
+    </td>
+    <td>不適切な画像・テキストなどがある場合に使用</td>
+  </tr>
+  <tr>
+    <% if @user.is_active == false %>
+      <td>
+        退会を取り消す
+      </td>
+      <td>誤って退会したユーザーを復帰させる場合に使用</td>
+    <% else %>
+      <td>
+        退会させる
+      </td>
+      <td>退会操作を自分でできないユーザーを退会させるときに使用<br />迷惑ユーザーの除名とは異なります。</td>
+    <% end %>
+  </tr>
+  <tr>
+    <% if @user.is_forbidden == true %>
+      <td>除名を取り消す</td>
+      <td>除名を取り消す場合に使用<br />削除された投稿・コメントは元に戻りません。原則使用しないでください。</td>
+    <% else %>
+      <td>除名する</td>
+      <td>迷惑ユーザーを除名する場合に使用<br /><span style="color: red">除名すると投稿・コメントが全て削除されます。慎重に行ってください。</span></td>
+    <% end %>
+  </tr>
+</table>
+
+<h4><%= @user.name %>の公開投稿</h4>
+<table>
+  <thead>
+    <th>画像</th>
+    <th>タイトル</th>
+    <th>都道府県</th>
+    <th>月</th>
+    <th>本文</th>
+    <th>コメント件数</th>
+    <th>更新日</th>
+  </thead>
+  <% @posts.each do |posts| %>
+    <tr>
+      <td><!-- 画像 予定地 --></td>
+      <td>
+        <%= link_to post_path(posts.id) do %>
+          <%= posts.title %>
+        <% end %>
+      </td>
+      <td><%= posts.prefecture %></td>
+      <td><%= posts.month %></td>
+      <td><%= posts.body %></td>
+      <td><%= posts.post_comments.count %> 件</td>
+      <td><%= posts.updated_at.strftime('%Y/%m/%d') %></td>
+    </tr>
+  <% end %>
+</table>

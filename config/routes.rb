@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    get 'post_comments/index'
+  end
   # --- エンドユーザ側 ---
   # devise
   scope module: :public do
