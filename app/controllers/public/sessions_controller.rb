@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Public::SessionsController < Devise::SessionsController
-  # is_active判定
+  # is_active, is_forbiddenの判定
   before_action :user_status, only: [:create]
   # before_action :configure_sign_in_params, only: [:create]
 
@@ -51,10 +51,5 @@ class Public::SessionsController < Devise::SessionsController
       end
       redirect_to new_user_registration_path
     end
-    # is_activeがfalseのときdeviseの処理を中断してサインアップ画面に遷移する
-    # if user.is_active == false
-    #   flash[:notice] = '退会済みのアカウントです。'
-    #   redirect_to new_user_registration_path
-    # end
   end
 end
