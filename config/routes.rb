@@ -48,15 +48,19 @@ Rails.application.routes.draw do
     root to: 'homes#top'
 
     # admin/users
-    # 除名関連のRoutingが未実装
     resources :users, only: [:index, :show, :update, :edit]
+    patch 'users/:id/toggle_activity' => 'users#toggle_activity', as: 'users_toggle_activity'
+    patch 'users/:id/banish' => 'users#banish', as: 'users_banish'
 
     # admin/posts
-    # Nest: comments(create, destroy), reports(destroy)
+    # Nest: post_comments(destroy), reports(destroy)
     resources :posts, only: [:index, :show, :update, :destroy] do
-      resources :comments, only: [:create, :destroy]
+      resources :post_comments, only: [:destroy]
       resources :reports, only: [:destroy]
     end
+
+    # admin/post_comments(index)
+    get 'post_comments' => 'post_comments#index'
 
     # admin/reports
     get 'reports' => 'reports#index'

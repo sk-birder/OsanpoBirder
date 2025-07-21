@@ -1,7 +1,7 @@
-class Admin::HomesController < ApplicationController
+class Admin::PostCommentsController < ApplicationController
   before_action :authenticate_admin!
   before_action :deny_deactivated_admin
 
-  def top
+  def index
   end
 end
