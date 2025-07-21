@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  namespace :admin do
-    get 'post_comments/index'
-  end
   # --- エンドユーザ側 ---
   # devise
   scope module: :public do
@@ -56,11 +53,14 @@ Rails.application.routes.draw do
     patch 'users/:id/banish' => 'users#banish', as: 'users_banish'
 
     # admin/posts
-    # Nest: comments(create, destroy), reports(destroy)
+    # Nest: post_comments(destroy), reports(destroy)
     resources :posts, only: [:index, :show, :update, :destroy] do
-      resources :comments, only: [:create, :destroy]
+      resources :post_comments, only: [:destroy]
       resources :reports, only: [:destroy]
     end
+
+    # admin/post_comments(index)
+    get 'post_comments' => 'post_comments#index'
 
     # admin/reports
     get 'reports' => 'reports#index'
