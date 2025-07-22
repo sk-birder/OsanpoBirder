@@ -68,7 +68,13 @@
     </thead>
     <% @posts.each do |posts| %>
       <tr>
-        <td><!-- 画像 予定地 --></td>
+        <td>
+          <% if posts.post_images.attached? %>
+            <%= image_tag posts.show_first_post_image(50, 50) %>
+          <% else %>
+            なし
+          <% end %>
+        </td>
         <td>
           <%= link_to post_path(posts.id) do %>
             <%= posts.title %>
