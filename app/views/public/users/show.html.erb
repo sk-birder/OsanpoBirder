@@ -1,6 +1,8 @@
 <h2>ユーザープロフィール</h2>
 
 <div>
+  <h4>プロフィール画像</h4>
+    <%= image_tag @user.get_profile_image(150, 150) %>
   <h4>ユーザーネーム</h4>
   <p><%= @user.name %></p>
   <p style="color: red">
@@ -51,7 +53,13 @@
   </thead>
   <% @posts.each do |posts| %>
     <tr>
-      <td><!-- 画像 予定地 --></td>
+      <td>
+        <% if posts.post_images.attached? %>
+          <%= image_tag posts.show_first_post_image(50, 50) %>
+        <% else %>
+          なし
+        <% end %>
+      </td>
       <td>
         <%= link_to post_path(posts.id) do %>
           <%= posts.title %>

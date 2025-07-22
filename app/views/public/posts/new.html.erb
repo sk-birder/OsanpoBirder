@@ -13,6 +13,11 @@
   <p>地図座標</p>
   <p>未実装</p>
 
+  <p>写真</p>
+  <p>
+    <%= f.file_field :post_images, accept: "image/*",  multiple: true %>
+  </p>
+
   <p>タイトル(100文字まで)</p>
   <%= f.text_field :title, autofocus: true %>
   

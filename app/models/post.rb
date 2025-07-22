@@ -1,4 +1,6 @@
 class Post < ApplicationRecord
+  has_many_attached :post_images
+
   has_many :coordinates,   dependent: :destroy
   has_many :post_comments, dependent: :destroy
   has_many :likes,         dependent: :destroy
@@ -30,6 +32,11 @@ class Post < ApplicationRecord
     １月: 1, ２月: 2, ３月: 3, ４月: 4, ５月: 5, ６月: 6,
     ７月: 7, ８月: 8, ９月: 9, １０月: 10, １１月: 11, １２月: 12
   }
+
+  # 投稿画像用
+  def show_first_post_image(width, height)
+    post_images[0].variant(resize_to_limit: [50, 50]).processed
+  end
 
   # 検索用のメソッド
   # 入力テキストをtext, 検索方式をmethodとする

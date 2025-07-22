@@ -1,8 +1,7 @@
 <h2>エンドユーザー一覧</h2>
 <table>
   <thead>
-    <th>画像</th>
-    <th>ユーザー名</th>
+    <th>ユーザー</th>
     <th>都道府県</th>
     <th>誕生年</th>
     <th>自己紹介</th>
@@ -14,10 +13,8 @@
     <% @users.each do |user| %>
       <tr>
         <td>
-          <!-- 画像予定地 -->
-        </td>
-        <td>
           <%= link_to admin_user_path(user) do %>
+            <%= image_tag user.get_profile_image(50, 50) %>
             <%= user.name %>
           <% end %>
         </td>

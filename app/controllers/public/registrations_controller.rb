@@ -39,7 +39,6 @@ class Public::RegistrationsController < Devise::RegistrationsController
   # end
 
   protected
-
   # If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
     devise_parameter_sanitizer.permit(:sign_up, keys: [
@@ -54,6 +53,11 @@ class Public::RegistrationsController < Devise::RegistrationsController
 
   # The path used after sign up.
   def after_sign_up_path_for(resource)
+    # 初期プロフィール画像の登録
+    user = current_user
+    file_path = Rails.root.join('app/assets/images/default.png')
+    user.profile_image.attach(io: File.open(file_path), filename: 'default.png', content_type: 'image/png')
+    # マイページへ遷移
     mypage_path
   end
 

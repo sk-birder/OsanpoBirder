@@ -11,6 +11,11 @@
 
 <%= form_with model: @user, url: user_path, method: :patch do |f| %>
   <div>
+    <p>プロフィール画像</p>
+    <%= f.file_field :profile_image, accept: "image/*" %>  
+  </div>
+
+  <div>
     <p>メールアドレス</p>
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div>
