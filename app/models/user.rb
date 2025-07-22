@@ -30,6 +30,15 @@ class User < ApplicationRecord
     福岡県: 40, 佐賀県: 41, 長崎県: 42, 熊本県: 43, 大分県: 44, 宮崎県: 45, 鹿児島県: 46, 沖縄県: 47
   }
 
+  # プロフィール画像用
+  # def get_image
+  #   unless profile_image.attached?
+  #     file_path = Rails.root.join('app/assets/images/test1.jpg')
+  #     profile_image.attach(io: File.open(file_path), filename: 'default.jpg', content_type: 'image/jpeg')
+  #   end
+  #   profile_image
+  # end
+
   # 検索用のメソッド
   # 入力テキストをtext, 検索方式をmethodとする
   def self.search_for(text, method)
