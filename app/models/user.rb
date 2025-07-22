@@ -31,13 +31,13 @@ class User < ApplicationRecord
   }
 
   # プロフィール画像用
-  # def get_image
-  #   unless profile_image.attached?
-  #     file_path = Rails.root.join('app/assets/images/test1.jpg')
-  #     profile_image.attach(io: File.open(file_path), filename: 'default.jpg', content_type: 'image/jpeg')
-  #   end
-  #   profile_image
-  # end
+  def get_profile_image(width, height)
+    # unless profile_image.attached?
+    #   file_path = Rails.root.join('app/assets/images/test1.jpg')
+    #   profile_image.attach(io: File.open(file_path), filename: 'default.jpg', content_type: 'image/jpeg')
+    # end
+    profile_image.variant(resize_to_limit: [width, height]).processed
+  end
 
   # 検索用のメソッド
   # 入力テキストをtext, 検索方式をmethodとする

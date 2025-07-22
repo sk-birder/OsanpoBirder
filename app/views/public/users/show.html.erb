@@ -2,7 +2,7 @@
 
 <div>
   <h4>プロフィール画像</h4>
-    <%= image_tag @user.profile_image %>
+    <%= image_tag @user.get_profile_image(150, 150) %>
   <h4>ユーザーネーム</h4>
   <p><%= @user.name %></p>
   <p style="color: red">

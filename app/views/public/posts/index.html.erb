@@ -8,8 +8,7 @@
     <th>月</th>
     <th>本文</th>
     <th>コメント件数</th>
-    <th>プロフィール画像</th>
-    <th>ユーザ名</th>
+    <th>ユーザー</th>
     <th>更新日</th>
   </thead>
   <% @posts.each do |posts| %>
@@ -24,9 +23,9 @@
       <td><%= posts.month %></td>
       <td><%= posts.body %></td>
       <td><%= posts.post_comments.count %> 件</td>
-      <td><!-- プロフィール画像 予定地 --></td>
       <td>
         <%= link_to user_path(posts.user_id) do %>
+          <%= image_tag posts.user.get_profile_image(50, 50) %>
           <%= posts.user.name %>
         <% end %>
       </td>

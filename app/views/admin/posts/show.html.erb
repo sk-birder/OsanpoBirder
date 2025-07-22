@@ -1,1 +1,80 @@
 <h2>エンドユーザー投稿詳細</h2>
+  <div>
+    <p>地図予定地</p>
+  </div>
+  <div>
+    <p>
+      タイトル<br />
+      <%= @show_post.title %>
+    </p>
+    <p>
+      カテゴリ(大分類)<br />
+      (仮実装)<%= @show_post.main_class_id %>
+    </p>
+    <p>
+      カテゴリ(大分類)<br />
+      (仮実装)<%= @show_post.sub_class_id %>
+    </p>
+    <p>
+      都道府県<br />
+      <%= @show_post.prefecture %>
+    </p>
+    <p>
+      月<br />
+      <%= @show_post.month %>
+    </p>
+    <p>
+      本文<br />
+      <%= @show_post.body %>
+    </p>
+    <p>
+      投稿ユーザー<br />
+      <%= link_to admin_user_path(@show_post.user_id) do %>
+        <%= image_tag @show_post.user.get_profile_image(150, 150) %><br />
+        <%= @show_post.user.name %>
+      <% end %>
+    </p>
+  </div>
+
+    <p>
+      公開・非公開<br />
+      <% if @show_post.is_forbidden == true %>
+        <span style="color: red">管理者による非公開</span>
+      <% elsif @show_post.is_public == false %>
+        非公開
+      <% else %>
+        公開
+      <% end %>
+    </p>
+    <p>
+      <%= link_to '削除（未実装）', admin_post_path, method: :delete, "data-confirm" => "本当に削除しますか？" %>
+    </p>
+
+  <h4>コメント一覧</h4>
+  <% if @comments.count == 0 %>
+    <p>この投稿にはまだコメントがありません。</p>
+  <% else %>
+    <table>
+      <thead>
+        <th>ユーザー</th>
+        <th>コメント</th>
+        <th>投稿日</th>
+        <th></th>
+      </thead>
+      <% @comments.each do |comment| %>
+        <tr>
+          <td>
+            <%= link_to admin_user_path(comment.user_id) do %>
+              <%= image_tag comment.user.get_profile_image(50, 50) %>
+              <%= comment.user.name %>
+            <% end %>
+          </td>
+          <td><%= comment.body %></td>
+          <td><%= comment.created_at.strftime('%Y/%m/%d') %></td>
+          <td>
+              <%= link_to '削除（未実装）', admin_post_post_comment_path(comment.post_id, comment.id), method: :delete, "data-confirm" => "本当に削除しますか？" %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+<% end %>

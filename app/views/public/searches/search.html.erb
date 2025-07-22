@@ -2,8 +2,7 @@
 	<h2>ユーザー検索：<%= @text %></h2>
   <table>
     <thead>
-      <th>画像</th>
-      <th>名前</th>
+      <th>ユーザー</th>
       <th>都道府県</th>
       <th>誕生年</th>
       <th>自己紹介</th>
@@ -11,9 +10,9 @@
     <tbody>
       <% @records.each do |record| %>
         <tr>
-          <td><!-- プロフィール画像 予定地 --></td>
           <td>
             <%= link_to user_path(record.id) do %>
+              <%= image_tag record.get_profile_image(50, 50) %>
               <%= record.name %>
             <% end %>
           </td>
@@ -46,7 +45,6 @@
       <th>カテゴリ小</th>
       <th>都道府県</th>
       <th>月</th>
-      <th>プロフィール画像</th>
       <th>投稿ユーザー</th>
       <th>更新日</th>
     </thead>
@@ -63,9 +61,9 @@
           <td><!-- カテゴリ小 予定地 --></td>
           <td><%= record.prefecture %></td>
           <td><%= record.month %></td>
-          <td><!-- プロフィール画像 予定地 --></td>
           <td>
             <%= link_to user_path(record.user_id) do %>
+              <%= image_tag record.user.get_profile_image(50, 50) %>
               <%= record.user.name %>
             <% end %>
           </td>

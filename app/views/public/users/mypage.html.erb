@@ -4,6 +4,10 @@
   <h4>プロフィール</h4>
   <table>
     <tr>
+      <td>プロフィール画像</td>
+      <td><%= image_tag @profile.get_profile_image(150, 150) %></td>
+    </tr>
+    <tr>
       <td>メールアドレス</td>
       <td><%= @profile.email %></td>
     </tr>

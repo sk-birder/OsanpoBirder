@@ -91,6 +91,11 @@ User.create!(
   is_forbidden: true
 )
 
+users = User.all
+users.each do |user|
+  file_path = Rails.root.join('app/assets/images/default.png')
+  user.profile_image.attach(io: File.open(file_path), filename: 'default.png', content_type: 'image/png')
+end
 
 Admin.create!(
   email: 'admin@admin',
@@ -128,3 +133,9 @@ Admin.create!(
   is_active: true,
   is_forbidden: true
 )
+
+admins = Admin.all
+admins.each do |admin|
+  file_path = Rails.root.join('app/assets/images/default.png')
+  admin.profile_image.attach(io: File.open(file_path), filename: 'default.png', content_type: 'image/png')
+end

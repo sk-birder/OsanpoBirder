@@ -36,6 +36,7 @@
     <p>
       投稿ユーザー<br />
       <%= link_to user_path(@show_post.user_id) do %>
+        <%= image_tag @show_post.user.get_profile_image(150, 150) %><br />
         <%= @show_post.user.name %>
       <% end %>
     </p>
@@ -73,17 +74,16 @@
   <% else %>
     <table>
       <thead>
-        <th>プロフィール画像</th>
-        <th>ユーザー名</th>
+        <th>ユーザー</th>
         <th>コメント</th>
         <th>投稿日</th>
         <th></th>
       </thead>
       <% @comments.each do |comment| %>
         <tr>
-          <td><!-- プロフィール画像 予定地 --></td>
           <td>
             <%= link_to user_path(comment.user_id) do %>
+              <%= image_tag comment.user.get_profile_image(50, 50) %>
               <%= comment.user.name %>
             <% end %>
           </td>
