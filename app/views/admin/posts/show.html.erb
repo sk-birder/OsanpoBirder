@@ -4,6 +4,16 @@
   </div>
   <div>
     <p>
+      画像<br />
+      <% if @show_post.post_images.attached? %>
+        <% @show_post.post_images.each do |post_image| %>
+          <%= image_tag post_image %>
+        <% end %>
+      <% else %>
+        画像なし
+      <% end  %>
+    </p>
+        <p>
       タイトル<br />
       <%= @show_post.title %>
     </p>
@@ -34,8 +44,6 @@
         <%= @show_post.user.name %>
       <% end %>
     </p>
-  </div>
-
     <p>
       公開・非公開<br />
       <% if @show_post.is_forbidden == true %>
@@ -49,32 +57,33 @@
     <p>
       <%= link_to '削除（未実装）', admin_post_path, method: :delete, "data-confirm" => "本当に削除しますか？" %>
     </p>
+  </div>
 
-  <h4>コメント一覧</h4>
-  <% if @comments.count == 0 %>
-    <p>この投稿にはまだコメントがありません。</p>
-  <% else %>
-    <table>
-      <thead>
-        <th>ユーザー</th>
-        <th>コメント</th>
-        <th>投稿日</th>
-        <th></th>
-      </thead>
-      <% @comments.each do |comment| %>
-        <tr>
-          <td>
-            <%= link_to admin_user_path(comment.user_id) do %>
-              <%= image_tag comment.user.get_profile_image(50, 50) %>
-              <%= comment.user.name %>
-            <% end %>
-          </td>
-          <td><%= comment.body %></td>
-          <td><%= comment.created_at.strftime('%Y/%m/%d') %></td>
-          <td>
-              <%= link_to '削除（未実装）', admin_post_post_comment_path(comment.post_id, comment.id), method: :delete, "data-confirm" => "本当に削除しますか？" %>
-          </td>
-        </tr>
-      <% end %>
-    </table>
+<h4>コメント一覧</h4>
+<% if @comments.count == 0 %>
+  <p>この投稿にはまだコメントがありません。</p>
+<% else %>
+  <table>
+    <thead>
+      <th>ユーザー</th>
+      <th>コメント</th>
+      <th>投稿日</th>
+      <th></th>
+    </thead>
+    <% @comments.each do |comment| %>
+      <tr>
+        <td>
+          <%= link_to admin_user_path(comment.user_id) do %>
+            <%= image_tag comment.user.get_profile_image(50, 50) %>
+            <%= comment.user.name %>
+          <% end %>
+        </td>
+        <td><%= comment.body %></td>
+        <td><%= comment.created_at.strftime('%Y/%m/%d') %></td>
+        <td>
+          <%= link_to '削除（未実装）', admin_post_post_comment_path(comment.post_id, comment.id), method: :delete, "data-confirm" => "本当に削除しますか？" %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
 <% end %>

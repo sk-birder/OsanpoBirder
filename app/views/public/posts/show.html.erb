@@ -10,6 +10,16 @@
   </div>
   <div>
     <p>
+      画像<br />
+      <% if @show_post.post_images.attached? %>
+        <% @show_post.post_images.each do |post_image| %>
+          <%= image_tag post_image %>
+        <% end %>
+      <% else %>
+        画像なし
+      <% end  %>
+    </p>
+    <p>
       タイトル<br />
       <%= @show_post.title %>
     </p>

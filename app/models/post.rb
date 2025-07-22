@@ -1,4 +1,6 @@
 class Post < ApplicationRecord
+  has_many_attached :post_images
+
   has_many :coordinates,   dependent: :destroy
   has_many :post_comments, dependent: :destroy
   has_many :likes,         dependent: :destroy
