@@ -30,10 +30,12 @@
           <i class="fa-solid fa-dove"></i>お散歩BIRDER
         <% end %>
         <!-- About -->
-        <%= link_to 'マイページ', mypage_path %>
+        <% if current_user.guest_user? == false %>
+          <%= link_to 'マイページ', mypage_path %>
+          <%= link_to '新規投稿', new_post_path %>
+        <% end %>
         <%= link_to '投稿一覧', posts_path %>
         <!-- 地図 -->
-        <%= link_to '新規投稿', new_post_path %>
         <%= link_to 'Sign Out', destroy_user_session_path, method: :delete %>
       <% else %>
         <%= link_to root_path  do %>

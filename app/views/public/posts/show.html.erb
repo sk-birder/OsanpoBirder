@@ -72,10 +72,12 @@
     </p>
   <% end %>
 
-  <h4>コメントフォーム</h4>
-  <%= form_with model: @new_user_comment, url: post_comments_path(@show_post), method: :post, local: true do |f| %>
-    <%= f.text_area :body, rows: 3, placeholder: "最大1000文字" %> <br />
-    <%= f.submit 'コメントする' %>
+  <% if current_user.guest_user? == false %>
+    <h4>コメントフォーム</h4>
+    <%= form_with model: @new_user_comment, url: post_comments_path(@show_post), method: :post, local: true do |f| %>
+      <%= f.text_area :body, rows: 3, placeholder: "最大1000文字" %> <br />
+      <%= f.submit 'コメントする' %>
+    <% end %>
   <% end %>
 
   <h4>コメント一覧</h4>

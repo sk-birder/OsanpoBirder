@@ -54,4 +54,27 @@ class User < ApplicationRecord
     end
   end
 
+  # ゲスト機能用
+  GUEST_USER_EMAIL = 'guest@guest'
+
+  def self.guest
+    find_or_create_by!(email: GUEST_USER_EMAIL) do |user|
+      user.name = 'ゲストユーザー'
+      user.password = SecureRandom.urlsafe_base64
+      user.prefecture = '東京都'
+      user.hide_prefecture = false
+      user.birth_year = 2000
+      user.hide_birth_year = false
+      user.introduction = 'プロフィール見本'
+      user.is_active = true
+      user.is_forbidden = false
+      # 画像登録
+      file_path = Rails.root.join('app/assets/images/guest.png')
+      user.profile_image.attach(io: File.open(file_path), filename: 'guest.png', content_type: 'image/png')
+    end
+  end
+
+  def guest_user?
+    email == GUEST_USER_EMAIL
+  end
 end
