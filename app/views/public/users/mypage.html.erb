@@ -48,7 +48,9 @@
       <td><%= @profile.introduction %></td>
     </tr>
   </table>
-  <%= link_to 'プロフィール編集', edit_user_path(@profile.id) %><br />
+  <% if @profile.guest_user? == false %>
+    <%= link_to 'プロフィール編集', edit_user_path(@profile.id) %><br />
+  <% end %>
 </div>
 
 <div>

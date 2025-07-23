@@ -3,17 +3,19 @@
 <table>
   <tbody>
     <% if user_signed_in? %>
-      <tr>
-        <td><%= link_to 'マイページ', mypage_path %></td>
-        <td>マイページ</td>
-      </tr>
+      <% if current_user.guest_user? == false %>
+        <tr>
+          <td><%= link_to 'マイページ', mypage_path %></td>
+          <td>マイページ</td>
+        </tr>
+        <tr>
+          <td><%= link_to '新規投稿', new_post_path %></td>
+          <td>投稿作成</td>
+        </tr>
+      <% end %>
       <tr>
         <td><%= link_to '投稿一覧', posts_path %></td>
         <td>公開されている投稿を一覧表示</td>
-      </tr>
-      <tr>
-        <td><%= link_to '新規投稿', new_post_path %></td>
-        <td>投稿作成</td>
       </tr>
       <tr>
         <td><%= link_to 'Sign Out', destroy_user_session_path, method: :delete %></td>
@@ -25,7 +27,7 @@
         <td>このサイトについて</td>
       </tr>
       <tr>
-        <td>Guest</td>
+        <td><%= link_to 'Guest', users_guest_sign_in_path, method: :post %></td>
         <td>試しに使ってみる</td>
       </tr>
       <tr>

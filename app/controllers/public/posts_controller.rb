@@ -1,5 +1,6 @@
 class Public::PostsController < ApplicationController
   before_action :authenticate_user!
+  before_action :ensure_guest_user, only: [:new]
   before_action :deny_deactivated_user
 
   def new
@@ -55,6 +56,12 @@ class Public::PostsController < ApplicationController
   private
   def post_params
     params.require(:post).permit(:title, :main_class_id, :sub_class_id, :prefecture, :month, :body, :is_public, post_images: [])
+  end
+
+  def ensure_guest_user
+    if current_user.guest_user?
+      redirect_to posts_path, notice: 'ゲストユーザーは新規投稿画面へ遷移できません。'
+    end
   end
 
   def is_matching_login_user

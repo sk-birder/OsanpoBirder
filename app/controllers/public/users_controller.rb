@@ -49,6 +49,11 @@ class Public::UsersController < ApplicationController
 
   def is_matching_login_user
     @user = User.find(params[:id])
+    # ゲストユーザーか確認
+    if @user.guest_user?
+      redirect_to posts_path, notice: 'ゲストユーザーはプロフィール編集画面へ遷移できません。'
+    end
+    # ログインIDの一致を確認
     if @user.id != current_user.id
       redirect_to mypage_path
     end
@@ -56,6 +61,11 @@ class Public::UsersController < ApplicationController
 
   def is_matching_login_user_deactivate
     @user = User.find(params[:user_id])
+    # ゲストユーザーか確認
+    if @user.guest_user?
+      redirect_to posts_path, notice: 'ゲストユーザーは退会画面へ遷移できません。'
+    end
+    # ログインIDの一致を確認
     if @user.id != current_user.id
       redirect_to mypage_path
     end
