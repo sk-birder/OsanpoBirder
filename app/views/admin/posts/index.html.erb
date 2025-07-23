@@ -32,7 +32,7 @@
       <td><%= posts.body %></td>
       <td><%= posts.post_comments.count %> 件</td>
       <td>
-        <%= link_to user_path(posts.user_id) do %>
+        <%= link_to admin_user_path(posts.user_id) do %>
           <%= image_tag posts.user.get_profile_image(50, 50) %>
           <%= posts.user.name %>
         <% end %>
