@@ -44,53 +44,57 @@
 </table>
 
 <h4>管理メニュー</h4>
-<table>
-  <tr>
-    <td>
-      <%= link_to 'プロフィールを編集する', edit_admin_user_path(@user) %>
-    </td>
-    <td>不適切な画像・テキストなどがある場合に使用</td>
-  </tr>
-  <tr>
-    <% if @user.is_active == true %>
-      <td><%= link_to '退会させる', admin_users_toggle_activity_path(@user), method: :patch, "data-confirm" => '本当に退会させますか？' %></td>
-      <td>退会操作を自分でできないユーザーを退会させるときに使用<br />迷惑ユーザーの除名とは異なります</td>
-    <% elsif @user.is_forbidden == false %>
-      <td><%= link_to '退会を取り消す', admin_users_toggle_activity_path(@user), method: :patch, "data-confirm" => '本当に退会を取り消しますか？' %></td>
-      <td>誤って退会したユーザーを復帰させるときに使用<br />除名したユーザーは復帰させられません</td>
-    <% else %>
-      <td>退会の取り消し不可</td>
-      <td>除名したユーザーは復帰させられません</td>
-    <% end %>
-  </tr>
-  <tr>
-    <% if @user.is_forbidden == false %>
-      <td><%= link_to '除名する', admin_users_banish_path(@user), method: :patch, "data-confirm" => '※※全投稿・コメントが削除されます！！※※本当に除名しますか？' %></td>
-    <% else %>
-      <td>除名済み</td>
-    <% end %>
-    <td>迷惑ユーザーを除名する場合に使用<br /><span style="color: red">除名すると投稿・コメントが全て削除されます。慎重に行ってください</span></td>
-  </tr>
-  <tr>
-    <% if @user.is_forbidden == false %>
-      <td>全投稿を管理者非公開にする</td>
-      <td>全ての投稿を管理者非公開にします。コメントは対象外です</td>
-    <% else %>
-      <td>全投稿を管理者非公開にする</td>
-      <td>除名済みユーザーのため投稿データがありません</td>
-    <% end %>
-  </tr>
-  <tr>
-    <% if @user.is_forbidden == false %>
-      <td>全投稿・コメントを削除する</td>
-      <td>全ての投稿・コメントを削除します<br />退会を代行した際に削除を希望された場合に使用。除名の際は操作不要です</td>
-    <% else %>
-      <td>全投稿・コメントを削除する</td>
-      <td>除名済みユーザーのため投稿データがありません</td>
-    <% end %>
-  </tr>
-</table>
+<% if @user.email == 'guest@guest' %>
+  ゲストログイン機能に支障が出ないようにするため、操作不可とします。
+<% else %>
+  <table>
+    <tr>
+      <td>
+        <%= link_to 'プロフィールを編集する', edit_admin_user_path(@user) %>
+      </td>
+      <td>不適切な画像・テキストなどがある場合に使用</td>
+    </tr>
+    <tr>
+      <% if @user.is_active == true %>
+        <td><%= link_to '退会させる', admin_users_toggle_activity_path(@user), method: :patch, "data-confirm" => '本当に退会させますか？' %></td>
+        <td>退会操作を自分でできないユーザーを退会させるときに使用<br />迷惑ユーザーの除名とは異なります</td>
+      <% elsif @user.is_forbidden == false %>
+        <td><%= link_to '退会を取り消す', admin_users_toggle_activity_path(@user), method: :patch, "data-confirm" => '本当に退会を取り消しますか？' %></td>
+        <td>誤って退会したユーザーを復帰させるときに使用<br />除名したユーザーは復帰させられません</td>
+      <% else %>
+        <td>退会の取り消し不可</td>
+        <td>除名したユーザーは復帰させられません</td>
+      <% end %>
+    </tr>
+    <tr>
+      <% if @user.is_forbidden == false %>
+        <td><%= link_to '除名する', admin_users_banish_path(@user), method: :patch, "data-confirm" => '※※全投稿・コメントが削除されます！！※※本当に除名しますか？' %></td>
+      <% else %>
+        <td>除名済み</td>
+      <% end %>
+      <td>迷惑ユーザーを除名する場合に使用<br /><span style="color: red">除名すると投稿・コメントが全て削除されます。慎重に行ってください</span></td>
+    </tr>
+    <tr>
+      <% if @user.is_forbidden == false %>
+        <td>全投稿を管理者非公開にする</td>
+        <td>全ての投稿を管理者非公開にします。コメントは対象外です</td>
+      <% else %>
+        <td>全投稿を管理者非公開にする</td>
+        <td>除名済みユーザーのため投稿データがありません</td>
+      <% end %>
+    </tr>
+    <tr>
+      <% if @user.is_forbidden == false %>
+        <td>全投稿・コメントを削除する</td>
+        <td>全ての投稿・コメントを削除します<br />退会を代行した際に削除を希望された場合に使用。除名の際は操作不要です</td>
+      <% else %>
+        <td>全投稿・コメントを削除する</td>
+        <td>除名済みユーザーのため投稿データがありません</td>
+      <% end %>
+    </tr>
+  </table>
 
-<h4><%= @user.name %>の投稿一覧</h4>
+  <h4><%= @user.name %>の投稿一覧</h4>
 
-<h4><%= @user.name %>のコメント一覧</h4>
+  <h4><%= @user.name %>のコメント一覧</h4>
+<% end %>

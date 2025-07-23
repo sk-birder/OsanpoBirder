@@ -51,7 +51,13 @@
     <tbody>
       <% @records.each do |record| %>
         <tr>
-          <td><!-- 投稿画像 予定地 --></td>
+          <td>
+            <% if record.post_images.attached? %>
+              <%= image_tag record.show_first_post_image(50, 50) %>
+            <% else %>
+              なし
+            <% end %>
+          </td>
           <td>
             <%= link_to post_path(record.id) do %>
               <%= record.title %>
