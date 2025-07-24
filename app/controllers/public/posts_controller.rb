@@ -28,8 +28,16 @@ class Public::PostsController < ApplicationController
 
   def show
     @show_post = Post.find(params[:id])
+    # いいねのカウント
+    @count_likes = @show_post.likes.count
+    # 報告件数のカウント
+    reports = @show_post.reports
+    @count_report0 = reports.where(detail: 0).count
+    @count_report1 = reports.where(detail: 1).count
+    @count_report2 = reports.where(detail: 2).count
+    # ログイン中のユーザーの報告の有無と報告内容の確認
     if @show_post.reported_by?(current_user)
-      @report = current_user.reports.find_by(user_id: current_user.id)
+      @report = current_user.reports.find_by(post_id: @show_post.id).detail
     end
     @new_user_comment = PostComment.new
     @comments = PostComment.where('post_id = ?', params[:id])

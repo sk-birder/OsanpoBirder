@@ -1,5 +1,6 @@
 class Public::LikesController < ApplicationController
   before_action :authenticate_user!
+  before_action :ensure_guest_user
   before_action :deny_deactivated_user
   
   def index
@@ -17,5 +18,12 @@ class Public::LikesController < ApplicationController
     like = current_user.likes.find_by(post_id: post.id)
     like.destroy
     redirect_to post_path(post)
+  end
+
+  private
+  def ensure_guest_user
+    if current_user.guest_user?
+      redirect_to posts_path, notice: 'ゲストユーザーはいいね機能を使用できません。'
+    end
   end
 end
