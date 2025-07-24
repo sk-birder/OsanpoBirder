@@ -50,6 +50,65 @@
         <%= @show_post.user.name %>
       <% end %>
     </p>
+    <p>
+      いいね機能<br />
+      <% if @show_post.liked_by?(current_user) %>
+        <%= link_to post_like_path(@show_post), method: :delete do %>
+          <i class="fa-solid fa-heart"></i> いいね
+        <% end %>
+      <% else %>
+        <%= link_to post_like_path(@show_post), method: :post do %>
+          <i class="fa-regular fa-heart"></i> いいね
+        <% end %>
+      <% end %>
+    </p>
+    <p>
+      報告機能<br />
+      <!-- 報告内容(detail)詳細 0: 見られました, 1: なくなりました, 2: 違反投稿 -->
+      <% if @report == nil %> <!-- 報告をしていない場合 -->
+        <%= link_to post_report_path(@show_post, detail: 0), method: :post do %>
+          <i class="fa-regular fa-square"></i> 見られました
+        <% end %>
+        <%= link_to post_report_path(@show_post, detail: 1), method: :post do %>
+          <i class="fa-regular fa-square"></i> なくなりました
+        <% end %>
+        <%= link_to post_report_path(@show_post, detail: 2), method: :post, "data-confirm" => "営巣写真など違反投稿の報告ボタンです。本当に違反報告しますか？" do %>
+          <i class="fa-regular fa-square"></i> 違反報告
+        <% end %>
+      <% else %> <!-- いずれかの報告をしている場合 -->
+        <% if @report.detail == 0 %> <!-- 見られた報告済み -->
+          <%= link_to post_report_path(@show_post), method: :delete do %>
+            <i class="fa-regular fa-square-check"></i> 見られました
+          <% end %>
+          <%= link_to post_report_path(@show_post, detail: 1), method: :patch do %>
+            <i class="fa-regular fa-square"></i> なくなりました
+          <% end %>
+          <%= link_to post_report_path(@show_post, detail: 2), method: :patch, "data-confirm" => "営巣写真など違反投稿の報告ボタンです。本当に違反報告しますか？" do %>
+            <i class="fa-regular fa-square"></i> 違反報告
+          <% end %>
+        <% elsif @report.detail == 1 %> <!-- なくなりました報告済み -->
+          <%= link_to post_report_path(@show_post, detail: 0), method: :patch do %>
+            <i class="fa-regular fa-square"></i> 見られました
+          <% end %>
+          <%= link_to post_report_path(@show_post), method: :delete do %>
+            <i class="fa-regular fa-square-check"></i> なくなりました
+          <% end %>
+          <%= link_to post_report_path(@show_post, detail: 2), method: :patch, "data-confirm" => "営巣写真など違反投稿の報告ボタンです。本当に違反報告しますか？" do %>
+            <i class="fa-regular fa-square"></i> 違反報告
+          <% end %>
+        <% else %> <!-- 違反報告済み -->
+          <%= link_to post_report_path(@show_post, detail: 0), method: :patch do %>
+            <i class="fa-regular fa-square"></i> 見られました
+          <% end %>
+          <%= link_to post_report_path(@show_post, detail: 1), method: :patch do %>
+            <i class="fa-regular fa-square"></i> なくなりました
+          <% end %>
+          <%= link_to post_report_path(@show_post), method: :delete do %>
+            <i class="fa-regular fa-square-check"></i> 違反報告
+          <% end %>
+        <% end%>
+      <% end %>
+    </p>
   </div>
 
   <!-- 投稿ユーザ本人のみ表示 公開状態・編集・削除 -->

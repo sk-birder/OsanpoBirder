@@ -28,6 +28,9 @@ class Public::PostsController < ApplicationController
 
   def show
     @show_post = Post.find(params[:id])
+    if @show_post.reported_by?(current_user)
+      @report = current_user.reports.find_by(user_id: current_user.id)
+    end
     @new_user_comment = PostComment.new
     @comments = PostComment.where('post_id = ?', params[:id])
   end
