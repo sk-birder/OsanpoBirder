@@ -35,47 +35,7 @@
       <% end %>
     </tbody>
   <table>
-<% elsif @model == 'post' %>
+<% else %>
 	<h2>投稿タイトル検索：<%= @text %></h2>
-  <table>
-    <thead>
-      <th>投稿画像</th>
-      <th>タイトル</th>
-      <th>カテゴリ大</th>
-      <th>カテゴリ小</th>
-      <th>都道府県</th>
-      <th>月</th>
-      <th>投稿ユーザー</th>
-      <th>更新日</th>
-    </thead>
-    <tbody>
-      <% @records.each do |record| %>
-        <tr>
-          <td>
-            <% if record.post_images.attached? %>
-              <%= image_tag record.show_first_post_image(50, 50) %>
-            <% else %>
-              なし
-            <% end %>
-          </td>
-          <td>
-            <%= link_to post_path(record.id) do %>
-              <%= record.title %>
-            <% end %>
-          </td>
-          <td><!-- カテゴリ大 予定地 --></td>
-          <td><!-- カテゴリ小 予定地 --></td>
-          <td><%= record.prefecture %></td>
-          <td><%= record.month %></td>
-          <td>
-            <%= link_to user_path(record.user_id) do %>
-              <%= image_tag record.user.get_profile_image(50, 50) %>
-              <%= record.user.name %>
-            <% end %>
-          </td>
-          <td><%= record.updated_at.strftime('%Y/%m/%d') %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  <table>
+  <%= render '/public/posts', posts: @records %>
 <% end %>

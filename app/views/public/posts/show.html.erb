@@ -67,7 +67,7 @@
     <p>
       報告機能<br />
       <!-- 報告内容(detail)詳細 0: 見られました, 1: なくなりました, 2: 違反投稿 -->
-      <% if current_user.guest_user? %>
+      <% if current_user.guest_user? || @show_post.user_id == current_user.id %>
         <i class="fa-regular fa-square"></i> 見られました ( <%= @count_report0 %> )
         <i class="fa-regular fa-square"></i> なくなりました ( <%= @count_report1 %> )
         <i class="fa-regular fa-square"></i> 違反報告 ( <%= @count_report2 %> )
