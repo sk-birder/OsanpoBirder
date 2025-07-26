@@ -7,7 +7,8 @@
     <th>都道府県</th>
     <th>月</th>
     <th>本文</th>
-    <th>コメント件数</th>
+    <th>コメント</th>
+    <th>いいね</th>
     <th>ユーザー</th>
     <th>更新日</th>
   </thead>
@@ -28,7 +29,20 @@
       <td><%= post.prefecture %></td>
       <td><%= post.month %></td>
       <td><%= post.body %></td>
-      <td><%= post.post_comments.count %> 件</td>
+      <td><i class="fa-regular fa-comment"></i> <%= post.post_comments.count %></td>
+      <td>
+        <% if current_user.guest_user? %>
+          <i class="fa-regular fa-heart"></i>  <%= post.likes.count %>
+        <% elsif post.liked_by?(current_user) %>
+          <%= link_to post_like_path(post), method: :delete do %>
+           <i class="fa-solid fa-heart"></i>  <%= post.likes.count %>
+          <% end %>
+        <% else %>
+          <%= link_to post_like_path(post), method: :post do %>
+            <i class="fa-regular fa-heart"></i>  <%= post.likes.count %>
+          <% end %>
+        <% end %>
+      </td>
       <td>
         <%= link_to user_path(post.user_id) do %>
           <%= image_tag post.user.get_profile_image(50, 50) %>

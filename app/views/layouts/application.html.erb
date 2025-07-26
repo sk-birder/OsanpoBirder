@@ -71,6 +71,11 @@
               <% end %>
             </span>
             <span>
+              <%= link_to user_likes_path(current_user.id) do %>
+                <i class="fa-solid fa-heart"></i> いいね一覧
+              <% end %>
+            </span>
+            <span>
               <%= link_to new_post_path do %>
                 <i class="fa-solid fa-pen-fancy"></i> 新規投稿
               <% end %>
