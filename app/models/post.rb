@@ -52,4 +52,14 @@ class Post < ApplicationRecord
       post.where('title LIKE ?', '%' + text + '%') # 部分一致
     end
   end
+
+  # posts/showでのいいね判定メソッド
+  def liked_by?(user)
+    likes.exists?(user_id: user.id)
+  end
+
+  # posts/showでの報告判定メソッド
+  def reported_by?(user)
+    reports.exists?(user_id: user.id)
+  end
 end

@@ -1,0 +1,55 @@
+<table>
+  <thead>
+    <th>画像</th>
+    <th>タイトル</th>
+    <!-- <th>カテゴリ大</th> -->
+    <!-- <th>カテゴリ小</th> -->
+    <th>都道府県</th>
+    <th>月</th>
+    <th>本文</th>
+    <th>コメント</th>
+    <th>いいね</th>
+    <th>ユーザー</th>
+    <th>更新日</th>
+  </thead>
+  <% posts.each do |post| %>
+    <tr>
+      <td>
+        <% if post.post_images.attached? %>
+          <%= image_tag post.show_first_post_image(50, 50) %>
+        <% else %>
+          なし
+        <% end %>
+      </td>
+      <td>
+        <%= link_to post_path(post.id) do %>
+          <%= post.title %>
+        <% end %>
+      </td>
+      <td><%= post.prefecture %></td>
+      <td><%= post.month %></td>
+      <td><%= post.body %></td>
+      <td><i class="fa-regular fa-comment"></i> <%= post.post_comments.count %></td>
+      <td>
+        <% if current_user.guest_user? %>
+          <i class="fa-regular fa-heart"></i>  <%= post.likes.count %>
+        <% elsif post.liked_by?(current_user) %>
+          <%= link_to post_like_path(post), method: :delete do %>
+           <i class="fa-solid fa-heart"></i>  <%= post.likes.count %>
+          <% end %>
+        <% else %>
+          <%= link_to post_like_path(post), method: :post do %>
+            <i class="fa-regular fa-heart"></i>  <%= post.likes.count %>
+          <% end %>
+        <% end %>
+      </td>
+      <td>
+        <%= link_to user_path(post.user_id) do %>
+          <%= image_tag post.user.get_profile_image(50, 50) %>
+          <%= post.user.name %>
+        <% end %>
+      </td>
+      <td><%= post.updated_at.strftime('%Y/%m/%d') %></td>
+    </tr>
+  <% end %>
+</table>

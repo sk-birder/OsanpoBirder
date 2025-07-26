@@ -29,8 +29,8 @@ Rails.application.routes.draw do
   # public/posts
   # Nest: likes(create, destroy), reports, post_comments(create, destroy)
   resources :posts, controller: 'public/posts' do
-    resource :likes, only: [:create, :destroy], controller: 'public/likes'
-    resource :reports, only: [:create, :destroy], controller: 'public/reports'
+    resource :like, only: [:create, :destroy], controller: 'public/likes'
+    resource :report, only: [:create, :update, :destroy], controller: 'public/reports'
     resources :comments, only: [:create, :destroy], controller: 'public/post_comments'
   end
 

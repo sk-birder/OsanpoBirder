@@ -1,2 +1,2 @@
-<h1>Public::Likes#index</h1>
-<p>Find me in app/views/public/likes/index.html.erb</p>
+<h2><%= @user.name %>のいいね一覧</h2>
+<%= render '/public/posts', posts: @liked_posts %>
