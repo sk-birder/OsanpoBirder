@@ -54,6 +54,11 @@ class User < ApplicationRecord
     end
   end
 
+  # users#showでのフォロー済み判定メソッド
+  def followed_by?(user)
+    followeds.exists?(follower_user_id: user.id)
+  end
+
   # ゲスト機能用
   GUEST_USER_EMAIL = 'guest@guest'
 

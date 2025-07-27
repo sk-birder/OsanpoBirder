@@ -33,6 +33,7 @@ Rails.application.routes.draw do
     resource :report, only: [:create, :update, :destroy], controller: 'public/reports'
     resources :comments, only: [:create, :destroy], controller: 'public/post_comments'
   end
+  get 'timeline' => 'public/posts#timeline'
 
   # public/searches
   get 'search' => 'public/searches#search'

@@ -26,6 +26,14 @@ class Public::PostsController < ApplicationController
     @posts = Post.where("(is_public = ?) AND (is_forbidden = ?)", true, false)
   end
 
+  def timeline
+    # フォローしているユーザー全てのIDを配列に格納
+    followed_users_ids = current_user.followers.pluck(:followed_user_id)
+    # 公開投稿全てからフォローしているユーザーの投稿を取得
+    public_posts = Post.where("(is_public = ?) AND (is_forbidden = ?)", true, false)
+    @posts = public_posts.where(user_id: followed_users_ids)
+  end
+
   def show
     @show_post = Post.find(params[:id])
     # いいねのカウント
