@@ -36,6 +36,11 @@
   <p><%= @user.introduction %></p>
 </div>
 
+<% if @user.id != current_user.id && @user.guest_user? == false %>
+  <%= link_to 'フォローする', user_relationship_path(@user.id), method: :post %><br />
+  <%= link_to 'フォロー解除', user_relationship_path(@user.id), method: :delete %>
+<% end %>
+
 <% if @user.id == current_user.id && @user.guest_user? == false %>
   <%= link_to '編集', edit_user_path(@user.id) %>
 <% end %>
