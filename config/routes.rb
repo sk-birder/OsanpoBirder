@@ -23,6 +23,8 @@ Rails.application.routes.draw do
     patch 'deactivate' => 'public/users#deactivate'
   end
   get 'mypage' => 'public/users#mypage'
+  get 'users/:id/following' => 'public/users#following', as: 'following'
+  get 'users/:id/followers' => 'public/users#followers', as: 'followers'
 
   # public/posts
   # Nest: likes(create, destroy), reports, post_comments(create, destroy)
@@ -32,8 +34,6 @@ Rails.application.routes.draw do
     resources :comments, only: [:create, :destroy], controller: 'public/post_comments'
   end
   get 'timeline' => 'public/posts#timeline'
-  get 'users/:id/following' => 'public/users#following', as: 'following'
-  get 'users/:id/followers' => 'public/users#followers', as: 'followers'
 
   # public/searches
   get 'search' => 'public/searches#search'

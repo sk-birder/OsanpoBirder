@@ -3,7 +3,9 @@
     <th>ユーザー</th>
     <th>都道府県</th>
     <th>誕生年</th>
-    <th>フォロー</th>
+    <% if current_user.guest_user? == false %>
+      <th>フォロー</th>
+    <% end %>
     <th>自己紹介</th>
   </thead>
   <tbody>
@@ -29,15 +31,17 @@
             <%= user.birth_year %>
           <% end %>
         </td>
-        <td>
-          <% if user != current_user %>
-            <% if user.followeds.exists?(follower_user_id: current_user.id) %>
-              <%= link_to 'フォロー解除', user_relationship_path(user), method: :delete %>
-            <% else %>
-              <%= link_to 'フォロー', user_relationship_path(user), method: :post %>
+        <% if current_user.guest_user? == false %>
+          <td>
+            <% if user != current_user %>
+              <% if user.followeds.exists?(follower_user_id: current_user.id) %>
+                <%= link_to 'フォロー解除', user_relationship_path(user), method: :delete %>
+              <% else %>
+                <%= link_to 'フォロー', user_relationship_path(user), method: :post %>
+              <% end %>
             <% end %>
-          <% end %>
-        </td>
+          </td>
+        <% end %>
         <td>
           <%= user.introduction %>
         </td>
