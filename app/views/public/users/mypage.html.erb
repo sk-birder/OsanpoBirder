@@ -1,7 +1,7 @@
 <h2>マイページ</h2>
 
 <div>
-  <h4>プロフィール</h4>
+  <h4><%= link_to 'プロフィール', user_path(@profile) %></h4>
   <table>
     <tr>
       <td>プロフィール画像</td>
@@ -49,6 +49,17 @@
     </tr>
   </table>
   <% if @profile.guest_user? == false %>
+  <h4>フォロー関連</h4>
+    <%= link_to following_path(@profile) do %>
+      <!-- @profile.followersで取得できるのはfollower_user_idが@profile.idのもの。フォロー中の数を表示するために呼び出す -->
+      <%= @profile.followers.count %> フォロー中
+    <% end %>
+     / 
+    <%= link_to followers_path(@profile) do %>
+      <!-- @profile.followedsで取得できるのはfollowed_user_idが@profile.idのもの。フォロワーの数を表示するために呼び出す -->
+      <%= @profile.followeds.count %> フォロワー
+    <% end %>
+    <br />
     <%= link_to 'プロフィール編集', edit_user_path(@profile.id) %><br />
   <% end %>
 </div>

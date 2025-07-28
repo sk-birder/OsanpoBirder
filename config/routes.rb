@@ -14,17 +14,17 @@ Rails.application.routes.draw do
   get 'about' => 'public/homes#about'
 
   # public/users
-  # Nest: follows, likes(index), post_comments(index)
+  # Nest: relationships, likes(index), post_comments(index)
   resources :users, only: [:index, :show, :edit, :update], controller: 'public/users' do
-    resource :follows, only: [:create, :destroy], controller: 'public/follows'
-    get 'following' => 'public/follows#following'
-    get 'follower' => 'public/follows#follower'
+    resource :relationship, only: [:create, :destroy], controller: 'public/relationships'
     get 'likes' => 'public/likes#index'
     get 'comments' => 'public/post_comments#index'
     get 'deactivate' => 'public/users#confirm'
     patch 'deactivate' => 'public/users#deactivate'
   end
   get 'mypage' => 'public/users#mypage'
+  get 'users/:id/following' => 'public/users#following', as: 'following'
+  get 'users/:id/followers' => 'public/users#followers', as: 'followers'
 
   # public/posts
   # Nest: likes(create, destroy), reports, post_comments(create, destroy)
@@ -33,6 +33,7 @@ Rails.application.routes.draw do
     resource :report, only: [:create, :update, :destroy], controller: 'public/reports'
     resources :comments, only: [:create, :destroy], controller: 'public/post_comments'
   end
+  get 'timeline' => 'public/posts#timeline'
 
   # public/searches
   get 'search' => 'public/searches#search'

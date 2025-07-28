@@ -9,8 +9,8 @@ class User < ApplicationRecord
   has_many :post_comments,  dependent: :destroy
   has_many :likes,          dependent: :destroy
   has_many :reports,        dependent: :destroy
-  has_many :followers, class_name: 'Follow', foreign_key: 'follower_id', dependent: :destroy
-  has_many :followeds, class_name: 'Follow', foreign_key: 'follower_id', dependent: :destroy
+  has_many :followers, class_name: 'Relationship', foreign_key: 'follower_user_id', dependent: :destroy
+  has_many :followeds, class_name: 'Relationship', foreign_key: 'followed_user_id', dependent: :destroy
 
   validates :email,
     format: { with: Devise.email_regexp },
@@ -52,6 +52,11 @@ class User < ApplicationRecord
     else
       user.where('name LIKE ?', '%' + text + '%') # 部分一致
     end
+  end
+
+  # users#showでのフォロー済み判定メソッド
+  def followed_by?(user)
+    followeds.exists?(follower_user_id: user.id)
   end
 
   # ゲスト機能用
