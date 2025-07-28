@@ -16,8 +16,6 @@ Rails.application.routes.draw do
   # public/users
   # Nest: relationships, likes(index), post_comments(index)
   resources :users, only: [:index, :show, :edit, :update], controller: 'public/users' do
-    # get 'following' => 'public/follows#following'
-    # get 'follower' => 'public/follows#follower'
     resource :relationship, only: [:create, :destroy], controller: 'public/relationships'
     get 'likes' => 'public/likes#index'
     get 'comments' => 'public/post_comments#index'
@@ -34,6 +32,8 @@ Rails.application.routes.draw do
     resources :comments, only: [:create, :destroy], controller: 'public/post_comments'
   end
   get 'timeline' => 'public/posts#timeline'
+  get 'users/:id/following' => 'public/users#following', as: 'following'
+  get 'users/:id/followers' => 'public/users#followers', as: 'followers'
 
   # public/searches
   get 'search' => 'public/searches#search'

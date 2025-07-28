@@ -30,6 +30,20 @@ class Public::UsersController < ApplicationController
     @posts = Post.where('user_id = ?', params[:id])
   end
 
+  def following
+    @user = User.find(params[:id])
+    # @user.followersで「follower_user_idカラムにparams[:id]が入ったデータ」を取得し、followed_user_idを配列に格納
+    following_ids = @user.followers.pluck(:followed_user_id)
+    @following = User.where(id: following_ids)
+  end
+
+  def followers
+    @user = User.find(params[:id])
+    # @user.followedsで「followed_user_idカラムにparams[:id]が入ったデータ」を取得し、follower_user_idを配列に格納
+    follower_ids = @user.followeds.pluck(:follower_user_id)
+    @followers = User.where(id: follower_ids)
+  end
+
   def confirm
     is_matching_login_user_deactivate
   end

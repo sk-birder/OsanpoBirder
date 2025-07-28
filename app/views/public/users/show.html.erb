@@ -36,18 +36,33 @@
   <p><%= @user.introduction %></p>
 </div>
 
+<h4>フォロー関連</h4>
+<%= link_to following_path(@user) do %>
+  <!-- @user.followersで取得できるのはfollower_user_idが@user.idのもの。フォロー中の数を表示するために呼び出す -->
+  <%= @user.followers.count %> フォロー中
+<% end %>
+ / 
+<%= link_to followers_path(@user) do %>
+  <!-- @user.followedsで取得できるのはfollowed_user_idが@user.idのもの。フォロワーの数を表示するために呼び出す -->
+  <%= @user.followeds.count %> フォロワー
+<% end %>
+<br />
 <% if @user.id != current_user.id && @user.guest_user? == false %>
   <% if @user.followed_by?(current_user) %>
-    <%= link_to 'フォロー解除', user_relationship_path(@user.id), method: :delete %>
+    <%= link_to user_relationship_path(@user), method: :delete do %>
+      <%= @user.name %>さんのフォローを解除する
+    <% end %>
   <% elsif @user.is_active == true %>
-    <%= link_to 'フォローする', user_relationship_path(@user.id), method: :post %>
+    <%= link_to user_relationship_path(@user), method: :post do %>
+      <%= @user.name %>さんをフォローする
+    <% end %>
   <% else %>
     退会済みユーザーのためフォローできません。
   <% end %>
 <% end %>
 
 <% if @user.id == current_user.id && @user.guest_user? == false %>
-  <%= link_to '編集', edit_user_path(@user.id) %>
+  <%= link_to 'プロフィール編集', edit_user_path(@user.id) %>
 <% end %>
 
 <h4><%= @user.name %>の公開投稿</h4>

@@ -1,0 +1,47 @@
+<table>
+  <thead>
+    <th>ユーザー</th>
+    <th>都道府県</th>
+    <th>誕生年</th>
+    <th>フォロー</th>
+    <th>自己紹介</th>
+  </thead>
+  <tbody>
+    <% users.each do |user| %>
+      <tr>
+        <td>
+          <%= link_to user_path(user) do %>
+            <%= image_tag user.get_profile_image(50, 50) %>
+            <%= user.name %>
+          <% end %>
+        </td>
+        <td>
+          <% if user.hide_prefecture == true %>
+            非公開
+          <% else %>
+            <%= user.prefecture %>
+          <% end %>
+        </td>
+        <td>
+          <% if user.hide_birth_year == true %>
+            非公開
+          <% else %>
+            <%= user.birth_year %>
+          <% end %>
+        </td>
+        <td>
+          <% if user != current_user %>
+            <% if user.followeds.exists?(follower_user_id: current_user.id) %>
+              <%= link_to 'フォロー解除', user_relationship_path(user), method: :delete %>
+            <% else %>
+              <%= link_to 'フォロー', user_relationship_path(user), method: :post %>
+            <% end %>
+          <% end %>
+        </td>
+        <td>
+          <%= user.introduction %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

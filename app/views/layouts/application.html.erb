@@ -63,7 +63,9 @@
         <div class="col-8 d-flex justify-content-between">
           <% if current_user.guest_user? == false %>
             <span>
-              <i class="fa-solid fa-timeline"></i> タイムライン
+              <%= link_to timeline_path do %>
+                <i class="fa-solid fa-timeline"></i> タイムライン
+              <% end %>
             </span>
             <span>
               <%= link_to mypage_path do %>
