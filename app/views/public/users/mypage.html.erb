@@ -1,28 +1,28 @@
 <h2>マイページ</h2>
 
 <div>
-  <h4><%= link_to 'プロフィール', user_path(@profile) %></h4>
+  <h4><%= link_to 'プロフィール', user_path(current_user) %></h4>
   <table>
     <tr>
       <td>プロフィール画像</td>
-      <td><%= image_tag @profile.get_profile_image(150, 150) %></td>
+      <td><%= image_tag current_user.get_profile_image(150, 150) %></td>
     </tr>
     <tr>
       <td>メールアドレス</td>
-      <td><%= @profile.email %></td>
+      <td><%= current_user.email %></td>
     </tr>
     <tr>
       <td>名前</td>
-      <td><%= @profile.name %></td>
+      <td><%= current_user.name %></td>
     </tr>
     <tr>
       <td>都道府県</td>
-      <td><%= @profile.prefecture %></td>
+      <td><%= current_user.prefecture %></td>
     </tr>
     <tr>
       <td>都道府県の公開ステータス</td>
       <td>
-        <% if @profile.hide_prefecture == true %>
+        <% if current_user.hide_prefecture == true %>
           非公開
         <% else %>
           公開
@@ -31,12 +31,12 @@
     </tr>
     <tr>
       <td>誕生年</td>
-      <td><%= @profile.birth_year %></td>
+      <td><%= current_user.birth_year %></td>
     </tr>
     <tr>
       <td>誕生年の公開ステータス</td>
       <td>
-        <% if @profile.hide_birth_year == true %>
+        <% if current_user.hide_birth_year == true %>
           非公開
         <% else %>
           公開
@@ -45,22 +45,22 @@
     </tr>
     <tr>
       <td>自己紹介</td>
-      <td><%= @profile.introduction %></td>
+      <td><%= current_user.introduction %></td>
     </tr>
   </table>
-  <% if @profile.guest_user? == false %>
+  <% if current_user.guest_user? == false %>
   <h4>フォロー関連</h4>
-    <%= link_to following_path(@profile) do %>
-      <!-- @profile.followersで取得できるのはfollower_user_idが@profile.idのもの。フォロー中の数を表示するために呼び出す -->
-      <%= @profile.followers.count %> フォロー中
+    <%= link_to user_following_path(current_user) do %>
+      <!-- current_user.followersで取得できるのはfollower_user_idがcurrent_user.idのもの。フォロー中の数を表示するために呼び出す -->
+      <%= current_user.followers.count %> フォロー中
     <% end %>
      / 
-    <%= link_to followers_path(@profile) do %>
-      <!-- @profile.followedsで取得できるのはfollowed_user_idが@profile.idのもの。フォロワーの数を表示するために呼び出す -->
-      <%= @profile.followeds.count %> フォロワー
+    <%= link_to user_followers_path(current_user) do %>
+      <!-- current_user.followedsで取得できるのはfollowed_user_idがcurrent_user.idのもの。フォロワーの数を表示するために呼び出す -->
+      <%= current_user.followeds.count %> フォロワー
     <% end %>
     <br />
-    <%= link_to 'プロフィール編集', edit_user_path(@profile.id) %><br />
+    <%= link_to 'プロフィール編集', edit_user_path(current_user) %><br />
   <% end %>
 </div>
 

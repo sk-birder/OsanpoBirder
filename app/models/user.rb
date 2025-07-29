@@ -42,7 +42,7 @@ class User < ApplicationRecord
   # 検索用のメソッド
   # 入力テキストをtext, 検索方式をmethodとする
   def self.search_for(text, method)
-    user = User.where("(is_active = ?) AND (is_forbidden = ?)", true, false) # 退会済会員・除名済会員を除外
+    user = User.where('is_active = ?', true) # 退会済会員・除名済会員を除外
     if method == 'perfect'
       user.where(name: text) # 完全一致
     elsif method == 'forward'

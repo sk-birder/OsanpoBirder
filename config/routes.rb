@@ -14,26 +14,25 @@ Rails.application.routes.draw do
   get 'about' => 'public/homes#about'
 
   # public/users
-  # Nest: relationships, likes(index), post_comments(index)
-  resources :users, only: [:index, :show, :edit, :update], controller: 'public/users' do
-    resource :relationship, only: [:create, :destroy], controller: 'public/relationships'
-    get 'likes' => 'public/likes#index'
-    get 'comments' => 'public/post_comments#index'
-    get 'deactivate' => 'public/users#confirm'
-    patch 'deactivate' => 'public/users#deactivate'
-  end
   get 'mypage' => 'public/users#mypage'
-  get 'users/:id/following' => 'public/users#following', as: 'following'
-  get 'users/:id/followers' => 'public/users#followers', as: 'followers'
+  # この下2つは退会関連 resourcesより上に書かないとshowが優先されてRouting errorになる
+  get   'users/deactivate' => 'public/users#confirm',    as: 'user_confirm'
+  patch 'users/deactivate' => 'public/users#deactivate', as: 'user_deactivate'
+  resources :users, only: [:index, :show, :edit, :update], controller: 'public/users' do
+    resource :relationships, only: [:create, :destroy], controller: 'public/relationships'
+  end
+  get 'users/:id/following' => 'public/users#following', as: 'user_following'
+  get 'users/:id/followers' => 'public/users#followers', as: 'user_followers'
+  get 'users/:id/likes'     => 'public/users#likes',     as: 'user_likes'
+  get 'users/:id/comments'  => 'public/users#comments',  as: 'user_comments'
 
   # public/posts
-  # Nest: likes(create, destroy), reports, post_comments(create, destroy)
-  resources :posts, controller: 'public/posts' do
-    resource :like, only: [:create, :destroy], controller: 'public/likes'
-    resource :report, only: [:create, :update, :destroy], controller: 'public/reports'
-    resources :comments, only: [:create, :destroy], controller: 'public/post_comments'
-  end
   get 'timeline' => 'public/posts#timeline'
+  resources :posts, controller: 'public/posts' do
+    resource  :like,     only: [:create, :destroy],          controller: 'public/likes'
+    resource  :report,   only: [:create, :update, :destroy], controller: 'public/reports'
+    resources :comments, only: [:create, :destroy],          controller: 'public/post_comments'
+  end
 
   # public/searches
   get 'search' => 'public/searches#search'
