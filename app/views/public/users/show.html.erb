@@ -37,23 +37,23 @@
 </div>
 
 <h4>フォロー関連</h4>
-<%= link_to following_path(@user) do %>
+<%= link_to user_following_path(@user) do %>
   <!-- @user.followersで取得できるのはfollower_user_idが@user.idのもの。フォロー中の数を表示するために呼び出す -->
   <%= @user.followers.count %> フォロー中
 <% end %>
  / 
-<%= link_to followers_path(@user) do %>
+<%= link_to user_followers_path(@user) do %>
   <!-- @user.followedsで取得できるのはfollowed_user_idが@user.idのもの。フォロワーの数を表示するために呼び出す -->
   <%= @user.followeds.count %> フォロワー
 <% end %>
 <br />
 <% if @user.id != current_user.id && @user.guest_user? == false %>
   <% if @user.followed_by?(current_user) %>
-    <%= link_to user_relationship_path(@user), method: :delete do %>
+    <%= link_to user_relationships_path(@user), method: :delete do %>
       <%= @user.name %>さんのフォローを解除する
     <% end %>
   <% elsif @user.is_active == true %>
-    <%= link_to user_relationship_path(@user), method: :post do %>
+    <%= link_to user_relationships_path(@user), method: :post do %>
       <%= @user.name %>さんをフォローする
     <% end %>
   <% else %>

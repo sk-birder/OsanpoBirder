@@ -35,9 +35,9 @@
           <td>
             <% if user != current_user %>
               <% if user.followeds.exists?(follower_user_id: current_user.id) %>
-                <%= link_to 'フォロー解除', user_relationship_path(user), method: :delete %>
+                <%= link_to 'フォロー解除', user_relationships_path(user), method: :delete %>
               <% else %>
-                <%= link_to 'フォロー', user_relationship_path(user), method: :post %>
+                <%= link_to 'フォロー', user_relationships_path(user), method: :post %>
               <% end %>
             <% end %>
           </td>
