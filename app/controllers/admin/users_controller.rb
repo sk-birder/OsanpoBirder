@@ -3,7 +3,15 @@ class Admin::UsersController < ApplicationController
   before_action :deny_deactivated_admin
 
   def index
-    @users = User.all
+    if params[:status] == 'active'
+      @users = User.where(is_active: true)
+    elsif params[:status] == 'deactivated'
+      @users = User.where(is_active: false, is_forbidden: false)
+    elsif params[:status] == 'banned'
+      @users = User.where(is_forbidden: true)
+    else
+      @users = User.all
+    end
   end
 
   def show
@@ -12,6 +20,21 @@ class Admin::UsersController < ApplicationController
   end
 
   def edit
+  end
+
+  def posts
+    @user = User.find(params[:id])
+    user_posts = @user.posts
+    if params[:filter] == 'reported'
+      # 違反投稿の絞り込み
+      # joinsでReportモデルと結合し、whereでdetailが2の投稿を絞り込み、distinctで重複を無くしている
+      @posts = user_posts.joins(:reports).where(reports: {detail: 2}).distinct
+    else
+      @posts = user_posts.all
+    end
+  end
+
+  def comments
   end
 
   # 退会の代行・取消

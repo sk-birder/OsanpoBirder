@@ -53,6 +53,8 @@ Rails.application.routes.draw do
 
     # admin/users
     resources :users, only: [:index, :show, :update, :edit]
+    get 'users/:id/posts' => 'users#posts', as: 'user_posts'
+    get 'users/:id/comments' => 'users#comments', as: 'user_comments'
     patch 'users/:id/toggle_activity' => 'users#toggle_activity', as: 'users_toggle_activity'
     patch 'users/:id/banish' => 'users#banish', as: 'users_banish'
 
