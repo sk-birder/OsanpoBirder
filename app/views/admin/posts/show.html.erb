@@ -45,17 +45,25 @@
       <% end %>
     </p>
     <p>
-      公開・非公開<br />
-      <% if @show_post.is_forbidden == true %>
-        <span style="color: red">管理者による非公開</span>
-      <% elsif @show_post.is_public == false %>
-        非公開
-      <% else %>
+      ユーザーの公開・非公開設定<br />
+      <% if @show_post.is_public == true %>
         公開
+      <% else %>
+        非公開
       <% end %>
     </p>
     <p>
-      <%= link_to '削除（未実装）', admin_post_path, method: :delete, "data-confirm" => "本当に削除しますか？" %>
+      ユーザーの公開・非公開設定<br />
+      <% if @show_post.is_forbidden == true %>
+        <span style="color: red">管理者非公開</span>
+        <%= link_to '管理者非公開を解除する', admin_post_toggle_publicity_path, method: :patch, "data-confirm" => "管理者非公開を解除しますか？" %>
+      <% else %>
+        <span>設定なし</span>
+        <%= link_to '管理者非公開にする', admin_post_toggle_publicity_path, method: :patch, "data-confirm" => "迷惑投稿や違反投稿用の機能です。本当に非公開にしますか？"  %>
+      <% end %>
+    </p>
+    <p>
+      <%= link_to '削除', admin_post_path, method: :delete, "data-confirm" => "管理者非公開で改善を促すことも出来ます。本当に削除しますか？" %>
     </p>
   </div>
 
@@ -81,7 +89,7 @@
         <td><%= comment.body %></td>
         <td><%= comment.created_at.strftime('%Y/%m/%d') %></td>
         <td>
-          <%= link_to '削除（未実装）', admin_post_post_comment_path(comment.post_id, comment.id), method: :delete, "data-confirm" => "本当に削除しますか？" %>
+          <%= link_to '削除する', admin_post_post_comment_path(comment.post_id, comment.id), method: :delete, "data-confirm" => "本当に削除しますか？" %>
         </td>
       </tr>
     <% end %>

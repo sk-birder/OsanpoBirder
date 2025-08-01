@@ -1,1 +1,2 @@
-<h2>特定ユーザーのコメント一覧</h2>
+<h2><%= @user.name %>のコメント一覧</h2>
+<%= render '/admin/post_comments', comments: @comments %>

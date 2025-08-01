@@ -7,6 +7,7 @@
     <th>本文</th>
     <th>コメント</th>
     <th>いいね</th>
+    <th>管理</th>
     <th>ユーザー</th>
     <th>更新日</th>
   </thead>
@@ -29,6 +30,14 @@
       <td><%= post.body %></td>
       <td><i class="fa-regular fa-comment"></i> <%= post.post_comments.count %></td>
       <td><i class="fa-regular fa-heart"></i>  <%= post.likes.count %></td>
+      <td>
+        <%= link_to '削除', admin_post_path(post.id), method: :delete, "data-confirm" => "管理者非公開で改善を促すことも出来ます。本当に削除しますか？" %><br />
+        <% if post.is_forbidden == true %>
+          <%= link_to '非公開を解除', admin_post_toggle_publicity_path(post), method: :patch, "data-confirm" => "管理者非公開を解除しますか？" %>
+        <% else %>
+          <%= link_to '非公開にする', admin_post_toggle_publicity_path(post), method: :patch, "data-confirm" => "迷惑投稿や違反投稿用の機能です。本当に非公開にしますか？"  %>
+        <% end %>
+      </td>
       <td>
         <%= link_to admin_user_path(post.user_id) do %>
           <%= image_tag post.user.get_profile_image(50, 50) %>

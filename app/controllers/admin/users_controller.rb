@@ -24,17 +24,21 @@ class Admin::UsersController < ApplicationController
 
   def posts
     @user = User.find(params[:id])
-    user_posts = @user.posts
     if params[:filter] == 'reported'
       # 違反投稿の絞り込み
       # joinsでReportモデルと結合し、whereでdetailが2の投稿を絞り込み、distinctで重複を無くしている
-      @posts = user_posts.joins(:reports).where(reports: {detail: 2}).distinct
+      @posts = @user.posts.joins(:reports).where(reports: {detail: 2}).distinct
     else
-      @posts = user_posts.all
+      @posts = @user.posts.all
     end
   end
 
   def comments
+    @user = User.find(params[:id])
+    @comments = PostComment.where(user_id: params[:id])
+    # コメントの対象投稿の情報を取得 とても重いので一旦コメントアウト
+    # commented_post_ids = @comments.pluck(:post_id)
+    # @commented_posts = Post.where(id: commented_post_ids)
   end
 
   # 退会の代行・取消

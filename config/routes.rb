@@ -64,6 +64,7 @@ Rails.application.routes.draw do
       resources :post_comments, only: [:destroy]
       resources :reports, only: [:destroy]
     end
+    patch 'posts/:id/toggle_publicity' => 'posts#toggle_publicity', as: 'post_toggle_publicity'
 
     # admin/post_comments(index)
     get 'post_comments' => 'post_comments#index'
