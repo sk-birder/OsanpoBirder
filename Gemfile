@@ -58,6 +58,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # 追加
 gem 'devise'
+gem 'geocoder'
 
 # デプロイ用に追加
 gem 'dotenv-rails'
