@@ -5,8 +5,9 @@
 <% elsif @show_post.is_forbidden == true && @show_post.user_id != current_user.id %>
   <p>この投稿は非公開です。</p>
 <% else %>
+  <div id="map"></div>
   <div>
-    <p>地図予定地</p>
+    <%= javascript_pack_tag 'map', 'data-turbolinks-track': 'reload' %>
   </div>
   <div>
     <p>
