@@ -3,8 +3,8 @@
 <h2>Map Test</h2>
 <div id="map"></div>
 
-<!-- jsにIDを渡す -->
-<!-- <div id="map-test-id" value="<%= @map_test_in_view.id %>"></div> -->
+<!-- jsにIDを渡す divにはvalueがないためhidden fieldを使用 -->
+<!-- input type="hidden" id="map-test-id" value="<!-- @map_test_in_view.id --" -->
 
 <h4><%= @map_test_in_view.title %></h4>
 <p><%= @map_test_in_view.body %></p>

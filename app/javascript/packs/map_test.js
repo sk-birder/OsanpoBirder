@@ -32,8 +32,14 @@ async function initMap() {
     title: "Marker Test",
   });
   
-  // id代入テスト
-  const maptestId = document.getElementById("map-test-id").value;
+  // id代入 ViewにIDを渡す記述が必要
+  // const maptestId = document.getElementById("map-test-id").value;
+
+  // id代入 Javascriptで完結する版 Viewに記述が必要ないが、IDの後に別の文字列が来る場合は変更が必要
+  const maptestId = window.location.pathname.split("/").pop();
+  
+  // consoleにmaptestIdを表示
+  // console.log("maptestId:",maptestId)
 
   try {
     // 投稿データを取得 出来なければエラーメッセージを返す

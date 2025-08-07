@@ -19,7 +19,7 @@ class Public::MapsController < ApplicationController
   end
 
   def show
-    byebug
+    # byebug # 1
     # これはshowアクションのインスタンス、その冒頭です
     # 地図関連
     respond_to do |format|
@@ -30,7 +30,7 @@ class Public::MapsController < ApplicationController
       # リクエストされるフォーマットがJSON形式の場合
       # jsonへの変換はjbuilderというGemで行う
       format.json do
-        byebug
+        # byebug # 2
         # これはshowアクションのインスタンスです
         @map_test = MapTest.find(params[:id])
       end
