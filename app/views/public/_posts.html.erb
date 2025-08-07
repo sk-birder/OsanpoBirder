@@ -2,8 +2,7 @@
   <thead>
     <th>画像</th>
     <th>タイトル</th>
-    <!-- <th>カテゴリ大</th> -->
-    <!-- <th>カテゴリ小</th> -->
+    <th>カテゴリ</th>
     <th>都道府県</th>
     <th>月</th>
     <th>本文</th>
@@ -26,6 +25,7 @@
           <%= post.title %>
         <% end %>
       </td>
+      <td><%= @categories.find(post.category_id).name %></td>
       <td><%= post.prefecture %></td>
       <td><%= post.month %></td>
       <td><%= post.body %></td>

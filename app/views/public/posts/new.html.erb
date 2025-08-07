@@ -24,15 +24,11 @@
   <p>タイトル(100文字まで)</p>
   <%= f.text_field :title, autofocus: true %>
   
-  <p>カテゴリ(大分類)</p>
-  <!-- MainClassモデルからデータを呼び出しセレクトボックスに表示 -->
-  <p>未実装</p>
-
-  <p>カテゴリ(小分類)</p>
-  <!-- SubClassモデルからデータを呼び出しセレクトボックスに表示 -->
-  <!-- 大分類の選択に応じて内容が変わるようにすること -->
-  <!-- 小分類が存在しないときはnilではなく0が入るようにすること -->
-  <p>未実装</p>
+  <p>カテゴリ</p>
+  <!-- Categoryモデルからデータを呼び出しセレクトボックスに表示 -->
+  <p>
+    <%= f.collection_select(:category_id, @categories, :id, :name) %>
+  </p>
 
   <p>都道府県</p>
   <%= f.select :prefecture, Post.prefectures.keys, {selected: '東京都'}  %>

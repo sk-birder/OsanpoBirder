@@ -6,14 +6,14 @@ class Post < ApplicationRecord
   has_many :likes,         dependent: :destroy
   has_many :reports,       dependent: :destroy
   belongs_to :user
+  belongs_to :category
 
   # 必須のバリデーション
   validates :title, presence: true, length: {maximum:100}
   validates :body, presence: true, length: {maximum:1000}
 
   # 無くとも良いかもしれないバリデーション
-  validates :main_class_id, presence: true
-  validates :sub_class_id, presence: true
+  validates :category_id, presence: true
   validates :prefecture, presence: true
   validates :month, presence: true
 

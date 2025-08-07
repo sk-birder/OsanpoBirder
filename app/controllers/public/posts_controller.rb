@@ -5,13 +5,12 @@ class Public::PostsController < ApplicationController
 
   def new
     @post = Post.new
+    @categories = Category.all
   end
 
   def create
     @post = Post.new(post_params)
     @post.user_id = current_user.id
-    @post.main_class_id = 1 # テスト用のダミーデータ登録
-    @post.sub_class_id = 2  # テスト用のダミーデータ登録
     @post.is_forbidden = false # 本番環境でのエラー回避用の応急処置
     if @post.save
       flash[:notice] = '投稿に成功しました。'
@@ -24,6 +23,7 @@ class Public::PostsController < ApplicationController
 
   def index
     @posts = Post.where("(is_public = ?) AND (is_forbidden = ?)", true, false)
+    @categories = Category.all
   end
 
   def timeline
@@ -36,6 +36,7 @@ class Public::PostsController < ApplicationController
 
   def show
     @show_post = Post.find(params[:id])
+    @categories = Category.all
     # いいねのカウント
     @count_likes = @show_post.likes.count
     # 報告件数のカウント
@@ -88,7 +89,7 @@ class Public::PostsController < ApplicationController
 
   private
   def post_params
-    params.require(:post).permit(:title, :main_class_id, :sub_class_id, :prefecture, :month, :body, :is_public, post_images: [])
+    params.require(:post).permit(:title, :category_id, :prefecture, :month, :body, :is_public, post_images: [])
   end
 
   def ensure_guest_user
