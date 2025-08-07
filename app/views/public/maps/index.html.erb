@@ -1,0 +1,9 @@
+<%= javascript_pack_tag 'map_test', 'data-turbolinks-track': 'reload' %>
+
+<h2>Map Test</h2>
+<div id="map"></div>
+
+<% @map_tests_in_view.each do |test| %>
+  <h4><%= test.title %></h4>
+  <p><%= test.body %></p>
+<% end %>

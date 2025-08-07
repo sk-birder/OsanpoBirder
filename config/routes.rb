@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  namespace :public do
-    get 'maps/show'
-  end
+  # public/maps テスト用
+  resources 'maps', only: [:index, :show], controller: 'public/maps'
+
   # --- エンドユーザ側 ---
   # devise
   scope module: :public do

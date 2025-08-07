@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_07_27_002940) do
+ActiveRecord::Schema.define(version: 2025_08_04_153334) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -97,6 +97,15 @@ ActiveRecord::Schema.define(version: 2025_07_27_002940) do
 
   create_table "main_classes", force: :cascade do |t|
     t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "map_tests", force: :cascade do |t|
+    t.float "latitude", null: false
+    t.float "longitude", null: false
+    t.string "title", null: false
+    t.string "body", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
