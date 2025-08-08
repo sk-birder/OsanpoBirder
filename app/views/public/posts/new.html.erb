@@ -1,3 +1,13 @@
+<!-- 地図設定 始まり-->
+  <%= javascript_pack_tag 'map_posts_new', 'data-turbolinks-track': 'reload' %>
+  <style>
+    #map {
+      width: 500px;
+      height: 500px;
+    }
+  </style>
+<!-- 地図設定 終わり -->
+
 <h2>新規投稿</h2>
 
 <% if @post.errors.any? %>
@@ -10,11 +20,16 @@
 <% end %>
 
 <h3>地図テスト</h3>
+<div id="map"></div>
 
 
 <%= form_with model: @post, url: posts_path do |f| %>
   <p>地図座標</p>
-  <p>未実装</p>
+  <p>
+    マーカーのある位置の<br>
+    緯度 <input type="text" id="lat" value=""><br>
+    経度 <input type="text" id="lng" value=""><br>
+  </p>
 
   <p>写真</p>
   <p>
