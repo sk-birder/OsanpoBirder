@@ -128,6 +128,8 @@ ActiveRecord::Schema.define(version: 2025_08_07_071235) do
     t.integer "user_id", null: false
     t.integer "category_id", null: false
     t.string "title", null: false
+    t.float "latitude", null: false
+    t.float "longitude", null: false
     t.integer "prefecture", null: false
     t.integer "month", null: false
     t.text "body", null: false

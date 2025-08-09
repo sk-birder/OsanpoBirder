@@ -1,12 +1,4 @@
-<!-- 地図設定 始まり-->
-  <%= javascript_pack_tag 'map_posts_new', 'data-turbolinks-track': 'reload' %>
-  <style>
-    #map {
-      width: 500px;
-      height: 500px;
-    }
-  </style>
-<!-- 地図設定 終わり -->
+<%= javascript_pack_tag 'map_posts_new', 'data-turbolinks-track': 'reload' %>
 
 <h2>新規投稿</h2>
 
@@ -19,17 +11,14 @@
   </ul>
 <% end %>
 
-<h3>地図テスト</h3>
-<div id="map"></div>
+<h4>スポット選択</h4>
+<div id="map" style="width: 750px; height: 750px;"></div>
 
 
 <%= form_with model: @post, url: posts_path do |f| %>
-  <p>地図座標</p>
-  <p>
-    マーカーのある位置の<br>
-    緯度 <input type="text" id="lat" value=""><br>
-    経度 <input type="text" id="lng" value=""><br>
-  </p>
+  <!-- 地図座標 -->
+  <%= f.hidden_field :latitude,  id: "lat" %>
+  <%= f.hidden_field :longitude, id: "lng" %>
 
   <p>写真</p>
   <p>
@@ -42,7 +31,7 @@
   <p>カテゴリ</p>
   <!-- Categoryモデルからデータを呼び出しセレクトボックスに表示 -->
   <p>
-    <%= f.collection_select(:category_id, @categories, :id, :name) %>
+    <%= f.collection_select(:category_id, Category.all, :id, :name) %>
   </p>
 
   <p>都道府県</p>

@@ -1,7 +1,6 @@
 class Post < ApplicationRecord
   has_many_attached :post_images
 
-  has_many :coordinates,   dependent: :destroy
   has_many :post_comments, dependent: :destroy
   has_many :likes,         dependent: :destroy
   has_many :reports,       dependent: :destroy
@@ -9,8 +8,10 @@ class Post < ApplicationRecord
   belongs_to :category
 
   # 必須のバリデーション
-  validates :title, presence: true, length: {maximum:100}
-  validates :body, presence: true, length: {maximum:1000}
+  validates :latitude,  presence: true
+  validates :longitude, presence: true
+  validates :title,     presence: true, length: {maximum:100}
+  validates :body,      presence: true, length: {maximum:1000}
 
   # 無くとも良いかもしれないバリデーション
   validates :category_id, presence: true

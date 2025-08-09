@@ -4,6 +4,8 @@ class CreatePosts < ActiveRecord::Migration[6.1]
       t.integer :user_id,       null: false
       t.integer :category_id,   null: false
       t.string  :title,         null: false
+      t.float   :latitude,      null: false
+      t.float   :longitude,     null: false
       t.integer :prefecture,    null: false
       t.integer :month,         null: false
       t.text    :body,          null: false

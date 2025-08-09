@@ -5,7 +5,6 @@ class Public::PostsController < ApplicationController
 
   def new
     @post = Post.new
-    @categories = Category.all
   end
 
   def create
@@ -89,7 +88,7 @@ class Public::PostsController < ApplicationController
 
   private
   def post_params
-    params.require(:post).permit(:title, :category_id, :prefecture, :month, :body, :is_public, post_images: [])
+    params.require(:post).permit(:latitude, :longitude, :title, :category_id, :prefecture, :month, :body, :is_public, post_images: [])
   end
 
   def ensure_guest_user
