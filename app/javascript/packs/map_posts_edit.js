@@ -8,9 +8,8 @@ let map;
 let marker;
 
 async function initMap() {
-  // 初期位置 東京駅
-  // 拠点地設定に応じて変えられるとなお良い
-  const position = { lat: 35.681236, lng: 139.767125 };
+  // 初期位置 元の投稿データから取得する
+  const position = { lat: 35.681236, lng: 139.767125 }; // 要変更箇所
 
   // Mapライブラリの呼び出し
   const { Map } = await google.maps.importLibrary("maps");
@@ -25,6 +24,12 @@ async function initMap() {
     // mapTypeControl: false // 地図コントロールUIの表示設定
   });
 
+  // マーカー設置 元の投稿データから座標を取得
+  // marker = new AdvancedMarkerElement({
+  //   map: map,
+  //   position: lat_lng, // 要変更箇所
+  // });
+  
   // クリックイベント用のgeocoderの宣言
   let geocoder = new google.maps.Geocoder();
 
@@ -39,11 +44,9 @@ async function initMap() {
     document.getElementById('lat').value = lat_lng.lat();
     document.getElementById('lng').value = lat_lng.lng();
     
-    // マーカーが既にあれば削除
-    if(marker != null){
-		    marker.setMap(null);
-        marker = null;
-    }
+    // マーカーの削除
+    marker.setMap(null);
+    marker = null;
 
     // マーカー設置
     marker = new AdvancedMarkerElement({

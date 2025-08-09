@@ -35,7 +35,8 @@
   </p>
 
   <p>都道府県</p>
-  <%= f.select :prefecture, Post.prefectures.keys, {selected: '東京都'}  %>
+  ※ 自動入力されますが、誤っている場合は訂正できます。海上や日本以外の場所を選択すると表示されません。<br />
+  <%= f.select :prefecture, Post.prefectures.keys, {selected: '東京都'}, id: "post_prefecture"  %>
 
   <p>月</p>
   <%= f.select :month, Post.months.keys, {} %>
