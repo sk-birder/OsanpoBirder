@@ -1,3 +1,4 @@
+<!-- JS呼び出し 初期状態で渡すデータがないためここに記述 -->
 <%= javascript_pack_tag 'map_posts_new', 'data-turbolinks-track': 'reload' %>
 
 <h2>新規投稿</h2>
@@ -13,7 +14,6 @@
 
 <h4>スポット選択</h4>
 <div id="map" style="width: 750px; height: 750px;"></div>
-
 
 <%= form_with model: @post, url: posts_path do |f| %>
   <!-- 地図座標 -->

@@ -48,7 +48,7 @@ async function initMap() {
     // マーカー設置
     marker = new AdvancedMarkerElement({
       map: map,
-      position: lat_lng,
+      position: lat_lng
     });
 
     // クリックした位置を地図の中心にする

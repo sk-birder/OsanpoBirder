@@ -9,7 +9,10 @@ let marker;
 
 async function initMap() {
   // 初期位置 元の投稿データから取得する
-  const position = { lat: 35.681236, lng: 139.767125 }; // 要変更箇所
+  const position = { 
+    lat: parseFloat(document.getElementById("lat").value),
+    lng: parseFloat(document.getElementById("lng").value)
+  };
 
   // Mapライブラリの呼び出し
   const { Map } = await google.maps.importLibrary("maps");
@@ -24,11 +27,11 @@ async function initMap() {
     // mapTypeControl: false // 地図コントロールUIの表示設定
   });
 
-  // マーカー設置 元の投稿データから座標を取得
-  // marker = new AdvancedMarkerElement({
-  //   map: map,
-  //   position: lat_lng, // 要変更箇所
-  // });
+  // 投稿に登録された座標にマーカー設置
+  marker = new AdvancedMarkerElement({
+    map: map,
+    position: position
+  });
   
   // クリックイベント用のgeocoderの宣言
   let geocoder = new google.maps.Geocoder();
@@ -51,7 +54,7 @@ async function initMap() {
     // マーカー設置
     marker = new AdvancedMarkerElement({
       map: map,
-      position: lat_lng,
+      position: lat_lng
     });
 
     // クリックした位置を地図の中心にする
