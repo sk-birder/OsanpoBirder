@@ -25,7 +25,7 @@
           <%= post.title %>
         <% end %>
       </td>
-      <td><%= @categories.find(post.category_id).name %></td>
+      <td><%= Category.find(post.category_id).name %></td>
       <td><%= post.prefecture %></td>
       <td><%= post.month %></td>
       <td><%= post.body %></td>

@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  # public/maps テスト用
-  resources 'maps', only: [:index, :show], controller: 'public/maps'
+get 'map' => 'public/maps#index'
 
   # --- エンドユーザ側 ---
   # devise
