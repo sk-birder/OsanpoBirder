@@ -7,9 +7,11 @@
 let map;
 
 async function initMap() {
-  // 初期位置 東京駅
-  // 拠点地設定に応じて変えられるとなお良い
-  const position = { lat: 35.681236, lng: 139.767125 };
+  // 初期位置 プロフィール設定した都道府県の都道府県庁
+  const position = { 
+    lat: parseFloat(document.getElementById("initlat").value),
+    lng: parseFloat(document.getElementById("initlng").value)
+  };
 
   // Mapライブラリの呼び出し
   const { Map } = await google.maps.importLibrary("maps");

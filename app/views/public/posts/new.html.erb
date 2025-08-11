@@ -1,4 +1,6 @@
-<!-- JS呼び出し 初期状態で渡すデータがないためここに記述 -->
+<!-- 初期位置の設定とJS呼び出し -->
+<input type="hidden" id="initlat" value="<%= current_user.default_map_position(current_user.prefecture)[:lat] %>">
+<input type="hidden" id="initlng" value="<%= current_user.default_map_position(current_user.prefecture)[:lng] %>">
 <%= javascript_pack_tag 'map_posts_new', 'data-turbolinks-track': 'reload' %>
 
 <h2>新規投稿</h2>
@@ -36,7 +38,7 @@
 
   <p>都道府県</p>
   ※ 自動入力されますが、誤っている場合は訂正できます。海上や日本以外の場所を選択すると表示されません。<br />
-  <%= f.select :prefecture, Post.prefectures.keys, {selected: '東京都'}, id: "post_prefecture"  %>
+  <%= f.select :prefecture, Post.prefectures.keys, {selected: current_user.prefecture}, id: "post_prefecture"  %>
 
   <p>月</p>
   <%= f.select :month, Post.months.keys, {} %>
