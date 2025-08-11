@@ -24,6 +24,10 @@ async function initMap() {
     // mapTypeControl: false // Webcamp版から 地図コントロールUIの表示設定
   });
 
+  // infowindowの宣言
+  // forEach文の外で宣言することで1個の変数となり、infowindowが表示された状態で別のinfowindowを作ると古いものが消えるようになる
+  let infowindow = new google.maps.InfoWindow();
+
   // マーカー表示
   try {
     // jbuilderでデータを取得
@@ -38,6 +42,7 @@ async function initMap() {
       // markerのtitleとcontentStringの内容設定
       const postId = item.postId;
       const title = item.title;
+      const postImage = item.postImage;
       const category = item.category;
       const prefecture = item.prefecture;
       const month = item.month;
@@ -45,8 +50,6 @@ async function initMap() {
       const userId = item.user.id;
       const userImage = item.user.image;
       const userName = item.user.name;
-
-      console.log("user_image:",userImage)
 
       const marker = new google.maps.marker.AdvancedMarkerElement ({
         position: { lat: item.latitude, lng: item.longitude },
@@ -57,27 +60,24 @@ async function initMap() {
         // gmpDraggable: false, // マーカーのドラッグ可否
       });
 
-      // infowindowに表示する内容
-      const contentString = `
-        <div class="information container p-0">
-          <!-- 写真 -->
-          <a href="posts/${postId}">${title}</a><br />
-          カテゴリ：${category}<br />
-          月：${month}<br />
-          本文：${body}<br />
-          <a href="users/${userId}">
-            <img src="${userImage}"> ${userName}
-          </a>
-        </div>
-      `;
-
-      // infowindowライブラリの呼び出し
-      const infowindow = new google.maps.InfoWindow({
-        content: contentString
-      });
-
       // マーカーにクリックイベントリスナーを追加
       marker.addListener("click", () => {
+        // infowindowに表示する内容の設定
+        const contentString = `
+          <div class="information container p-0">
+            <img src="${postImage}"><br />
+            <a href="posts/${postId}">${title}</a><br />
+            カテゴリ：${category}<br />
+            月：${month}<br />
+            本文：${body}<br />
+            <a href="users/${userId}">
+              <img src="${userImage}"> ${userName}
+            </a>
+          </div>
+        `;
+        // infowindowにcontentStringを代入
+        infowindow.setContent(contentString);
+        // infowindowを表示
         infowindow.open({
         anchor: marker,
         map
