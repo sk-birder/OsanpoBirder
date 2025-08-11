@@ -141,12 +141,9 @@ admins.each do |admin|
 end
 
 Category.create(name: '野鳥')
-Category.create(name: '野鳥以外の野生動物')
+Category.create(name: '野生動物（野鳥除く）')
 Category.create(name: '飼育動物')
 Category.create(name: '植物')
 Category.create(name: '休憩ポイント')
+Category.create(name: '公園')
 Category.create(name: 'ショップ')
-
-MapTest.create(latitude: 35.68343137966508, longitude: 139.76094614070928, title: '和田倉噴水公園', body: 'きれいな噴水')
-MapTest.create(latitude: 35.66247571561237, longitude: 139.7639359708032, title: '三百年の松', body: '歴史の重みを感じます？')
-MapTest.create(latitude: 35.68833657522652, longitude: 139.78898681713005, title: '浜町公園', body: '人が多いかもしれません')

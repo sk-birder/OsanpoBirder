@@ -79,14 +79,6 @@ ActiveRecord::Schema.define(version: 2025_08_07_071235) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "coordinates", force: :cascade do |t|
-    t.integer "post_id", null: false
-    t.float "longitude", null: false
-    t.float "latitude", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "follows", force: :cascade do |t|
     t.integer "follower_user_id", null: false
     t.integer "followed_user_id", null: false
@@ -97,21 +89,6 @@ ActiveRecord::Schema.define(version: 2025_08_07_071235) do
   create_table "likes", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "post_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "main_classes", force: :cascade do |t|
-    t.string "name", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "map_tests", force: :cascade do |t|
-    t.float "latitude", null: false
-    t.float "longitude", null: false
-    t.string "title", null: false
-    t.string "body", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -150,13 +127,6 @@ ActiveRecord::Schema.define(version: 2025_08_07_071235) do
     t.integer "user_id", null: false
     t.integer "post_id", null: false
     t.integer "detail", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "sub_classes", force: :cascade do |t|
-    t.integer "main_class_id", null: false
-    t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

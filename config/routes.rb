@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-get 'map' => 'public/maps#index'
-
   # --- エンドユーザ側 ---
   # devise
   scope module: :public do
@@ -38,6 +36,9 @@ get 'map' => 'public/maps#index'
 
   # public/searches
   get 'search' => 'public/searches#search'
+
+  # public/maps
+  get 'map' => 'public/maps#index'
 
   # --- 管理者側 ---
   # 副管理者機能を実装する際に使用
