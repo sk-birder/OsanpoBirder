@@ -1,40 +1,19 @@
 class Public::MapsController < ApplicationController
   def index
-    byebug
-    # これはindexアクションのインスタンス、その冒頭です
-    # 地図関連
-    respond_to do |format|
-      # リクエストされるフォーマットがHTML形式の場合
-      format.html do
-        @map_tests_in_view = MapTest.all
-      end
-      # リクエストされるフォーマットがJSON形式の場合
-      # jsonへの変換はjbuilderというGemで行う
-      format.json do
-        byebug
-        # これはindexアクションのインスタンスです
-        @map_tests = MapTest.all
-      end
-    end
+    @posts = Post.where(is_public: true, is_forbidden: false)
   end
 
-  def show
-    # byebug # 1
-    # これはshowアクションのインスタンス、その冒頭です
-    # 地図関連
-    respond_to do |format|
-      # リクエストされるフォーマットがHTML形式の場合
-      format.html do
-        @map_test_in_view = MapTest.find(params[:id])
-      end
-      # リクエストされるフォーマットがJSON形式の場合
-      # jsonへの変換はjbuilderというGemで行う
-      format.json do
-        # byebug # 2
-        # これはshowアクションのインスタンスです
-        @map_test = MapTest.find(params[:id])
-      end
-    end
-  end
-
+  # def xxx
+  #   # 地図関連
+  #   respond_to do |format|
+  #     # リクエストされるフォーマットがHTML形式の場合
+  #     format.html do
+  #       @xxx = Model.xxx
+  #     end
+  #     # リクエストされるフォーマットがJSON形式の場合
+  #     format.json do
+  #       @xxx = Model.xxx
+  #     end
+  #   end
+  # end
 end

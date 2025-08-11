@@ -47,19 +47,6 @@ class Public::PostsController < ApplicationController
     if @show_post.reported_by?(current_user)
       @report = current_user.reports.find_by(post_id: @show_post.id).detail
     end
-    # 地図関連
-    # respond_to do |format|
-    #   # リクエストされるフォーマットがHTML形式の場合
-    #   format.html do
-    #     @post_map = Post.find(params[:id])
-    #   end
-    #   # リクエストされるフォーマットがJSON形式の場合
-    #   # jsonへの変換はjbuilderというGemで行う
-    #   format.json do
-    #     byebug
-    #     @post_map = Post.find(params[:id])
-    #   end
-    # end
     # コメント関連
     @new_user_comment = PostComment.new
     @comments = PostComment.where('post_id = ?', params[:id])

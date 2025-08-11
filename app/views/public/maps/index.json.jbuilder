@@ -1,13 +1,26 @@
-byebug
-# これはindexアクションのjbuilderです
 json.data do
   json.items do
-    json.array!(@map_tests) do |map_test|
-      json.id map_test.id
-      json.title map_test.title
-      json.body map_test.body
-      json.latitude map_test.latitude
-      json.longitude map_test.longitude
+    json.array!(@posts) do |post|
+      json.postId           post.id
+      # 投稿画像
+      # if post.image.attached?
+      #   json.image rails_blob_url(@drink.image) if @drink.image.attached?
+      # else
+      #   ダミー画像の登録
+      # end
+      json.user do
+        # プロフィール画像 url_forでurlに変換しないとimg srcが正常に機能しない
+        json.image      url_for(post.user.get_profile_image(50, 50))
+        json.id         post.user.id
+        json.name       post.user.name
+      end
+      json.category     Category.find(post.category_id).name
+      json.title        post.title
+      json.latitude     post.latitude
+      json.longitude    post.longitude
+      json.prefecture   post.prefecture
+      json.month        post.month
+      json.body         post.body
     end  
   end
 end
