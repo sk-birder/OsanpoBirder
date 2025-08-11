@@ -5,10 +5,16 @@
 <% elsif @show_post.is_forbidden == true && @show_post.user_id != current_user.id %>
   <p>この投稿は非公開です。</p>
 <% else %>
+  <h4>スポット</h4>
+  <div id="map" style="width: 750px; height: 750px;"></div>
+
   <div>
-    <p>地図予定地</p>
-  </div>
-  <div>
+    <!-- JSに座標を渡すための記述 valueの設定は%=でないと機能しない -->
+    <input type="hidden" id="lat" value="<%= @show_post.latitude %>">
+    <input type="hidden" id="lng" value="<%= @show_post.longitude %>">
+    <!-- JS呼び出し 座標を渡すためここに記述 -->
+    <%= javascript_pack_tag 'map_posts_show', 'data-turbolinks-track': 'reload' %>
+
     <p>
       画像<br />
       <% if @show_post.post_images.attached? %>
@@ -24,12 +30,8 @@
       <%= @show_post.title %>
     </p>
     <p>
-      カテゴリ(大分類)<br />
-      (仮実装)<%= @show_post.main_class_id %>
-    </p>
-    <p>
-      カテゴリ(大分類)<br />
-      (仮実装)<%= @show_post.sub_class_id %>
+      カテゴリ<br />
+      <%= @categories.find(@show_post.category_id).name %>
     </p>
     <p>
       都道府県<br />

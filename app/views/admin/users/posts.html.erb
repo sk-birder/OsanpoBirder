@@ -1,0 +1,6 @@
+<h2><%= @user.name %>の投稿一覧</h2>
+<div>
+  <button><%= link_to '全て', admin_user_posts_path %></button>
+  <button><%= link_to '違反報告あり', admin_user_posts_path(filter: 'reported') %></button>
+</div>
+<%= render '/admin/posts', posts: @posts %>

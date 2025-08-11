@@ -1,0 +1,17 @@
+<table>
+  <thead>
+    <th>コメント</th>
+    <th>リンク</th>
+    <th></th>
+    <th>投稿日</th>
+  </thead>
+
+  <% comments.each do |comment| %>
+    <tr>
+      <td><%= comment.body %></td>
+      <td><%= link_to '対象投稿', admin_post_path(comment.post_id) %></td>
+      <td><%= link_to '削除する', admin_post_post_comment_path(comment.post_id, comment.id), method: :delete, "data-confirm" => "本当に削除しますか？" %></td>
+      <td><%= comment.created_at.strftime('%Y/%m/%d') %></td>
+    </tr>
+  <% end %>
+</table>

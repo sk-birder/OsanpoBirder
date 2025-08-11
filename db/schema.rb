@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_07_27_002940) do
+ActiveRecord::Schema.define(version: 2025_08_07_071235) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -73,10 +73,8 @@ ActiveRecord::Schema.define(version: 2025_07_27_002940) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "coordinates", force: :cascade do |t|
-    t.integer "post_id", null: false
-    t.float "longitude", null: false
-    t.float "latitude", null: false
+  create_table "categories", force: :cascade do |t|
+    t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -95,12 +93,6 @@ ActiveRecord::Schema.define(version: 2025_07_27_002940) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "main_classes", force: :cascade do |t|
-    t.string "name", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "post_comments", force: :cascade do |t|
     t.integer "post_id", null: false
     t.integer "user_id", null: false
@@ -111,9 +103,10 @@ ActiveRecord::Schema.define(version: 2025_07_27_002940) do
 
   create_table "posts", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.integer "main_class_id", null: false
-    t.integer "sub_class_id", null: false
+    t.integer "category_id", null: false
     t.string "title", null: false
+    t.float "latitude", null: false
+    t.float "longitude", null: false
     t.integer "prefecture", null: false
     t.integer "month", null: false
     t.text "body", null: false
@@ -134,13 +127,6 @@ ActiveRecord::Schema.define(version: 2025_07_27_002940) do
     t.integer "user_id", null: false
     t.integer "post_id", null: false
     t.integer "detail", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "sub_classes", force: :cascade do |t|
-    t.integer "main_class_id", null: false
-    t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

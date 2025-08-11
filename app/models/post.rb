@@ -1,19 +1,20 @@
 class Post < ApplicationRecord
   has_many_attached :post_images
 
-  has_many :coordinates,   dependent: :destroy
   has_many :post_comments, dependent: :destroy
   has_many :likes,         dependent: :destroy
   has_many :reports,       dependent: :destroy
   belongs_to :user
+  belongs_to :category
 
   # 必須のバリデーション
-  validates :title, presence: true, length: {maximum:100}
-  validates :body, presence: true, length: {maximum:1000}
+  validates :latitude,  presence: true
+  validates :longitude, presence: true
+  validates :title,     presence: true, length: {maximum:100}
+  validates :body,      presence: true, length: {maximum:1000}
 
   # 無くとも良いかもしれないバリデーション
-  validates :main_class_id, presence: true
-  validates :sub_class_id, presence: true
+  validates :category_id, presence: true
   validates :prefecture, presence: true
   validates :month, presence: true
 
@@ -35,7 +36,16 @@ class Post < ApplicationRecord
 
   # 投稿画像用
   def show_first_post_image(width, height)
-    post_images[0].variant(resize_to_limit: [50, 50]).processed
+    post_images[0].variant(resize_to_limit: [width, height]).processed
+  end
+
+  # Maps#index用
+  def get_image_in_map(width, height)
+    if post_images.attached?
+      post_images[0].variant(resize_to_limit: [width, height]).processed
+    else
+      ActionController::Base.helpers.asset_path('no_post_image.png')
+    end
   end
 
   # 検索用のメソッド

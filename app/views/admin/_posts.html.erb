@@ -2,12 +2,12 @@
   <thead>
     <th>画像</th>
     <th>タイトル</th>
-    <th>カテゴリ</th>
     <th>都道府県</th>
     <th>月</th>
     <th>本文</th>
     <th>コメント</th>
     <th>いいね</th>
+    <th>管理</th>
     <th>ユーザー</th>
     <th>更新日</th>
   </thead>
@@ -21,30 +21,25 @@
         <% end %>
       </td>
       <td>
-        <%= link_to post_path(post.id) do %>
+        <%= link_to admin_post_path(post.id) do %>
           <%= post.title %>
         <% end %>
       </td>
-      <td><%= Category.find(post.category_id).name %></td>
       <td><%= post.prefecture %></td>
       <td><%= post.month %></td>
       <td><%= post.body %></td>
       <td><i class="fa-regular fa-comment"></i> <%= post.post_comments.count %></td>
+      <td><i class="fa-regular fa-heart"></i>  <%= post.likes.count %></td>
       <td>
-        <% if current_user.guest_user? %>
-          <i class="fa-regular fa-heart"></i>  <%= post.likes.count %>
-        <% elsif post.liked_by?(current_user) %>
-          <%= link_to post_like_path(post), method: :delete do %>
-           <i class="fa-solid fa-heart"></i>  <%= post.likes.count %>
-          <% end %>
+        <%= link_to '削除', admin_post_path(post.id), method: :delete, "data-confirm" => "管理者非公開で改善を促すことも出来ます。本当に削除しますか？" %><br />
+        <% if post.is_forbidden == true %>
+          <%= link_to '非公開を解除', admin_post_toggle_publicity_path(post), method: :patch, "data-confirm" => "管理者非公開を解除しますか？" %>
         <% else %>
-          <%= link_to post_like_path(post), method: :post do %>
-            <i class="fa-regular fa-heart"></i>  <%= post.likes.count %>
-          <% end %>
+          <%= link_to '非公開にする', admin_post_toggle_publicity_path(post), method: :patch, "data-confirm" => "迷惑投稿や違反投稿用の機能です。本当に非公開にしますか？"  %>
         <% end %>
       </td>
       <td>
-        <%= link_to user_path(post.user_id) do %>
+        <%= link_to admin_user_path(post.user_id) do %>
           <%= image_tag post.user.get_profile_image(50, 50) %>
           <%= post.user.name %>
         <% end %>

@@ -9,6 +9,7 @@
     <script src="https://kit.fontawesome.com/16d350bfe1.js" crossorigin="anonymous"></script>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'map_loader', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body class="d-flex flex-column vh-100">
@@ -37,7 +38,7 @@
             <% end %>
           </span>
           <span>
-            <%= link_to admin_users_path do %>
+            <%= link_to admin_users_path(status: 'active') do %>
               <i class="fa-solid fa-users"></i> ユーザーー覧
             <% end %>
           </span>
@@ -89,7 +90,9 @@
             <% end %>
           </span>
           <span>
-            <i class="fa-solid fa-map-location-dot"></i> 地図
+            <%= link_to map_path do %>
+              <i class="fa-solid fa-map-location-dot"></i> 地図
+            <% end %>
           </span>
           <span>
             <%= link_to destroy_user_session_path, method: :delete do %>

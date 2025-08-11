@@ -139,3 +139,11 @@ admins.each do |admin|
   file_path = Rails.root.join('app/assets/images/default.png')
   admin.profile_image.attach(io: File.open(file_path), filename: 'default.png', content_type: 'image/png')
 end
+
+Category.create(name: '野鳥')
+Category.create(name: '野生動物（野鳥除く）')
+Category.create(name: '飼育動物')
+Category.create(name: '植物')
+Category.create(name: '休憩ポイント')
+Category.create(name: '公園')
+Category.create(name: 'ショップ')

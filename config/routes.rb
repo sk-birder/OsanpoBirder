@@ -37,6 +37,9 @@ Rails.application.routes.draw do
   # public/searches
   get 'search' => 'public/searches#search'
 
+  # public/maps
+  get 'map' => 'public/maps#index'
+
   # --- 管理者側 ---
   # 副管理者機能を実装する際に使用
   # devise_for :admin, controllers: {
@@ -53,6 +56,8 @@ Rails.application.routes.draw do
 
     # admin/users
     resources :users, only: [:index, :show, :update, :edit]
+    get 'users/:id/posts' => 'users#posts', as: 'user_posts'
+    get 'users/:id/comments' => 'users#comments', as: 'user_comments'
     patch 'users/:id/toggle_activity' => 'users#toggle_activity', as: 'users_toggle_activity'
     patch 'users/:id/banish' => 'users#banish', as: 'users_banish'
 
@@ -62,6 +67,7 @@ Rails.application.routes.draw do
       resources :post_comments, only: [:destroy]
       resources :reports, only: [:destroy]
     end
+    patch 'posts/:id/toggle_publicity' => 'posts#toggle_publicity', as: 'post_toggle_publicity'
 
     # admin/post_comments(index)
     get 'post_comments' => 'post_comments#index'

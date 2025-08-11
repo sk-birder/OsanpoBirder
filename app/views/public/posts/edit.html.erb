@@ -9,24 +9,32 @@
   </ul>
 <% end %>
 
+<h4>スポット選択</h4>
+<div id="map" style="width: 750px; height: 750px;"></div>
+
 <%= form_with model: @post, url: post_path, method: :patch do |f| %>
-  <p>地図座標</p>
-  <p>未実装</p>
+  <!-- 地図座標 -->
+  <%= f.hidden_field :latitude,  id: "lat" %>
+  <%= f.hidden_field :longitude, id: "lng" %>
+  <!-- JS呼び出し 座標を渡すためここに記述 -->
+  <%= javascript_pack_tag 'map_posts_edit', 'data-turbolinks-track': 'reload' %>
+
+  <p>写真</p>
+  <p>
+    <%= f.file_field :post_images, accept: "image/*",  multiple: true %>
+  </p>
 
   <p>タイトル(100文字まで)</p>
   <%= f.text_field :title, autofocus: true %>
   
-  <p>カテゴリ(大分類)</p>
-  <!-- MainClassモデルからデータを呼び出しセレクトボックスに表示 -->
-  <p>未実装</p>
-
-  <p>カテゴリ(小分類)</p>
-  <!-- SubClassモデルからデータを呼び出しセレクトボックスに表示 -->
-  <!-- 大分類の選択に応じて内容が変わるようにすること -->
-  <!-- 小分類が存在しないときはnilではなく0が入るようにすること -->
-  <p>未実装</p>
+  <p>カテゴリ</p>
+  <!-- Categoryモデルからデータを呼び出しセレクトボックスに表示 -->
+  <p>
+    <%= f.collection_select(:category_id, Category.all, :id, :name) %>
+  </p>
 
   <p>都道府県</p>
+  ※ 自動入力されますが、誤っている場合は訂正できます。海上や日本以外の場所を選択すると表示されません。<br />
   <%= f.select :prefecture, Post.prefectures.keys, {}  %>
 
   <p>月</p>
@@ -47,3 +55,4 @@
   <p></p>
   <%= f.submit '投稿' %>
 <% end %>
+
