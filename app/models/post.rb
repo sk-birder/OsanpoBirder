@@ -51,7 +51,7 @@ class Post < ApplicationRecord
   # 検索用のメソッド
   # 入力テキストをtext, 検索方式をmethodとする
   def self.search_for(text, method)
-    post = Post.where("(is_public = ?) AND (is_forbidden = ?)", true, false) # 投稿者非公開と管理者非公開を除外
+    post = Post.where(is_public: true, is_forbidden: false) # 投稿者非公開と管理者非公開を除外
     if method == 'perfect'
       post.where(title: text) # 完全一致
     elsif method == 'forward'

@@ -5,6 +5,7 @@ class Public::PostsController < ApplicationController
 
   def new
     @post = Post.new
+    @retry = false
   end
 
   def create
@@ -16,12 +17,17 @@ class Public::PostsController < ApplicationController
       redirect_to post_path(@post.id)
     else
       flash.now[:notice] = '投稿に失敗しました。'
+      if post_params[:latitude].present? && post_params[:longitude].present?
+        @has_latlng_already = true
+      else
+        @has_latlng_already = false
+      end
       render :new
     end
   end
 
   def index
-    @posts = Post.where("(is_public = ?) AND (is_forbidden = ?)", true, false)
+    @posts = Post.where(is_public: true, is_forbidden: false)
     @categories = Category.all
   end
 
@@ -29,7 +35,7 @@ class Public::PostsController < ApplicationController
     # フォローしているユーザー全てのIDを配列に格納
     followed_users_ids = current_user.followers.pluck(:followed_user_id)
     # 公開投稿全てからフォローしているユーザーの投稿を取得
-    public_posts = Post.where("(is_public = ?) AND (is_forbidden = ?)", true, false)
+    public_posts = Post.where(is_public: true, is_forbidden: false)
     @posts = public_posts.where(user_id: followed_users_ids).or(public_posts.where(user_id: current_user.id))
   end
 

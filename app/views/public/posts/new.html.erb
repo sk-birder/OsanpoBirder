@@ -1,8 +1,3 @@
-<!-- 初期位置の設定とJS呼び出し -->
-<input type="hidden" id="initlat" value="<%= current_user.default_map_position(current_user.prefecture)[:lat] %>">
-<input type="hidden" id="initlng" value="<%= current_user.default_map_position(current_user.prefecture)[:lng] %>">
-<%= javascript_pack_tag 'map_posts_new', 'data-turbolinks-track': 'reload' %>
-
 <h2>新規投稿</h2>
 
 <% if @post.errors.any? %>
@@ -55,3 +50,9 @@
   <p></p>
   <%= f.submit '投稿' %>
 <% end %>
+
+<!-- 初期位置の設定とJS呼び出し -->
+<input type="hidden" id="initlat" value="<%= current_user.default_map_position(current_user.prefecture)[:lat] %>">
+<input type="hidden" id="initlng" value="<%= current_user.default_map_position(current_user.prefecture)[:lng] %>">
+<input type="hidden" id="hasLatLngAlready" value="<%= @has_latlng_already %>">
+<%= javascript_pack_tag 'map_posts_new', 'data-turbolinks-track': 'reload' %>

@@ -8,10 +8,30 @@ let map;
 let marker;
 
 async function initMap() {
-  // 初期位置 プロフィール設定した都道府県の都道府県庁
-  const position = { 
-    lat: parseFloat(document.getElementById("initlat").value),
-    lng: parseFloat(document.getElementById("initlng").value)
+  // post_paramsにlatitudeとlongitudeがあればStringの"true"を返す
+  // バリデーションエラー時にマーカーを失わないようにするための設定
+  const hasLatLngAlreadyString = document.getElementById("hasLatLngAlready").value;
+  // hasLatLngAlreadyStringをboolean型に変換
+  const hasLatLngAlready = (hasLatLngAlreadyString == "true");
+
+  // 地図の中心用の変数
+  let position;
+
+  // 地図の初期位置
+  if(hasLatLngAlready){
+    // マーカーを立てた状態でバリデーションエラーを起こした場合
+    // そのマーカーの位置
+    position = { 
+      lat: parseFloat(document.getElementById("lat").value),
+      lng: parseFloat(document.getElementById("lng").value)
+    };
+  } else {
+    // 新規投稿の通常表示と、マーカーがない状態でバリデーションエラーを起こした場合
+    // プロフィール設定の都道府県の都道府県庁
+    position = { 
+      lat: parseFloat(document.getElementById("initlat").value),
+      lng: parseFloat(document.getElementById("initlng").value)
+    };
   };
 
   // Mapライブラリの呼び出し
@@ -27,6 +47,14 @@ async function initMap() {
     // mapTypeControl: false // 地図コントロールUIの表示設定
   });
 
+  // バリデーションエラー時のマーカー設置
+  if(hasLatLngAlready){
+    marker = new AdvancedMarkerElement({
+    map: map,
+    position: position
+    });
+  };
+  
   // クリックイベント用のgeocoderの宣言
   let geocoder = new google.maps.Geocoder();
 
