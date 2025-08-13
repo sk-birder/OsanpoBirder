@@ -2,7 +2,13 @@ json.data do
   json.items do
     json.array!(@posts) do |post|
       json.postId       post.id
-      json.postImage    url_for(post.get_image_in_map(100,100)) # url_forでURLに変換しないとimg srcが正常に機能しない
+      if post.post_images.attached?
+        # url_forでURLに変換しないとimg srcが正常に機能しない
+        json.postImage    url_for(post.get_image_in_map(100,100))
+      else
+        # url_forを行うと本番環境でフィンガープリントが付与されず404エラーになる
+        json.postImage    ActionController::Base.helpers.asset_path('no_post_image.png')
+      end
       json.category     Category.find(post.category_id).name
       json.title        post.title
       json.latitude     post.latitude
