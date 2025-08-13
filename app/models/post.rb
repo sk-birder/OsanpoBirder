@@ -39,11 +39,6 @@ class Post < ApplicationRecord
     post_images[0].variant(resize_to_limit: [width, height]).processed
   end
 
-  # Maps#index用
-  def get_image_in_map(width, height)
-    post_images[0].variant(resize_to_limit: [width, height]).processed
-  end
-
   # 検索用のメソッド
   # 入力テキストをtext, 検索方式をmethodとする
   def self.search_for(text, method)
