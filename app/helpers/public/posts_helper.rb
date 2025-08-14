@@ -5,7 +5,7 @@ module Public::PostsHelper
       url_for(post.post_images[0].variant(resize_to_limit: [width, height]).processed)
     else
       # url_forを行うと本番環境でフィンガープリントが付与されず404エラーになる
-      asset_url('no_post_image.png')
+      asset_path('no_post_image.png')
     end
   end
 end

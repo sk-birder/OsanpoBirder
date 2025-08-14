@@ -55,7 +55,7 @@ class Public::PostsController < ApplicationController
     end
     # コメント関連
     @new_user_comment = PostComment.new
-    @comments = PostComment.where('post_id = ?', params[:id])
+    @comments = PostComment.where(post_id: params[:id])
   end
 
   def edit

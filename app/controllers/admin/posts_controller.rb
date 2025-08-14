@@ -8,7 +8,7 @@ class Admin::PostsController < ApplicationController
 
   def show
     @show_post = Post.find(params[:id])
-    @comments = PostComment.where('post_id = ?', params[:id])
+    @comments = PostComment.where(post_id: params[:id])
   end
 
   def toggle_publicity

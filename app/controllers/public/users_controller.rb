@@ -3,7 +3,7 @@ class Public::UsersController < ApplicationController
   before_action :deny_deactivated_user
 
   def index
-    @users = User.where('is_active = ?', true)
+    @users = User.where(is_active: true)
   end
 
   def mypage
