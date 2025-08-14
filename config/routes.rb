@@ -60,6 +60,8 @@ Rails.application.routes.draw do
     get 'users/:id/comments' => 'users#comments', as: 'user_comments'
     patch 'users/:id/toggle_activity' => 'users#toggle_activity', as: 'users_toggle_activity'
     patch 'users/:id/banish' => 'users#banish', as: 'users_banish'
+    patch 'users/:id/hide_posts' => 'users#hide_all_posts', as: 'user_hide_posts'
+    patch 'users/:id/delete_posts' => 'users#only_delete_posts_and_comments', as: 'user_delete_posts'
 
     # admin/posts
     # Nest: post_comments(destroy), reports(destroy)
