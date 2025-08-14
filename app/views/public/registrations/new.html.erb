@@ -5,6 +5,7 @@
 
   <div class="field">
     <%= f.label :メールアドレス %><br />
+    ※ 1つのメールアドレスで作成できるアカウントは1つのみです。<br />
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div>
 
@@ -23,6 +24,7 @@
 
   <div class="field">
     <%= f.label :名前（２～２０文字） %><br />
+    ※ 既存ユーザーの名前と同じ名前は登録できません。<br />
     <%= f.text_field :name %>
   </div>
 

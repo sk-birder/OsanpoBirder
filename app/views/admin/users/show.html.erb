@@ -44,16 +44,18 @@
 </table>
 
 <h4>管理メニュー</h4>
-<% if @user.email == 'guest@guest' %>
+<% if @user.guest_user? %>
   ゲストログイン機能に支障が出ないようにするため、操作不可とします。
 <% else %>
   <table>
-    <tr>
-      <td>
-        <%= link_to 'プロフィールを編集する', edit_admin_user_path(@user) %>
-      </td>
-      <td>不適切な画像・テキストなどがある場合に使用</td>
-    </tr>
+    <!--
+      <tr>
+        <td>
+          <%= link_to 'プロフィールを編集する', edit_admin_user_path(@user) %>
+        </td>
+        <td>不適切な画像・テキストなどがある場合に使用</td>
+      </tr>
+    -->
     <tr>
       <% if @user.is_active == true %>
         <td><%= link_to '退会させる', admin_users_toggle_activity_path(@user), method: :patch, "data-confirm" => '本当に退会させますか？' %></td>
@@ -76,7 +78,7 @@
     </tr>
     <tr>
       <% if @user.is_forbidden == false %>
-        <td>全投稿を管理者非公開にする</td>
+        <td><%= link_to '全投稿を管理者非公開にする', admin_user_hide_posts_path, method: :patch, "data-confirm" => '一括で元に戻すことは出来ません。本当に全ての投稿を非公開にしますか？'  %></td>
         <td>全ての投稿を管理者非公開にします。コメントは対象外です</td>
       <% else %>
         <td>全投稿を管理者非公開にする</td>
@@ -85,7 +87,7 @@
     </tr>
     <tr>
       <% if @user.is_forbidden == false %>
-        <td>全投稿・コメントを削除する</td>
+        <td><%= link_to '全投稿・コメントを削除する', admin_user_delete_posts_path, method: :patch, "data-confirm" => '※※全投稿・コメントが削除されます！！※※本当に実行しますか？'  %></td>
         <td>全ての投稿・コメントを削除します<br />退会を代行した際に削除を希望された場合に使用。除名の際は操作不要です</td>
       <% else %>
         <td>全投稿・コメントを削除する</td>
@@ -94,7 +96,9 @@
     </tr>
   </table>
 
-  <h4><%= @user.name %>の投稿一覧</h4>
+  <!--
+    <h4><%= @user.name %>の投稿一覧</h4>
 
-  <h4><%= @user.name %>のコメント一覧</h4>
+    <h4><%= @user.name %>のコメント一覧</h4>
+  -->
 <% end %>

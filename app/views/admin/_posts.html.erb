@@ -7,6 +7,7 @@
     <th>本文</th>
     <th>コメント</th>
     <th>いいね</th>
+    <th>違反報告</th>
     <th>管理</th>
     <th>ユーザー</th>
     <th>更新日</th>
@@ -30,6 +31,7 @@
       <td><%= post.body %></td>
       <td><i class="fa-regular fa-comment"></i> <%= post.post_comments.count %></td>
       <td><i class="fa-regular fa-heart"></i>  <%= post.likes.count %></td>
+      <td><i class="fa-solid fa-ban"></i> <%= post.reports.count %></td>
       <td>
         <%= link_to '削除', admin_post_path(post.id), method: :delete, "data-confirm" => "管理者非公開で改善を促すことも出来ます。本当に削除しますか？" %><br />
         <% if post.is_forbidden == true %>

@@ -1,13 +1,20 @@
 <h2>管理者トップページ</h2>
 
-<h4>違反報告のあった投稿</h4>
-未実装
-
-<h4>管理者非公開にした記事へのコメント</h4>
-未実装
-
-<h4>違反報告を受けた回数が多いユーザー</h4>
-未実装
-
-<h4>管理者コメント一覧</h4>
-未実装
+<table>
+  <tr>
+    <td><%= link_to '全投稿一覧', admin_posts_path %></td>
+    <td>エンドユーザーの全投稿一覧を表示します</td>
+  </tr>
+  <tr>
+    <td><%= link_to '全コメント一覧', admin_post_comments_path %></td>
+    <td>エンドユーザーの全コメント一覧を表示します</td>
+  </tr>
+  <tr>
+    <td><%= link_to '違反報告された投稿一覧', admin_reports_path %></td>
+    <td>違反報告を受けた投稿の一覧を表示します</td>
+  </tr>
+  <tr>
+    <td><%= link_to 'ユーザー一覧', admin_users_path(status: 'active') %></td>
+    <td>エンドユーザー一覧を状態別に表示します</td>
+  </tr>
+</table>

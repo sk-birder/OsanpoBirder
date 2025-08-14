@@ -22,7 +22,7 @@
         </div>
         <div class="col-8 d-flex justify-content-between">
           <span>
-            <%= link_to admin_posts_path do  %>
+            <%= link_to admin_posts_path do %>
               <i class="fa-solid fa-newspaper"></i> 投稿一覧
             <% end %>
           </span>
@@ -33,7 +33,7 @@
           </span>
           <span>
             <%= link_to admin_reports_path do %>
-              <i class="fa-solid fa-circle-exclamation"></i> 違反報告一覧
+              <i class="fa-solid fa-circle-exclamation"></i> 違反投稿一覧
             <% end %>
           </span>
           <span>
@@ -41,12 +41,14 @@
               <i class="fa-solid fa-users"></i> ユーザーー覧
             <% end %>
           </span>
-          <span>
-          <i class="fa-solid fa-list-ul"></i> 管理者掲示板
-          </span>
-          <span>
-            <i class="fa-solid fa-map-location-dot"></i> 地図
-          </span>
+          <!--
+            <span>
+            <i class="fa-solid fa-list-ul"></i> 管理者掲示板
+            </span>
+            <span>
+              <i class="fa-solid fa-map-location-dot"></i> 地図
+            </span>
+          -->
           <span>
             <%= link_to destroy_admin_session_path, method: :delete do %>
               <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
@@ -91,6 +93,11 @@
           <span>
             <%= link_to map_path do %>
               <i class="fa-solid fa-map-location-dot"></i> 地図
+            <% end %>
+          </span>
+          <span>
+            <%= link_to users_path do %>
+              <i class="fa-solid fa-users"></i> ユーザーー覧
             <% end %>
           </span>
           <span>

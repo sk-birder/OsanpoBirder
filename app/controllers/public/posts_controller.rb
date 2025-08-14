@@ -5,18 +5,19 @@ class Public::PostsController < ApplicationController
 
   def new
     @post = Post.new
-    @retry = false
+    @has_latlng_already = false
   end
 
   def create
     @post = Post.new(post_params)
     @post.user_id = current_user.id
-    @post.is_forbidden = false # 本番環境でのエラー回避用の応急処置
+    @post.is_forbidden = false # 本番環境でのエラー回避用
     if @post.save
       flash[:notice] = '投稿に成功しました。'
       redirect_to post_path(@post.id)
     else
       flash.now[:notice] = '投稿に失敗しました。'
+      # マーカーを既に作成していた場合に、マーカーを維持するための分岐
       if post_params[:latitude].present? && post_params[:longitude].present?
         @has_latlng_already = true
       else
