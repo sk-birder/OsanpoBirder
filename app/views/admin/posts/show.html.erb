@@ -19,7 +19,7 @@
     </p>
     <p>
       カテゴリ<br />
-      <%= @categories.find(@show_post.category_id).name %>
+      <%= Category.find(@show_post.category_id).name %>
     </p>
     <p>
       都道府県<br />

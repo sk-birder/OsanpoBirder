@@ -3,11 +3,11 @@ class Public::UsersController < ApplicationController
   before_action :deny_deactivated_user
 
   def index
-    @users = User.where('is_active = ?', true)
+    @users = User.where(is_active: true)
   end
 
   def mypage
-    @posts = Post.where("user_id = ?", current_user.id)
+    @posts = Post.where(user_id: current_user.id)
   end
 
   def edit
@@ -27,7 +27,7 @@ class Public::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @posts = Post.where('user_id = ?', params[:id])
+    @posts = Post.where(user_id: params[:id], is_public: true, is_forbidden: false)
   end
 
   def following
@@ -47,9 +47,9 @@ class Public::UsersController < ApplicationController
   def likes
     @user = User.find(params[:id])
     # いいねした投稿のIDを取得して配列に格納
-    liked_post_ids = Like.where('user_id = ?', @user.id).pluck(:post_id)
+    liked_post_ids = Like.where(user_id: @user.id).pluck(:post_id)
     # 公開記事の中から該当する投稿のみ取得
-    @liked_posts = Post.where("(is_public = ?) AND (is_forbidden = ?)", true, false).where(id: liked_post_ids)
+    @liked_posts = Post.where(is_public: true, is_forbidden: false).where(id: liked_post_ids)
   end
 
   def comments

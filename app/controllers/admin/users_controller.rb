@@ -16,7 +16,7 @@ class Admin::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @posts = Post.where('user_id = ?', params[:id])
+    @posts = Post.where(user_id: params[:id])
   end
 
   def edit
@@ -55,8 +55,8 @@ class Admin::UsersController < ApplicationController
     user.update(is_active: false)
     user.update(is_forbidden: true)
     # 投稿削除
-    Post.where('user_id = ?', user.id).destroy_all
-    PostComment.where('user_id = ?', user.id).destroy_all
+    Post.where(user_id: user.id).destroy_all
+    PostComment.where(user_id: user.id).destroy_all
     redirect_to admin_user_path(params[:id])
   end
 

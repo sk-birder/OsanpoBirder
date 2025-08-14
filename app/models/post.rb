@@ -39,19 +39,10 @@ class Post < ApplicationRecord
     post_images[0].variant(resize_to_limit: [width, height]).processed
   end
 
-  # Maps#index用
-  def get_image_in_map(width, height)
-    if post_images.attached?
-      post_images[0].variant(resize_to_limit: [width, height]).processed
-    else
-      ActionController::Base.helpers.asset_path('no_post_image.png')
-    end
-  end
-
   # 検索用のメソッド
   # 入力テキストをtext, 検索方式をmethodとする
   def self.search_for(text, method)
-    post = Post.where("(is_public = ?) AND (is_forbidden = ?)", true, false) # 投稿者非公開と管理者非公開を除外
+    post = Post.where(is_public: true, is_forbidden: false) # 投稿者非公開と管理者非公開を除外
     if method == 'perfect'
       post.where(title: text) # 完全一致
     elsif method == 'forward'

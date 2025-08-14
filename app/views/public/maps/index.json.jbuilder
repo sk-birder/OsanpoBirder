@@ -2,7 +2,7 @@ json.data do
   json.items do
     json.array!(@posts) do |post|
       json.postId       post.id
-      json.postImage    url_for(post.get_image_in_map(100,100)) # url_forでURLに変換しないとimg srcが正常に機能しない
+      json.postImage    post_image_path(post, 100, 100)
       json.category     Category.find(post.category_id).name
       json.title        post.title
       json.latitude     post.latitude

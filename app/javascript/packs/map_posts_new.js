@@ -1,12 +1,37 @@
+// ブートストラップローダ
+(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+  key: process.env.Maps_API_Key
+});
+
 // 変数宣言
 let map;
 let marker;
 
 async function initMap() {
-  // 初期位置 プロフィール設定した都道府県の都道府県庁
-  const position = { 
-    lat: parseFloat(document.getElementById("initlat").value),
-    lng: parseFloat(document.getElementById("initlng").value)
+  // post_paramsにlatitudeとlongitudeがあればStringの"true"を返す
+  // バリデーションエラー時にマーカーを失わないようにするための設定
+  const hasLatLngAlreadyString = document.getElementById("hasLatLngAlready").value;
+  // hasLatLngAlreadyStringをboolean型に変換
+  const hasLatLngAlready = (hasLatLngAlreadyString == "true");
+
+  // 地図の中心用の変数
+  let position;
+
+  // 地図の初期位置
+  if(hasLatLngAlready){
+    // マーカーを立てた状態でバリデーションエラーを起こした場合
+    // そのマーカーの位置
+    position = { 
+      lat: parseFloat(document.getElementById("lat").value),
+      lng: parseFloat(document.getElementById("lng").value)
+    };
+  } else {
+    // 新規投稿の通常表示と、マーカーがない状態でバリデーションエラーを起こした場合
+    // プロフィール設定の都道府県の都道府県庁
+    position = { 
+      lat: parseFloat(document.getElementById("initlat").value),
+      lng: parseFloat(document.getElementById("initlng").value)
+    };
   };
 
   // Mapライブラリの呼び出し
@@ -22,6 +47,14 @@ async function initMap() {
     // mapTypeControl: false // 地図コントロールUIの表示設定
   });
 
+  // バリデーションエラー時のマーカー設置
+  if(hasLatLngAlready){
+    marker = new AdvancedMarkerElement({
+    map: map,
+    position: position
+    });
+  };
+  
   // クリックイベント用のgeocoderの宣言
   let geocoder = new google.maps.Geocoder();
 
