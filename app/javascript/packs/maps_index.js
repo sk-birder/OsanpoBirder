@@ -45,8 +45,9 @@ async function initMap() {
       const postId = item.postId;
       const title = item.title;
       const postImage = item.postImage;
+      const countImage = item.countImage;
       const category = item.category;
-      const prefecture = item.prefecture;
+      // const prefecture = item.prefecture;
       const month = item.month;
       const body = item.body;
       const userId = item.user.id;
@@ -65,18 +66,34 @@ async function initMap() {
       // マーカーにクリックイベントリスナーを追加
       marker.addListener("click", () => {
         // infowindowに表示する内容の設定
-        const contentString = `
-          <div class="information container p-0">
-            <img src="${postImage}"><br />
-            <a href="posts/${postId}">${title}</a><br />
-            カテゴリ：${category}<br />
-            月：${month}<br />
-            本文：${body}<br />
-            <a href="users/${userId}">
-              <img src="${userImage}"> ${userName}
-            </a>
-          </div>
-        `;
+        let contentString;
+        if (countImage > 0) {
+          contentString = `
+            <div class="information container p-0">
+              <img src="${postImage}"><br />
+              <a href="posts/${postId}">${title}</a><br />
+              カテゴリ：${category}<br />
+              月：${month}<br />
+              本文：${body}<br />
+              <a href="users/${userId}">
+                <img src="${userImage}"> ${userName}
+              </a>
+            </div>
+          `;
+        } else {
+          contentString = `
+            <div class="information container p-0">
+              <a href="posts/${postId}">${title}</a><br />
+              カテゴリ：${category}<br />
+              月：${month}<br />
+              本文：${body}<br />
+              <a href="users/${userId}">
+                <img src="${userImage}"> ${userName}
+              </a>
+            </div>
+          `;
+        };
+
         // infowindowにcontentStringを代入
         infowindow.setContent(contentString);
         // infowindowを表示

@@ -2,7 +2,11 @@ json.data do
   json.items do
     json.array!(@posts) do |post|
       json.postId       post.id
-      json.postImage    post_image_path(post, 100, 100)
+      if post.post_images.attached?
+        json.postImage    post_image_path(post, 100, 100)
+        byebug
+      end
+      json.countImage   post.post_images.count
       json.category     Category.find(post.category_id).name
       json.title        post.title
       json.latitude     post.latitude
