@@ -4,7 +4,6 @@ json.data do
       json.postId       post.id
       if post.post_images.attached?
         json.postImage    post_image_path(post, 100, 100)
-        byebug
       end
       json.countImage   post.post_images.count
       json.category     Category.find(post.category_id).name
