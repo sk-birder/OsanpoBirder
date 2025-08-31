@@ -51,7 +51,7 @@
           -->
           <span>
             <%= link_to destroy_admin_session_path, method: :delete do %>
-              <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+              <i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
             <% end %>
           </span>
         </div>
@@ -102,7 +102,7 @@
           </span>
           <span>
             <%= link_to destroy_user_session_path, method: :delete do %>
-              <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+              <i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
             <% end %>
           </span>
         </div>
@@ -131,7 +131,7 @@
           </span>
           <span>
             <%= link_to new_user_session_path do %>
-              <i class="fa-solid fa-arrow-right-to-bracket"></i> Sign in
+              <i class="fa-solid fa-arrow-right-to-bracket"></i> Log in
             <% end %>
           </span>
         </div>
@@ -143,7 +143,10 @@
       <%= render 'public/searches/search_form' %>
     </div>
 
-    <p><%= flash[:notice] %></p>
+    <p>
+      <%= flash[:notice] %>
+      <%= alert %>
+    </p>
 
     <main class="mb-auto">
       <%= yield %>

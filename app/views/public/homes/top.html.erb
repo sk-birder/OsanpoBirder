@@ -18,8 +18,8 @@
         <td>公開されている投稿を一覧表示</td>
       </tr>
       <tr>
-        <td><%= link_to 'Sign Out', destroy_user_session_path, method: :delete %></td>
-        <td>サインアウト</td>
+        <td><%= link_to 'Log out', destroy_user_session_path, method: :delete %></td>
+        <td>ログアウト</td>
       </tr>
     <% else %>
       <tr>
@@ -32,11 +32,11 @@
       </tr>
       <tr>
         <td><%= link_to 'Sign up', new_user_registration_path %></td>
-        <td>サインアップ</td>
+        <td>アカウント作成</td>
       </tr>
       <tr>
-        <td><%= link_to 'Sign in', new_user_session_path %></td>
-        <td>サインイン</td>
+        <td><%= link_to 'Log in', new_user_session_path %></td>
+        <td>ログイン</td>
       </tr>
     <% end %>
   </tbody>
