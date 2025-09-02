@@ -1,2 +1,11 @@
-<h2>公開投稿一覧</h2>
-<%= render '/public/posts', posts: @posts %>
+<div class="container">
+  <div class="row">
+    <div class="col-1 col-md-3">
+      <%= render '/public/sidebar' %>
+    </div>
+    <div class="col-11 col-md-9">
+      <h2>公開投稿一覧</h2>
+      <%= render '/public/posts', posts: @posts %>
+    </div>
+  </div>
+</div>

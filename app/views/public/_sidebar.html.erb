@@ -1,0 +1,45 @@
+  <!-- EUサインイン時 -->
+  <% if user_signed_in? %>
+    <% if current_user.guest_user? == false %>
+      <div class="p-2">
+        <%= link_to timeline_path, class:"d-flex align-items-center" do %>
+          <i class="fa-solid fa-timeline"></i> <span class="ml-2 d-none d-md-block">タイムライン</span>
+        <% end %>
+      </div>
+      <div class="p-2">
+        <%= link_to mypage_path, class:"d-flex align-items-center" do %>
+          <i class="fa-solid fa-circle-user"></i> <span class="ml-2 d-none d-md-block">マイページ</span>
+        <% end %>
+      </div>
+      <div class="p-2">
+        <%= link_to user_likes_path(current_user.id), class:"d-flex align-items-center" do %>
+          <i class="fa-solid fa-heart"></i> <span class="ml-2 d-none d-md-block">いいね一覧</span>
+        <% end %>
+      </div>
+      <div class="p-2">
+        <%= link_to new_post_path, class:"d-flex align-items-center" do %>
+          <i class="fa-solid fa-pen-fancy"></i> <span class="ml-2 d-none d-md-block">新規投稿</span>
+        <% end %>
+      </div>
+    <% end %>
+    <div class="p-2">
+      <%= link_to posts_path, class:"d-flex align-items-center" do %>
+        <i class="fa-solid fa-newspaper"></i> <span class="ml-2 d-none d-md-block">投稿一覧</span>
+      <% end %>
+    </div>
+    <div class="p-2">
+      <%= link_to map_path, class:"d-flex align-items-center" do %>
+        <i class="fa-solid fa-map-location-dot"></i> <span class="ml-2 d-none d-md-block">地図</span>
+      <% end %>
+    </div>
+    <div class="p-2">
+      <%= link_to users_path, class:"d-flex align-items-center" do %>
+        <i class="fa-solid fa-users"></i> <span class="ml-2 d-none d-md-block">ユーザーー覧</span>
+      <% end %>
+    </div>
+    <div class="p-2">
+      <%= link_to destroy_user_session_path, method: :delete, class:"d-flex align-items-center" do %>
+        <i class="fa-solid fa-arrow-right-from-bracket"></i> <span class="ml-2 d-none d-md-block">ログアウト</span>
+      <% end %>
+    </div>
+  <% end %>
