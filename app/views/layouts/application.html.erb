@@ -9,134 +9,140 @@
     <script src="https://kit.fontawesome.com/16d350bfe1.js" crossorigin="anonymous"></script>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">-->
   </head>
 
   <body class="d-flex flex-column vh-100">
     <!-- ヘッダーは画面最上部に常時表示する -->
     <header class="d-flex p-3" style="background-color: springgreen">
-      <% if admin_signed_in? %>
-        <div class="col-4">
-          <%= link_to admin_root_path do %>
-            <i class="fa-solid fa-dove"></i>お散歩BIRDER
-          <% end %>
-        </div>
-        <div class="col-8 d-flex justify-content-between">
-          <span>
-            <%= link_to admin_posts_path do %>
-              <i class="fa-solid fa-newspaper"></i> 投稿一覧
-            <% end %>
-          </span>
-          <span>
-            <%= link_to admin_post_comments_path do %>
-              <i class="fa-solid fa-comments"></i> コメント一覧
-            <% end %>
-          </span>
-          <span>
-            <%= link_to admin_reports_path do %>
-              <i class="fa-solid fa-circle-exclamation"></i> 違反投稿一覧
-            <% end %>
-          </span>
-          <span>
-            <%= link_to admin_users_path(status: 'active') do %>
-              <i class="fa-solid fa-users"></i> ユーザーー覧
-            <% end %>
-          </span>
-          <!--
-            <span>
-            <i class="fa-solid fa-list-ul"></i> 管理者掲示板
-            </span>
-            <span>
-              <i class="fa-solid fa-map-location-dot"></i> 地図
-            </span>
-          -->
-          <span>
-            <%= link_to destroy_admin_session_path, method: :delete do %>
-              <i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
-            <% end %>
-          </span>
-        </div>
+      <nav class="navbar navbar-expand-sm">
+        <div class="container">
+          <% if admin_signed_in? %>
+            <div class="col-4">
+              <%= link_to admin_root_path do %>
+                <i class="fa-solid fa-dove"></i>お散歩BIRDER
+              <% end %>
+            </div>
+            <div class="col-8 d-flex justify-content-between">
+              <span>
+                <%= link_to admin_posts_path do %>
+                  <i class="fa-solid fa-newspaper"></i> 投稿一覧
+                <% end %>
+              </span>
+              <span>
+                <%= link_to admin_post_comments_path do %>
+                  <i class="fa-solid fa-comments"></i> コメント一覧
+                <% end %>
+              </span>
+              <span>
+                <%= link_to admin_reports_path do %>
+                  <i class="fa-solid fa-circle-exclamation"></i> 違反投稿一覧
+                <% end %>
+              </span>
+              <span>
+                <%= link_to admin_users_path(status: 'active') do %>
+                  <i class="fa-solid fa-users"></i> ユーザーー覧
+                <% end %>
+              </span>
+              <!--
+                <span>
+                <i class="fa-solid fa-list-ul"></i> 管理者掲示板
+                </span>
+                <span>
+                  <i class="fa-solid fa-map-location-dot"></i> 地図
+                </span>
+              -->
+              <span>
+                <%= link_to destroy_admin_session_path, method: :delete do %>
+                  <i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
+                <% end %>
+              </span>
+            </div>
 
-      <% elsif user_signed_in? %>
-        <div class="col-4">
-          <%= link_to root_path do %>
-            <i class="fa-solid fa-dove"></i> お散歩BIRDER
-          <% end %>
-        </div>
-        <div class="col-8 d-flex justify-content-between">
-          <% if current_user.guest_user? == false %>
-            <span>
-              <%= link_to timeline_path do %>
-                <i class="fa-solid fa-timeline"></i> タイムライン
-              <% end %>
-            </span>
-            <span>
-              <%= link_to mypage_path do %>
-                <i class="fa-solid fa-circle-user"></i> マイページ
-              <% end %>
-            </span>
-            <span>
-              <%= link_to user_likes_path(current_user.id) do %>
-                <i class="fa-solid fa-heart"></i> いいね一覧
-              <% end %>
-            </span>
-            <span>
-              <%= link_to new_post_path do %>
-                <i class="fa-solid fa-pen-fancy"></i> 新規投稿
-              <% end %>
-            </span>
-          <% end %>
-          <span>
-            <%= link_to posts_path do %>
-              <i class="fa-solid fa-newspaper"></i> 投稿一覧
+          <% elsif user_signed_in? %>
+            <%= link_to root_path, class:"navbar-brand" do %>
+              <i class="fa-solid fa-dove"></i> お散歩BIRDER
             <% end %>
-          </span>
-          <span>
-            <%= link_to map_path do %>
-              <i class="fa-solid fa-map-location-dot"></i> 地図
-            <% end %>
-          </span>
-          <span>
-            <%= link_to users_path do %>
-              <i class="fa-solid fa-users"></i> ユーザーー覧
-            <% end %>
-          </span>
-          <span>
-            <%= link_to destroy_user_session_path, method: :delete do %>
-              <i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
-            <% end %>
-          </span>
-        </div>
+            <button class="ml-auto navbar-toggler" type="button" data-toggle="collapse" data-target="#endUserMenu">
+              <!-- <span class="navbar-toggler-icon"></span> -->
+              <i class="fa-solid fa-bars" style="color: white"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="endUserMenu">
+              <% if current_user.guest_user? == false %>
+                <span>
+                  <%= link_to timeline_path do %>
+                    <i class="fa-solid fa-timeline"></i> タイムライン
+                  <% end %>
+                </span>
+                <span>
+                  <%= link_to mypage_path do %>
+                    <i class="fa-solid fa-circle-user"></i> マイページ
+                  <% end %>
+                </span>
+                <span>
+                  <%= link_to user_likes_path(current_user.id) do %>
+                    <i class="fa-solid fa-heart"></i> いいね一覧
+                  <% end %>
+                </span>
+                <span>
+                  <%= link_to new_post_path do %>
+                    <i class="fa-solid fa-pen-fancy"></i> 新規投稿
+                  <% end %>
+                </span>
+              <% end %>
+              <span>
+                <%= link_to posts_path do %>
+                  <i class="fa-solid fa-newspaper"></i> 投稿一覧
+                <% end %>
+              </span>
+              <span>
+                <%= link_to map_path do %>
+                  <i class="fa-solid fa-map-location-dot"></i> 地図
+                <% end %>
+              </span>
+              <span>
+                <%= link_to users_path do %>
+                  <i class="fa-solid fa-users"></i> ユーザーー覧
+                <% end %>
+              </span>
+              <span>
+                <%= link_to destroy_user_session_path, method: :delete do %>
+                  <i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
+                <% end %>
+              </span>
+            </div>
 
-      <% else %>
-        <div class="col-4">
-          <%= link_to root_path  do %>
-            <i class="fa-solid fa-dove"></i>お散歩BIRDER
+          <% else %>
+            <div class="col-4">
+              <%= link_to root_path  do %>
+                <i class="fa-solid fa-dove"></i>お散歩BIRDER
+              <% end %>
+            </div>
+            <div class="col-8 d-flex justify-content-between">
+              <span>
+                <%= link_to about_path do %>
+                  <i class="fa-solid fa-circle-info"></i> About
+                <% end %>
+              </span>
+              <span>
+                <%= link_to users_guest_sign_in_path, method: :post do %>
+                  <i class="fa-solid fa-clover"></i> Guest
+                <% end %>
+              </span>
+              <span>
+              <%= link_to new_user_registration_path do %>
+                <i class="fa-solid fa-user-plus"></i> Sign up
+              <% end %>
+              </span>
+              <span>
+                <%= link_to new_user_session_path do %>
+                  <i class="fa-solid fa-arrow-right-to-bracket"></i> Log in
+                <% end %>
+              </span>
+            </div>
           <% end %>
         </div>
-        <div class="col-8 d-flex justify-content-between">
-          <span>
-            <%= link_to about_path do %>
-              <i class="fa-solid fa-circle-info"></i> About
-            <% end %>
-          </span>
-          <span>
-            <%= link_to users_guest_sign_in_path, method: :post do %>
-              <i class="fa-solid fa-clover"></i> Guest
-            <% end %>
-          </span>
-          <span>
-           <%= link_to new_user_registration_path do %>
-            <i class="fa-solid fa-user-plus"></i> Sign up
-          <% end %>
-          </span>
-          <span>
-            <%= link_to new_user_session_path do %>
-              <i class="fa-solid fa-arrow-right-to-bracket"></i> Log in
-            <% end %>
-          </span>
-        </div>
-
-      <% end %>
+      </nav>
     </header>
 
     <div class="my-2 d-flex justify-content-center">
