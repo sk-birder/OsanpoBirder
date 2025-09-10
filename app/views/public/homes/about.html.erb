@@ -1,9 +1,8 @@
 <div class="container">
   <div class="row">
-    <div class="col-sm-1 col-md-3 d-none d-sm-block">
-      <%= render '/public/sidebar' %>
-    </div>
-    <div class="col-12 col-sm-11 col-md-9">
+    <%= render '/public/sidebar' %>
+    <!-- <div class="col-12 col-sm-11 col-md-9"> -->
+    <div class="col-11 col-md-9 mb-3">
       <h2>このサイトについて</h2>
 
       <h4>サイトのテーマ</h4>
@@ -38,11 +37,15 @@
         他の人の散歩コースを見たいとき<br />
       </p>
 
-      <h4>アカウントを作成する</h4>
-      <p><%= link_to 'アカウント作成', new_user_registration_path %></p>
+      <% if user_signed_in? == false || current_user.guest_user? %>
+        <h4>アカウントを作成する</h4>
+        <p><%= link_to 'アカウント作成', new_user_registration_path %></p>
+      <% end %>
 
-      <h4>試しに使ってみる</h4>
-      <p><%= link_to 'ゲストログイン', users_guest_sign_in_path, method: :post %></p>
-    </div>
+      <% if user_signed_in? == false %>
+        <h4>試しに使ってみる</h4>
+        <p><%= link_to 'ゲストログイン', users_guest_sign_in_path, method: :post %></p>
+      <% end %>
+      </div>
   </div>
 </div>

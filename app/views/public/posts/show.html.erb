@@ -1,184 +1,191 @@
-<h2>投稿詳細</h2>
+<div class="container">
+  <div class="row">
+    <%= render '/public/sidebar' %>
+    <div class="col-11 col-md-9 mb-3">
+      <h2>投稿詳細</h2>
 
-<% if @show_post.is_public == false && @show_post.user_id != current_user.id %>
-  <p>この投稿は非公開です。</p>
-<% elsif @show_post.is_forbidden == true && @show_post.user_id != current_user.id %>
-  <p>この投稿は非公開です。</p>
-<% else %>
-  <h4>スポット</h4>
-  <div id="map" style="width: 750px; height: 750px;"></div>
-
-  <div>
-    <!-- JSに座標を渡すための記述 valueの設定は%=でないと機能しない -->
-    <input type="hidden" id="lat" value="<%= @show_post.latitude %>">
-    <input type="hidden" id="lng" value="<%= @show_post.longitude %>">
-    <!-- JS呼び出し 座標を渡すためここに記述 -->
-    <%= javascript_pack_tag 'map_posts_show', 'data-turbolinks-track': 'reload' %>
-
-    <p>
-      画像<br />
-      <% if @show_post.post_images.attached? %>
-        <% @show_post.post_images.each do |post_image| %>
-          <%= image_tag post_image %>
-        <% end %>
+      <% if @show_post.is_public == false && @show_post.user_id != current_user.id %>
+        <p>この投稿は非公開です。</p>
+      <% elsif @show_post.is_forbidden == true && @show_post.user_id != current_user.id %>
+        <p>この投稿は非公開です。</p>
       <% else %>
-        画像なし
-      <% end  %>
-    </p>
-    <p>
-      タイトル<br />
-      <%= @show_post.title %>
-    </p>
-    <p>
-      カテゴリ<br />
-      <%= @categories.find(@show_post.category_id).name %>
-    </p>
-    <p>
-      都道府県<br />
-      <%= @show_post.prefecture %>
-    </p>
-    <p>
-      月<br />
-      <%= @show_post.month %>
-    </p>
-    <p>
-      本文<br />
-      <%= @show_post.body %>
-    </p>
-    <p>
-      投稿ユーザー<br />
-      <%= link_to user_path(@show_post.user_id) do %>
-        <%= image_tag @show_post.user.get_profile_image(150, 150) %><br />
-        <%= @show_post.user.name %>
-      <% end %>
-    </p>
-    <p>
-      いいね機能<br />
-      <% if current_user.guest_user? %>
-        <i class="fa-regular fa-heart"></i> いいね ( <%= @count_likes %> )
-      <% elsif @show_post.liked_by?(current_user) %>
-        <%= link_to post_like_path(@show_post), method: :delete do %>
-          <i class="fa-solid fa-heart"></i> いいね ( <%= @count_likes %> )
-        <% end %>
-      <% else %>
-        <%= link_to post_like_path(@show_post), method: :post do %>
-          <i class="fa-regular fa-heart"></i> いいね ( <%= @count_likes %> )
-        <% end %>
-      <% end %>
-    </p>
-    <p>
-      報告機能<br />
-      <!-- 報告内容(detail)詳細 0: 見られました, 1: なくなりました, 2: 違反投稿 -->
-      <% if current_user.guest_user? || @show_post.user_id == current_user.id %>
-        <i class="fa-regular fa-square"></i> 見られました ( <%= @count_report0 %> )
-        <i class="fa-regular fa-square"></i> なくなりました ( <%= @count_report1 %> )
-        <i class="fa-regular fa-square"></i> 違反報告 ( <%= @count_report2 %> )
-      <% elsif @report == nil %> <!-- 報告をしていない場合 -->
-        <%= link_to post_report_path(@show_post, detail: 0), method: :post do %>
-          <i class="fa-regular fa-square"></i> 見られました ( <%= @count_report0 %> )
-        <% end %>
-        <%= link_to post_report_path(@show_post, detail: 1), method: :post do %>
-          <i class="fa-regular fa-square"></i> なくなりました ( <%= @count_report1 %> )
-        <% end %>
-        <%= link_to post_report_path(@show_post, detail: 2), method: :post, "data-confirm" => "営巣写真など違反投稿の報告ボタンです。本当に違反報告しますか？" do %>
-          <i class="fa-regular fa-square"></i> 違反報告 ( <%= @count_report2 %> )
+        <h4>スポット</h4>
+        <div id="map" class="w-100 mb-2" style="height: calc(50vh);"></div>
+
+        <div>
+          <!-- JSに座標を渡すための記述 valueの設定は%=でないと機能しない -->
+          <input type="hidden" id="lat" value="<%= @show_post.latitude %>">
+          <input type="hidden" id="lng" value="<%= @show_post.longitude %>">
+          <!-- JS呼び出し 座標を渡すためここに記述 -->
+          <%= javascript_pack_tag 'map_posts_show', 'data-turbolinks-track': 'reload' %>
+
+          <p>
+            画像<br />
+            <% if @show_post.post_images.attached? %>
+              <% @show_post.post_images.each do |post_image| %>
+                <%= image_tag post_image %>
+              <% end %>
+            <% else %>
+              画像なし
+            <% end  %>
+          </p>
+          <p>
+            タイトル<br />
+            <%= @show_post.title %>
+          </p>
+          <p>
+            カテゴリ<br />
+            <%= @categories.find(@show_post.category_id).name %>
+          </p>
+          <p>
+            都道府県<br />
+            <%= @show_post.prefecture %>
+          </p>
+          <p>
+            月<br />
+            <%= @show_post.month %>
+          </p>
+          <p>
+            本文<br />
+            <%= @show_post.body %>
+          </p>
+          <p>
+            投稿ユーザー<br />
+            <%= link_to user_path(@show_post.user_id) do %>
+              <%= image_tag @show_post.user.get_profile_image(150, 150) %><br />
+              <%= @show_post.user.name %>
+            <% end %>
+          </p>
+          <p>
+            いいね機能<br />
+            <% if current_user.guest_user? %>
+              <i class="fa-regular fa-heart"></i> いいね ( <%= @count_likes %> )
+            <% elsif @show_post.liked_by?(current_user) %>
+              <%= link_to post_like_path(@show_post), method: :delete do %>
+                <i class="fa-solid fa-heart"></i> いいね ( <%= @count_likes %> )
+              <% end %>
+            <% else %>
+              <%= link_to post_like_path(@show_post), method: :post do %>
+                <i class="fa-regular fa-heart"></i> いいね ( <%= @count_likes %> )
+              <% end %>
+            <% end %>
+          </p>
+          <p>
+            報告機能<br />
+            <!-- 報告内容(detail)詳細 0: 見られました, 1: なくなりました, 2: 違反投稿 -->
+            <% if current_user.guest_user? || @show_post.user_id == current_user.id %>
+              <i class="fa-regular fa-square"></i> 見られました ( <%= @count_report0 %> )
+              <i class="fa-regular fa-square"></i> なくなりました ( <%= @count_report1 %> )
+              <i class="fa-regular fa-square"></i> 違反報告 ( <%= @count_report2 %> )
+            <% elsif @report == nil %> <!-- 報告をしていない場合 -->
+              <%= link_to post_report_path(@show_post, detail: 0), method: :post do %>
+                <i class="fa-regular fa-square"></i> 見られました ( <%= @count_report0 %> )
+              <% end %>
+              <%= link_to post_report_path(@show_post, detail: 1), method: :post do %>
+                <i class="fa-regular fa-square"></i> なくなりました ( <%= @count_report1 %> )
+              <% end %>
+              <%= link_to post_report_path(@show_post, detail: 2), method: :post, "data-confirm" => "営巣写真など違反投稿の報告ボタンです。本当に違反報告しますか？" do %>
+                <i class="fa-regular fa-square"></i> 違反報告 ( <%= @count_report2 %> )
+              <% end %>
+
+            <% else %> <!-- いずれかの報告をしている場合 -->
+              <!-- 見られました -->
+              <% if @report == 0 %> <!-- 見られました報告済み -->
+                <%= link_to post_report_path(@show_post), method: :delete do %>
+                  <i class="fa-regular fa-square-check"></i> 見られました ( <%= @count_report0 %> )
+                <% end %>
+              <% else %> <!-- 他の報告済み -->
+                <%= link_to post_report_path(@show_post, detail: 0), method: :patch do %>
+                  <i class="fa-regular fa-square"></i> 見られました ( <%= @count_report0 %> )
+                <% end %>
+              <% end %>
+
+              <!-- なくなりました -->
+              <% if @report == 1 %> <!-- なくなりました報告済み -->
+                <%= link_to post_report_path(@show_post), method: :delete do %>
+                  <i class="fa-regular fa-square-check"></i> なくなりました ( <%= @count_report1 %> )
+                <% end %>
+              <% else %> <!-- 他の報告済み -->
+                <%= link_to post_report_path(@show_post, detail: 1), method: :patch do %>
+                  <i class="fa-regular fa-square"></i> なくなりました ( <%= @count_report1 %> )
+                <% end %>
+              <% end %>
+
+              <!-- 違反報告 -->
+              <% if @report == 2 %> <!-- 違反報告済み -->
+                <%= link_to post_report_path(@show_post), method: :delete do %>
+                  <i class="fa-regular fa-square-check"></i> 違反報告 ( <%= @count_report2 %> )
+                <% end %>
+              <% else %>
+                <%= link_to post_report_path(@show_post, detail: 2), method: :patch, "data-confirm" => "営巣写真など違反投稿の報告ボタンです。本当に違反報告しますか？" do %>
+                  <i class="fa-regular fa-square"></i> 違反報告 ( <%= @count_report2 %> )
+                <% end %>
+              <% end %>
+
+              <% end %>
+          </p>
+        </div>
+
+        <!-- 投稿ユーザ本人のみ表示 公開状態・編集・削除 -->
+        <% if @show_post.user_id == current_user.id %>
+          <p>
+            公開・非公開<br />
+            <% if @show_post.is_forbidden == true %>
+              <span style="color: red">管理者による非公開</span>
+            <% elsif @show_post.is_public == false %>
+              非公開
+            <% else %>
+              公開
+            <% end %>
+          </p>
+          <p>
+            <%= link_to '編集', edit_post_path %>
+          </p>
+          <p>
+            <%= link_to '削除', post_path, method: :delete, "data-confirm" => "本当に削除しますか？" %>
+          </p>
         <% end %>
 
-      <% else %> <!-- いずれかの報告をしている場合 -->
-        <!-- 見られました -->
-        <% if @report == 0 %> <!-- 見られました報告済み -->
-          <%= link_to post_report_path(@show_post), method: :delete do %>
-            <i class="fa-regular fa-square-check"></i> 見られました ( <%= @count_report0 %> )
-          <% end %>
-        <% else %> <!-- 他の報告済み -->
-          <%= link_to post_report_path(@show_post, detail: 0), method: :patch do %>
-            <i class="fa-regular fa-square"></i> 見られました ( <%= @count_report0 %> )
+        <% if current_user.guest_user? == false %>
+          <h4>コメントフォーム</h4>
+          <%= form_with model: @new_user_comment, url: post_comments_path(@show_post), method: :post, local: true do |f| %>
+            <%= f.text_area :body, rows: 3, placeholder: "最大1000文字" %> <br />
+            <%= f.submit 'コメントする' %>
           <% end %>
         <% end %>
 
-        <!-- なくなりました -->
-        <% if @report == 1 %> <!-- なくなりました報告済み -->
-          <%= link_to post_report_path(@show_post), method: :delete do %>
-            <i class="fa-regular fa-square-check"></i> なくなりました ( <%= @count_report1 %> )
-          <% end %>
-        <% else %> <!-- 他の報告済み -->
-          <%= link_to post_report_path(@show_post, detail: 1), method: :patch do %>
-            <i class="fa-regular fa-square"></i> なくなりました ( <%= @count_report1 %> )
-          <% end %>
-        <% end %>
-
-        <!-- 違反報告 -->
-        <% if @report == 2 %> <!-- 違反報告済み -->
-          <%= link_to post_report_path(@show_post), method: :delete do %>
-            <i class="fa-regular fa-square-check"></i> 違反報告 ( <%= @count_report2 %> )
-          <% end %>
+        <h4>コメント一覧</h4>
+        <% if @comments.count == 0 %>
+          <p>この投稿にはまだコメントがありません。</p>
         <% else %>
-          <%= link_to post_report_path(@show_post, detail: 2), method: :patch, "data-confirm" => "営巣写真など違反投稿の報告ボタンです。本当に違反報告しますか？" do %>
-            <i class="fa-regular fa-square"></i> 違反報告 ( <%= @count_report2 %> )
-          <% end %>
+          <table>
+            <thead>
+              <th>ユーザー</th>
+              <th>コメント</th>
+              <th>投稿日</th>
+              <th></th>
+            </thead>
+            <% @comments.each do |comment| %>
+              <tr>
+                <td>
+                  <%= link_to user_path(comment.user_id) do %>
+                    <%= image_tag comment.user.get_profile_image(50, 50) %>
+                    <%= comment.user.name %>
+                  <% end %>
+                </td>
+                <td><%= comment.body %></td>
+                <td><%= comment.created_at.strftime('%Y/%m/%d') %></td>
+                <td>
+                  <% if comment.user_id == current_user.id %>
+                    <%= link_to '削除', post_comment_path(comment.post_id, comment.id), method: :delete, "data-confirm" => "本当に削除しますか？" %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </table>
         <% end %>
 
-        <% end %>
-    </p>
+      <% end %>
+    </div>
   </div>
-
-  <!-- 投稿ユーザ本人のみ表示 公開状態・編集・削除 -->
-  <% if @show_post.user_id == current_user.id %>
-    <p>
-      公開・非公開<br />
-      <% if @show_post.is_forbidden == true %>
-        <span style="color: red">管理者による非公開</span>
-      <% elsif @show_post.is_public == false %>
-        非公開
-      <% else %>
-        公開
-      <% end %>
-    </p>
-    <p>
-      <%= link_to '編集', edit_post_path %>
-    </p>
-    <p>
-      <%= link_to '削除', post_path, method: :delete, "data-confirm" => "本当に削除しますか？" %>
-    </p>
-  <% end %>
-
-  <% if current_user.guest_user? == false %>
-    <h4>コメントフォーム</h4>
-    <%= form_with model: @new_user_comment, url: post_comments_path(@show_post), method: :post, local: true do |f| %>
-      <%= f.text_area :body, rows: 3, placeholder: "最大1000文字" %> <br />
-      <%= f.submit 'コメントする' %>
-    <% end %>
-  <% end %>
-
-  <h4>コメント一覧</h4>
-  <% if @comments.count == 0 %>
-    <p>この投稿にはまだコメントがありません。</p>
-  <% else %>
-    <table>
-      <thead>
-        <th>ユーザー</th>
-        <th>コメント</th>
-        <th>投稿日</th>
-        <th></th>
-      </thead>
-      <% @comments.each do |comment| %>
-        <tr>
-          <td>
-            <%= link_to user_path(comment.user_id) do %>
-              <%= image_tag comment.user.get_profile_image(50, 50) %>
-              <%= comment.user.name %>
-            <% end %>
-          </td>
-          <td><%= comment.body %></td>
-          <td><%= comment.created_at.strftime('%Y/%m/%d') %></td>
-          <td>
-            <% if comment.user_id == current_user.id %>
-              <%= link_to '削除', post_comment_path(comment.post_id, comment.id), method: :delete, "data-confirm" => "本当に削除しますか？" %>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </table>
-  <% end %>
-
-<% end %>
+</div>
