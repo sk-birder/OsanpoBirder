@@ -1,9 +1,17 @@
-<h2>退会確認画面</h2>
+<div class="container">
+  <div class="row">
+    <%= render '/public/sidebar' %>
+    <div class="col-11 col-md-9 mb-3">
+      <h2>退会確認画面</h2>
 
-<h4>退会処理は取り消すことが出来ません。</h4>
-<h4>本当に退会しますか？</h4>
+      <h4>退会処理は取り消すことが出来ません。</h4>
+      <h4>本当に退会しますか？</h4>
 
-<!-- 退会確認のチェックボックスを追加予定 -->
-<!-- 投稿などデータを削除するか選択するチェックボックスを追加予定 -->
+      <!-- 退会確認のチェックボックスを追加予定 -->
+      <!-- 投稿などデータを削除するか選択するチェックボックスを追加予定 -->
 
-<%= link_to '退会する', user_deactivate_path, method: :patch, "data-confirm" => "本当に退会しますか？" %>
+      <%= link_to '退会する', user_deactivate_path, method: :patch, "data-confirm" => "本当に退会しますか？" %>
+    </div>
+  </div>
+</div>
+

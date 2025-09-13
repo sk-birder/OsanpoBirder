@@ -3,5 +3,12 @@
 <input type="hidden" id="initlng" value="<%= current_user.default_map_position(current_user.prefecture)[:lng] %>">
 <%= javascript_pack_tag 'maps_index', 'data-turbolinks-track': 'reload' %>
 
-<h2>スポット一覧</h2>
-<div id="map"></div>
+<div class="container">
+  <div class="row">
+    <%= render '/public/sidebar' %>
+    <div class="col-11 col-md-9 mb-3">
+      <h2>スポット一覧</h2>
+      <div id="map"></div>
+    </div>
+  </div>
+</div>
