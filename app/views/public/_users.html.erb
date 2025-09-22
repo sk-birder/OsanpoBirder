@@ -1,51 +1,49 @@
-<table>
-  <thead>
-    <th>ユーザー</th>
-    <th>都道府県</th>
-    <th>誕生年</th>
-    <% if current_user.guest_user? == false %>
-      <th>フォロー</th>
-    <% end %>
-    <th>自己紹介</th>
-  </thead>
-  <tbody>
-    <% users.each do |user| %>
-      <tr>
-        <td>
+<div class="card-list-container">
+  <% users.each do |user| %>
+    <div class="card mt-3 shadow">
+      <div class="d-flex flex-row">
+        <div class="mr-2">
           <%= link_to user_path(user) do %>
-            <%= image_tag user.get_profile_image(50, 50) %>
-            <%= user.name %>
+            <%= image_tag user.get_profile_image(50, 50), class: "m-2" %>
           <% end %>
-        </td>
-        <td>
-          <% if user.hide_prefecture == true %>
-            非公開
-          <% else %>
-            <%= user.prefecture %>
-          <% end %>
-        </td>
-        <td>
-          <% if user.hide_birth_year == true %>
-            非公開
-          <% else %>
-            <%= user.birth_year %>
-          <% end %>
-        </td>
-        <% if current_user.guest_user? == false %>
-          <td>
-            <% if user != current_user %>
-              <% if user.followeds.exists?(follower_user_id: current_user.id) %>
-                <%= link_to 'フォロー解除', user_relationships_path(user), method: :delete %>
-              <% else %>
-                <%= link_to 'フォロー', user_relationships_path(user), method: :post %>
+        </div>
+        <div class="flex-grow-1">
+          <div class="d-flex flex-row my-2 mr-2">
+            <h4>
+              <%= link_to user_path(user) do %>
+                <%= user.name %>
               <% end %>
+            </h4>
+            <% if current_user.guest_user? == false && user != current_user %>
+              <span class="ml-auto">
+                <% if user.followeds.exists?(follower_user_id: current_user.id) %>
+                  <%= button_to 'フォロー解除', user_relationships_path(user), method: :delete, class: "btn btn-outline-danger" %>
+                <% else %>
+                  <%= button_to 'フォローする', user_relationships_path(user), method: :post, class: "btn btn-outline-primary" %>
+                <% end %>
+              </span>
             <% end %>
-          </td>
-        <% end %>
-        <td>
-          <%= user.introduction %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+          </div>
+          <div class="mb-2">
+            <% if user.hide_prefecture %>
+              <span class="m-1 p-1  rounded bg-info text-white-50">非公開</span>
+            <% else %>
+              <span class="m-1 p-1  rounded bg-info text-white"><%= user.prefecture %></span>
+            <% end %>
+            <% if user.hide_birth_year %>
+              <span class="m-1 p-1  rounded bg-success text-white-50">非公開</span>
+            <% else %>
+              <span class="m-1 p-1  rounded bg-success text-white"><%= user.birth_year %>年</span>
+            <% end %>
+          </div>
+          <div class="mb-2">
+            <%= user.introduction %>
+          </div>
+          <div class="mb-2">
+            <%= user.posts.count %> ポスト / <%= user.followeds.count %> フォロー / <%= user.followers.count %> フォロワー
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
