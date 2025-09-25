@@ -1,27 +1,20 @@
-<div class="container">
-  <div class="row">
-    <%= render '/admin/sidebar' %>
-    <div class="col-11 col-md-9 mb-3">
-      <h2>管理者トップページ</h2>
+<h2>管理者トップページ</h2>
 
-      <table>
-        <tr>
-          <td><%= link_to '全投稿一覧', admin_posts_path %></td>
-          <td>エンドユーザーの全投稿一覧を表示します</td>
-        </tr>
-        <tr>
-          <td><%= link_to '全コメント一覧', admin_post_comments_path %></td>
-          <td>エンドユーザーの全コメント一覧を表示します</td>
-        </tr>
-        <tr>
-          <td><%= link_to '違反報告された投稿一覧', admin_reports_path %></td>
-          <td>違反報告を受けた投稿の一覧を表示します</td>
-        </tr>
-        <tr>
-          <td><%= link_to 'ユーザー一覧', admin_users_path(status: 'active') %></td>
-          <td>エンドユーザー一覧を状態別に表示します</td>
-        </tr>
-      </table>
-    </div>
-  </div>
-</div>
+<table>
+  <tr>
+    <td><%= link_to '全投稿一覧', admin_posts_path %></td>
+    <td>エンドユーザーの全投稿一覧を表示します</td>
+  </tr>
+  <tr>
+    <td><%= link_to '全コメント一覧', admin_post_comments_path %></td>
+    <td>エンドユーザーの全コメント一覧を表示します</td>
+  </tr>
+  <tr>
+    <td><%= link_to '違反報告された投稿一覧', admin_reports_path %></td>
+    <td>違反報告を受けた投稿の一覧を表示します</td>
+  </tr>
+  <tr>
+    <td><%= link_to 'ユーザー一覧', admin_users_path(status: 'active') %></td>
+    <td>エンドユーザー一覧を状態別に表示します</td>
+  </tr>
+</table>

@@ -155,7 +155,18 @@
     </p>
 
     <main class="mb-auto">
-      <%= yield %>
+      <div class="container">
+        <div class="row">
+          <% if admin_signed_in? %>
+            <%= render '/admin/sidebar' %>
+          <% else %>
+            <%= render '/public/sidebar' %>
+          <% end %>
+          <div class="col-11 col-md-9 mb-3">
+            <%= yield %>
+          </div>
+        </div>
+      </div>
     </main>
 
     <footer class="d-flex p-3" style="background-color: darkolivegreen">

@@ -1,76 +1,69 @@
-<div class="container">
-  <div class="row">
-    <%= render '/public/sidebar' %>
-    <div class="col-11 col-md-9 mb-3">
-      <h2>ユーザープロフィール</h2>
+<h2>ユーザープロフィール</h2>
 
-      <div>
-        <h4>プロフィール画像</h4>
-          <%= image_tag @user.get_profile_image(150, 150) %>
-        <h4>ユーザーネーム</h4>
-        <p><%= @user.name %></p>
-        <p style="color: red">
-          <% if @user.is_active == false %>
-            退会済みユーザー
-          <% end %>
-        </p>
-      </div>
-      <div>
-        <h4>都道府県</h4>
-        <p>
-          <% if @user.hide_prefecture == false %>
-            <%= @user.prefecture %>
-          <% else %>
-            非公開
-          <% end %>
-        </p>
-      </div>
-      <div>
-        <h4>誕生年</h4>
-        <p>
-          <% if @user.hide_birth_year == false %>
-            <%= @user.birth_year %>
-          <% else %>
-            非公開
-          <% end %>
-        </p>
-      </div>
-      <div>
-        <h4>自己紹介</h4>
-        <p><%= @user.introduction %></p>
-      </div>
-
-      <h4>フォロー関連</h4>
-      <%= link_to user_following_path(@user) do %>
-        <!-- @user.followersで取得できるのはfollower_user_idが@user.idのもの。フォロー中の数を表示するために呼び出す -->
-        <%= @user.followers.count %> フォロー中
-      <% end %>
-      / 
-      <%= link_to user_followers_path(@user) do %>
-        <!-- @user.followedsで取得できるのはfollowed_user_idが@user.idのもの。フォロワーの数を表示するために呼び出す -->
-        <%= @user.followeds.count %> フォロワー
-      <% end %>
-      <br />
-      <% if @user.id != current_user.id && @user.guest_user? == false && current_user.guest_user? == false %>
-        <% if @user.followed_by?(current_user) %>
-          <%= link_to user_relationships_path(@user), method: :delete do %>
-            <%= @user.name %>さんのフォローを解除する
-          <% end %>
-        <% elsif @user.is_active == true %>
-          <%= link_to user_relationships_path(@user), method: :post do %>
-            <%= @user.name %>さんをフォローする
-          <% end %>
-        <% else %>
-          退会済みユーザーのためフォローできません。
-        <% end %>
-      <% end %>
-
-      <% if @user.id == current_user.id && @user.guest_user? == false %>
-        <%= link_to 'プロフィール編集', edit_user_path(@user.id) %>
-      <% end %>
-
-      <h4><%= @user.name %>の公開投稿</h4>
-      <%= render '/public/posts', posts: @posts %>
-    </div>
-  </div>
+<div>
+  <h4>プロフィール画像</h4>
+    <%= image_tag @user.get_profile_image(150, 150) %>
+  <h4>ユーザーネーム</h4>
+  <p><%= @user.name %></p>
+  <p style="color: red">
+    <% if @user.is_active == false %>
+      退会済みユーザー
+    <% end %>
+  </p>
 </div>
+<div>
+  <h4>都道府県</h4>
+  <p>
+    <% if @user.hide_prefecture == false %>
+      <%= @user.prefecture %>
+    <% else %>
+      非公開
+    <% end %>
+  </p>
+</div>
+<div>
+  <h4>誕生年</h4>
+  <p>
+    <% if @user.hide_birth_year == false %>
+      <%= @user.birth_year %>
+    <% else %>
+      非公開
+    <% end %>
+  </p>
+</div>
+<div>
+  <h4>自己紹介</h4>
+  <p><%= @user.introduction %></p>
+</div>
+
+<h4>フォロー関連</h4>
+<%= link_to user_following_path(@user) do %>
+  <!-- @user.followersで取得できるのはfollower_user_idが@user.idのもの。フォロー中の数を表示するために呼び出す -->
+  <%= @user.followers.count %> フォロー中
+<% end %>
+/ 
+<%= link_to user_followers_path(@user) do %>
+  <!-- @user.followedsで取得できるのはfollowed_user_idが@user.idのもの。フォロワーの数を表示するために呼び出す -->
+  <%= @user.followeds.count %> フォロワー
+<% end %>
+<br />
+<% if @user.id != current_user.id && @user.guest_user? == false && current_user.guest_user? == false %>
+  <% if @user.followed_by?(current_user) %>
+    <%= link_to user_relationships_path(@user), method: :delete do %>
+      <%= @user.name %>さんのフォローを解除する
+    <% end %>
+  <% elsif @user.is_active == true %>
+    <%= link_to user_relationships_path(@user), method: :post do %>
+      <%= @user.name %>さんをフォローする
+    <% end %>
+  <% else %>
+    退会済みユーザーのためフォローできません。
+  <% end %>
+<% end %>
+
+<% if @user.id == current_user.id && @user.guest_user? == false %>
+  <%= link_to 'プロフィール編集', edit_user_path(@user.id) %>
+<% end %>
+
+<h4><%= @user.name %>の公開投稿</h4>
+<%= render '/public/posts', posts: @posts %>

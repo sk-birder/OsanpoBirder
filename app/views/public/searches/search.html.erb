@@ -1,14 +1,7 @@
-<div class="container">
-  <div class="row">
-    <%= render '/public/sidebar' %>
-    <div class="col-11 col-md-9 mb-3">
-      <% if @model == 'user' %>
-        <h2>ユーザー検索：<%= @text %></h2>
-        <%= render '/public/users', users: @records %>
-      <% else %>
-        <h2>投稿タイトル検索：<%= @text %></h2>
-        <%= render '/public/posts', posts: @records %>
-      <% end %>
-    </div>
-  </div>
-</div>
+<% if @model == 'user' %>
+  <h2>ユーザー検索：<%= @text %></h2>
+  <%= render '/public/users', users: @records %>
+<% else %>
+  <h2>投稿タイトル検索：<%= @text %></h2>
+  <%= render '/public/posts', posts: @records %>
+<% end %>
