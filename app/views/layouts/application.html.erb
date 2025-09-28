@@ -15,7 +15,7 @@
   <body class="d-flex flex-column vh-100">
     <!-- ヘッダーは画面最上部に常時表示する -->
     <header class="d-flex p-3" style="background-color: springgreen">
-      <nav class="navbar navbar-expand-sm">
+      <nav class="navbar navbar-expand-md navbar-light">
         <div class="container">
           <% if admin_signed_in? %>
             <div class="col-4">
@@ -64,8 +64,8 @@
               <i class="fa-solid fa-dove"></i> お散歩BIRDER
             <% end %>
             <button class="ml-auto navbar-toggler" type="button" data-toggle="collapse" data-target="#endUserMenu">
-              <!-- <span class="navbar-toggler-icon"></span> -->
-              <i class="fa-solid fa-bars" style="color: white"></i>
+              <span class="navbar-toggler-icon"></span>
+              <!-- <i class="fa-solid fa-bars" style="color: white"></i> -->
             </button>
             <div class="collapse navbar-collapse" id="endUserMenu">
               <% if current_user.guest_user? == false %>
@@ -157,12 +157,16 @@
     <main class="mb-auto">
       <div class="container">
         <div class="row">
-          <% if admin_signed_in? %>
-            <%= render '/admin/sidebar' %>
-          <% else %>
-            <%= render '/public/sidebar' %>
-          <% end %>
-          <div class="col-11 col-md-9 mb-3">
+          <div class="col-md-3 d-none d-md-block">
+            <nav class="navbar">
+              <% if admin_signed_in? %>
+                <%= render '/admin/sidebar' %>
+              <% else %>
+                <%= render '/public/sidebar' %>
+              <% end %>
+            </nav>
+          </div>
+          <div class="col-12 col-md-9 mb-3">
             <%= yield %>
           </div>
         </div>
