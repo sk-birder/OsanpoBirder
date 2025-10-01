@@ -1,6 +1,12 @@
 @use '~bootstrap/scss/bootstrap';
 
+/* map(id)の設定は未使用だがFallback値として残しておく */
 #map {
   width: 100%;
   height: calc(100vh - 88px - 179px);
+}
+
+.navbar-link {
+  color: rgba(0, 0, 0, 0.9) !important;
+  /* text-decoration: none; */
 }

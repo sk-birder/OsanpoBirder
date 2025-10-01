@@ -9,12 +9,10 @@
     <script src="https://kit.fontawesome.com/16d350bfe1.js" crossorigin="anonymous"></script>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">-->
   </head>
 
   <body class="d-flex flex-column vh-100">
-    <!-- ヘッダーは画面最上部に常時表示する -->
-    <header class="d-flex p-3" style="background-color: springgreen">
+    <header style="background-color: springgreen">
       <nav class="navbar navbar-expand-md navbar-light">
         <div class="container">
           <% if admin_signed_in? %>
@@ -60,56 +58,57 @@
             </div>
 
           <% elsif user_signed_in? %>
-            <%= link_to root_path, class:"navbar-brand" do %>
+            <%= link_to root_path, class:"navbar-brand p-2" do %>
               <i class="fa-solid fa-dove"></i> お散歩BIRDER
             <% end %>
             <button class="ml-auto navbar-toggler" type="button" data-toggle="collapse" data-target="#endUserMenu">
               <span class="navbar-toggler-icon"></span>
-              <!-- <i class="fa-solid fa-bars" style="color: white"></i> -->
             </button>
-            <div class="collapse navbar-collapse" id="endUserMenu">
-              <% if current_user.guest_user? == false %>
-                <span>
-                  <%= link_to timeline_path do %>
-                    <i class="fa-solid fa-timeline"></i> タイムライン
-                  <% end %>
-                </span>
-                <span>
-                  <%= link_to mypage_path do %>
-                    <i class="fa-solid fa-circle-user"></i> マイページ
-                  <% end %>
-                </span>
-                <span>
-                  <%= link_to user_likes_path(current_user.id) do %>
-                    <i class="fa-solid fa-heart"></i> いいね一覧
-                  <% end %>
-                </span>
-                <span>
-                  <%= link_to new_post_path do %>
-                    <i class="fa-solid fa-pen-fancy"></i> 新規投稿
-                  <% end %>
-                </span>
-              <% end %>
-              <span>
-                <%= link_to posts_path do %>
-                  <i class="fa-solid fa-newspaper"></i> 投稿一覧
+            <div class="collapse navbar-collapse row" id="endUserMenu">
+              <ul class="mx-auto d-block d-md-none" style="list-style: none">
+                <% if current_user.guest_user? == false %>
+                  <li class="mb-2">
+                    <%= link_to timeline_path, class: "navbar-link" do %>
+                      <i class="fa-solid fa-timeline mr-2"></i>タイムライン
+                    <% end %>
+                  </li>
+                  <li class="mb-2">
+                    <%= link_to mypage_path, class: "navbar-link" do %>
+                      <i class="fa-solid fa-circle-user mr-2"></i>マイページ
+                    <% end %>
+                  </li>
+                  <li class="mb-2">
+                    <%= link_to user_likes_path(current_user.id), class: "navbar-link" do %>
+                      <i class="fa-solid fa-heart mr-2"></i>いいね一覧
+                    <% end %>
+                  </li>
+                  <li class="mb-2">
+                    <%= link_to new_post_path, class: "navbar-link" do %>
+                      <i class="fa-solid fa-pen-fancy mr-2"></i>新規投稿
+                    <% end %>
+                  </li>
                 <% end %>
-              </span>
-              <span>
-                <%= link_to map_path do %>
-                  <i class="fa-solid fa-map-location-dot"></i> 地図
-                <% end %>
-              </span>
-              <span>
-                <%= link_to users_path do %>
-                  <i class="fa-solid fa-users"></i> ユーザーー覧
-                <% end %>
-              </span>
-              <span>
-                <%= link_to destroy_user_session_path, method: :delete do %>
-                  <i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
-                <% end %>
-              </span>
+                <li class="mb-2">
+                  <%= link_to posts_path, class: "navbar-link" do %>
+                    <i class="fa-solid fa-newspaper mr-2"></i>投稿一覧
+                  <% end %>
+                </li>
+                <li class="mb-2">
+                  <%= link_to map_path, class: "navbar-link" do %>
+                    <i class="fa-solid fa-map-location-dot mr-2"></i>地図
+                  <% end %>
+                </li>
+                <li class="mb-2">
+                  <%= link_to users_path, class: "navbar-link" do %>
+                    <i class="fa-solid fa-users mr-2"></i>ユーザーー覧
+                  <% end %>
+                </li>
+                <li>
+                  <%= link_to destroy_user_session_path, method: :delete, class: "navbar-link" do %>
+                    <i class="fa-solid fa-arrow-right-from-bracket mr-2"></i>ログアウト
+                  <% end %>
+                </li>
+              </ul>
             </div>
 
           <% else %>
