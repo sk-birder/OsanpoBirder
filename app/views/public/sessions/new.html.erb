@@ -14,7 +14,7 @@
   <% if devise_mapping.rememberable? %>
     <div class="field">
       <%= f.check_box :ログイン状態を保持する %>
-      <%= f.label :remember_me %>
+      <%= f.label :ログインしたままにする %>
     </div>
   <% end %>
 
@@ -24,3 +24,4 @@
 <% end %>
 
 <%= render "public/shared/links" %>
+<%= link_to '管理者ログイン', new_admin_session_path %>
