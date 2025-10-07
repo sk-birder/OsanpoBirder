@@ -11,6 +11,7 @@ import "channels"
 import "jquery";
 import "popper.js";
 import "bootstrap";
+// import "../images/wallpaper.jpg";
 import "../stylesheets/application";
 
 Rails.start()

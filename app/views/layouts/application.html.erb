@@ -130,18 +130,18 @@
                 </li>
                 <li class="mb-2">
                   <%= link_to users_guest_sign_in_path, method: :post do %>
-                    <i class="fa-solid fa-clover mr-2"></i>ゲストログイン
+                    <i class="fa-solid fa-clover mr-2"></i>ゲストモード
+                  <% end %>
+                </li>
+                <li class="mb-2">
+                  <%= link_to new_user_session_path do %>
+                    <i class="fa-solid fa-arrow-right-to-bracket mr-2"></i>ログイン
                   <% end %>
                 </li>
                 <li class="mb-2">
                 <%= link_to new_user_registration_path do %>
                   <i class="fa-solid fa-user-plus mr-2"></i>アカウント作成
                 <% end %>
-                </li>
-                <li class="mb-2">
-                  <%= link_to new_user_session_path do %>
-                    <i class="fa-solid fa-arrow-right-to-bracket mr-2"></i>ログイン
-                  <% end %>
                 </li>
               </ul>
             </div>
@@ -150,16 +150,10 @@
       </nav>
     </header>
 
-    <div class="my-2 d-flex justify-content-center">
-      <%= render 'public/searches/search_form' %>
-    </div>
-
-    <p>
-      <%= flash[:notice] %>
-      <%= alert %>
-    </p>
-
-    <main class="mb-auto">
+    <main class="mb-auto flex-grow-1">
+      <div class="my-2 d-flex justify-content-center">
+        <%= render 'public/searches/search_form' %>
+      </div>
       <div class="container">
         <div class="row">
           <div class="col-md-3 d-none d-md-block"> <!-- サイドバーここから -->
@@ -245,17 +239,17 @@
                     </li>
                     <li class="nav-link active">
                       <%= link_to users_guest_sign_in_path, method: :post, class:"d-flex align-items-center" do %>
-                        <i class="fa-solid fa-clover mr-2"></i>ゲストログイン
-                      <% end %>
-                    </li>
-                    <li class="nav-link active">
-                      <%= link_to new_user_registration_path, class:"d-flex align-items-center" do %>
-                        <i class="fa-solid fa-user-plus mr-2"></i>アカウント作成
+                        <i class="fa-solid fa-clover mr-2"></i>ゲストモード
                       <% end %>
                     </li>
                     <li class="nav-link active">
                       <%= link_to new_user_session_path, class:"d-flex align-items-center" do %>
                         <i class="fa-solid fa-arrow-right-to-bracket mr-2"></i>ログイン
+                      <% end %>
+                    </li>
+                    <li class="nav-link active">
+                      <%= link_to new_user_registration_path, class:"d-flex align-items-center" do %>
+                        <i class="fa-solid fa-user-plus mr-2"></i>アカウント作成
                       <% end %>
                     </li>
                   <% end %>
@@ -264,6 +258,12 @@
             </nav>
           </div> <!-- サイドバーここまで -->
           <div class="col-12 col-md-9 mb-3">
+            <% if flash[:notice].present? || flash[:alert].present? %>
+              <p class="alert alert-info" role="alert">
+                <%= flash[:notice] %>
+                <%= flash[:alert] %>
+              </p>
+            <% end %>
             <%= yield %>
           </div>
         </div>
