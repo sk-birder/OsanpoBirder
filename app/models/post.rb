@@ -34,7 +34,7 @@ class Post < ApplicationRecord
     ７月: 7, ８月: 8, ９月: 9, １０月: 10, １１月: 11, １２月: 12
   }
 
-  # 投稿画像用
+  # 投稿画像の1枚目のみを表示するメソッド(posts#indexなどで使用)
   def show_first_post_image(width, height)
     post_images[0].variant(resize_to_limit: [width, height]).processed
   end

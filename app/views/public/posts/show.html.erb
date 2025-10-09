@@ -2,7 +2,7 @@
 
 <% if @show_post.is_public == false && @show_post.user_id != current_user.id %>
   <p>この投稿は非公開です。</p>
-<% elsif @show_post.is_forbidden == true && @show_post.user_id != current_user.id %>
+<% elsif @show_post.is_forbidden && @show_post.user_id != current_user.id %>
   <p>この投稿は非公開です。</p>
 <% else %>
   <h4>スポット</h4>
@@ -15,45 +15,45 @@
     <!-- JS呼び出し 座標を渡すためここに記述 -->
     <%= javascript_pack_tag 'map_posts_show', 'data-turbolinks-track': 'reload' %>
 
+    <h4>写真</h4>
     <p>
-      画像<br />
       <% if @show_post.post_images.attached? %>
         <% @show_post.post_images.each do |post_image| %>
-          <%= image_tag post_image %>
+          <%= image_tag post_image.variant(resize_to_limit: [1000, 1000]).processed, class: "post-image" %>
         <% end %>
       <% else %>
         画像なし
       <% end  %>
     </p>
+    <h4>タイトル</h4>
     <p>
-      タイトル<br />
       <%= @show_post.title %>
     </p>
+    <h4>カテゴリ</h4>
     <p>
-      カテゴリ<br />
       <%= @categories.find(@show_post.category_id).name %>
     </p>
+    <h4>都道府県</h4>
     <p>
-      都道府県<br />
       <%= @show_post.prefecture %>
     </p>
+    <h4>月</h4>
     <p>
-      月<br />
       <%= @show_post.month %>
     </p>
+    <h4>本文</h4>
     <p>
-      本文<br />
       <%= @show_post.body %>
     </p>
+    <h4>投稿ユーザー</h4>
     <p>
-      投稿ユーザー<br />
       <%= link_to user_path(@show_post.user_id) do %>
         <%= image_tag @show_post.user.get_profile_image(150, 150) %><br />
         <%= @show_post.user.name %>
       <% end %>
     </p>
+    <h4>いいね・報告</h4>
     <p>
-      いいね機能<br />
       <% if current_user.guest_user? %>
         <i class="fa-regular fa-heart"></i> いいね ( <%= @count_likes %> )
       <% elsif @show_post.liked_by?(current_user) %>
@@ -67,7 +67,6 @@
       <% end %>
     </p>
     <p>
-      報告機能<br />
       <!-- 報告内容(detail)詳細 0: 見られました, 1: なくなりました, 2: 違反投稿 -->
       <% if current_user.guest_user? || @show_post.user_id == current_user.id %>
         <i class="fa-regular fa-square"></i> 見られました ( <%= @count_report0 %> )
@@ -124,9 +123,9 @@
 
   <!-- 投稿ユーザ本人のみ表示 公開状態・編集・削除 -->
   <% if @show_post.user_id == current_user.id %>
+    <h4>公開ステータス</h4>
     <p>
-      公開・非公開<br />
-      <% if @show_post.is_forbidden == true %>
+      <% if @show_post.is_forbidden %>
         <span style="color: red">管理者による非公開</span>
       <% elsif @show_post.is_public == false %>
         非公開
@@ -135,18 +134,16 @@
       <% end %>
     </p>
     <p>
-      <%= link_to '編集', edit_post_path %>
-    </p>
-    <p>
-      <%= link_to '削除', post_path, method: :delete, "data-confirm" => "本当に削除しますか？" %>
+      <%= link_to '編集する', edit_post_path, class:"btn btn-info px-3 py-2 mr-2" %>
+      <%= link_to '削除する', post_path, method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger px-3 py-2" %>
     </p>
   <% end %>
 
   <% if current_user.guest_user? == false %>
     <h4>コメントフォーム</h4>
     <%= form_with model: @new_user_comment, url: post_comments_path(@show_post), method: :post, local: true do |f| %>
-      <%= f.text_area :body, rows: 3, placeholder: "最大1000文字" %> <br />
-      <%= f.submit 'コメントする' %>
+      <%= f.text_area :body, rows: 3, placeholder: "最大1000文字", rows: '3', class: "comment-form" %> <br />
+      <%= f.submit 'コメントする', class: "btn btn-success px-3 py-2" %>
     <% end %>
   <% end %>
 
@@ -154,31 +151,25 @@
   <% if @comments.count == 0 %>
     <p>この投稿にはまだコメントがありません。</p>
   <% else %>
-    <table>
-      <thead>
-        <th>ユーザー</th>
-        <th>コメント</th>
-        <th>投稿日</th>
-        <th></th>
-      </thead>
-      <% @comments.each do |comment| %>
-        <tr>
-          <td>
-            <%= link_to user_path(comment.user_id) do %>
-              <%= image_tag comment.user.get_profile_image(50, 50) %>
-              <%= comment.user.name %>
-            <% end %>
-          </td>
-          <td><%= comment.body %></td>
-          <td><%= comment.created_at.strftime('%Y/%m/%d') %></td>
-          <td>
-            <% if comment.user_id == current_user.id %>
-              <%= link_to '削除', post_comment_path(comment.post_id, comment.id), method: :delete, "data-confirm" => "本当に削除しますか？" %>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </table>
+    <% @comments.each do |comment| %>
+      <div class="row mx-auto mb-3">
+        <div class="mx-3">
+          <%= link_to user_path(comment.user_id) do %>
+            <%= image_tag comment.user.get_profile_image(50, 50) %>
+          <% end %>
+        </div>
+        <div>
+          <%= comment.body %><br />
+          <%= comment.created_at.strftime('%Y/%m/%d') %><br />
+          <%= link_to user_path(comment.user_id) do %>
+            <%= comment.user.name %>
+          <% end %><br />
+          <% if comment.user_id == current_user.id %>
+            <%= link_to '削除する', post_comment_path(comment.post_id, comment.id), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger btn-sm" %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
   <% end %>
 
 <% end %>

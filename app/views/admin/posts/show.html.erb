@@ -1,93 +1,94 @@
 <h2>エンドユーザー投稿詳細</h2>
-  <div>
-    <p>地図予定地</p>
-  </div>
-  <div>
-    <p>
-      画像<br />
-      <% if @show_post.post_images.attached? %>
-        <% @show_post.post_images.each do |post_image| %>
-          <%= image_tag post_image %>
-        <% end %>
-      <% else %>
-        画像なし
-      <% end  %>
-    </p>
-    <p>
-      タイトル<br />
-      <%= @show_post.title %>
-    </p>
-    <p>
-      カテゴリ<br />
-      <%= Category.find(@show_post.category_id).name %>
-    </p>
-    <p>
-      都道府県<br />
-      <%= @show_post.prefecture %>
-    </p>
-    <p>
-      月<br />
-      <%= @show_post.month %>
-    </p>
-    <p>
-      本文<br />
-      <%= @show_post.body %>
-    </p>
-    <p>
-      投稿ユーザー<br />
-      <%= link_to admin_user_path(@show_post.user_id) do %>
-        <%= image_tag @show_post.user.get_profile_image(150, 150) %><br />
-        <%= @show_post.user.name %>
+  
+<h4>スポット</h4>
+<div id="map" class="w-100 mb-2" style="height: calc(50vh);"></div>
+
+<div>
+  <!-- JSに座標を渡すための記述 valueの設定は%=でないと機能しない -->
+  <input type="hidden" id="lat" value="<%= @show_post.latitude %>">
+  <input type="hidden" id="lng" value="<%= @show_post.longitude %>">
+  <!-- JS呼び出し 座標を渡すためここに記述 -->
+  <%= javascript_pack_tag 'map_posts_show', 'data-turbolinks-track': 'reload' %>
+
+  <h4>写真</h4>
+  <p>
+    <% if @show_post.post_images.attached? %>
+      <% @show_post.post_images.each do |post_image| %>
+        <%= image_tag post_image.variant(resize_to_limit: [1000, 1000]).processed, class: "post-image" %>
       <% end %>
-    </p>
-    <p>
-      ユーザーの公開・非公開設定<br />
-      <% if @show_post.is_public == true %>
-        公開
-      <% else %>
-        非公開
-      <% end %>
-    </p>
-    <p>
-      ユーザーの公開・非公開設定<br />
-      <% if @show_post.is_forbidden == true %>
-        <span style="color: red">管理者非公開</span>
-        <%= link_to '管理者非公開を解除する', admin_post_toggle_publicity_path, method: :patch, "data-confirm" => "管理者非公開を解除しますか？" %>
-      <% else %>
-        <span>設定なし</span>
-        <%= link_to '管理者非公開にする', admin_post_toggle_publicity_path, method: :patch, "data-confirm" => "迷惑投稿や違反投稿用の機能です。本当に非公開にしますか？"  %>
-      <% end %>
-    </p>
-    <p>
-      <%= link_to '削除', admin_post_path, method: :delete, "data-confirm" => "管理者非公開で改善を促すことも出来ます。本当に削除しますか？" %>
-    </p>
-  </div>
+    <% else %>
+      画像なし
+    <% end  %>
+  </p>
+  <h4>タイトル</h4>
+  <p>
+    <%= @show_post.title %>
+  </p>
+  <h4>カテゴリ</h4>
+  <p>
+    <%= Category.find(@show_post.category_id).name %>
+  </p>
+  <h4>都道府県</h4>
+  <p>
+    <%= @show_post.prefecture %>
+  </p>
+  <h4>月</h4>
+  <p>
+    <%= @show_post.month %>
+  </p>
+  <h4>本文</h4>
+  <p>
+    <%= @show_post.body %>
+  </p>
+  <h4>投稿ユーザー</h4>
+  <p>
+    <%= link_to admin_user_path(@show_post.user_id) do %>
+      <%= image_tag @show_post.user.get_profile_image(150, 150) %><br />
+      <%= @show_post.user.name %>
+    <% end %>
+  </p>
+  <h4>ユーザーの公開・非公開設定</h4>
+  <p>
+    <% if @show_post.is_public %>
+      公開
+    <% else %>
+      非公開
+    <% end %>
+  </p>
+  <h4>管理者非公開の設定</h4>
+  <p>
+    <% if @show_post.is_forbidden %>
+      <span style="color: red">管理者非公開</span>
+      <%= link_to '管理者非公開を解除する', admin_post_toggle_publicity_path, method: :patch, "data-confirm" => "管理者非公開を解除しますか？", class: "btn btn-outline-primary btn-sm ml-2" %>
+    <% else %>
+      <span>設定なし</span>
+      <%= link_to '管理者非公開にする', admin_post_toggle_publicity_path, method: :patch, "data-confirm" => "迷惑投稿や違反投稿用の機能です。本当に非公開にしますか？", class: "btn btn-outline-danger btn-sm ml-2" %>
+    <% end %>
+  </p>
+  <p>
+    <%= link_to '投稿を削除する', admin_post_path, method: :delete, "data-confirm" => "管理者非公開で改善を促すことも出来ます。本当に削除しますか？", class: "btn btn-danger px-3 py-2" %>
+  </p>
+</div>
 
 <h4>コメント一覧</h4>
 <% if @comments.count == 0 %>
   <p>この投稿にはまだコメントがありません。</p>
 <% else %>
-  <table>
-    <thead>
-      <th>ユーザー</th>
-      <th>コメント</th>
-      <th>投稿日</th>
-      <th></th>
-    </thead>
-    <% @comments.each do |comment| %>
-      <tr>
-        <td>
-          <%= link_to admin_user_path(comment.user_id) do %>
-            <%= image_tag comment.user.get_profile_image(50, 50) %>
-            <%= comment.user.name %>
-          <% end %>
-        </td>
-        <td><%= comment.body %></td>
-        <td><%= comment.created_at.strftime('%Y/%m/%d') %></td>
-        <td>
-          <%= link_to '削除する', admin_post_post_comment_path(comment.post_id, comment.id), method: :delete, "data-confirm" => "本当に削除しますか？" %>
-        </td>
-      </tr>
-    <% end %>
-  </table>
+  <% @comments.each do |comment| %>
+    <div class="row mx-auto mb-3">
+      <div class="mx-3">
+        <%= link_to admin_user_path(comment.user_id) do %>
+          <%= image_tag comment.user.get_profile_image(50, 50) %>
+        <% end %>
+      </div>
+      <div>
+        <%= comment.body %><br />
+        <%= comment.created_at.strftime('%Y/%m/%d') %><br />
+        <%= link_to admin_user_path(comment.user_id) do %>
+          <%= comment.user.name %>
+        <% end %><br />
+        <%= link_to '削除する', admin_post_post_comment_path(comment.post_id, comment.id), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger btn-sm" %>
+      </div>
+    </div>
+  <% end %>
 <% end %>

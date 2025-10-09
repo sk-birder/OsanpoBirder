@@ -1,5 +1,4 @@
-<h2>このサイトについて</h2>
-<h4>お散歩BIRDERはお散歩時間を充実させるSNSです</h4>
+<h2>サイト紹介</h2>
 
 <h4>サイトのテーマ</h4>
 <p>散歩や自然観察を愛する人のためのSNS</p>
@@ -33,7 +32,7 @@
   他の人の散歩コースを見たいとき<br />
 </p>
 
-<% if user_signed_in? == false || current_user.guest_user? %>
+<% if user_signed_in? == false %>
   <h4>アカウントを作成する</h4>
   <p><%= link_to 'アカウント作成', new_user_registration_path %></p>
 <% end %>
@@ -45,27 +44,17 @@
 
 <h4>使用素材について</h4>
 以下の素材をお借りしています。
-<ul>
-  <li>
-    フォント<br />
-    Kiwi Maru (Google Fonts)<br />
-    <a href="https://fonts.google.com/specimen/Kiwi+Maru">https://fonts.google.com/specimen/Kiwi+Maru</a>
-  </li>
-  <li>
-    背景画像<br />
-    ホームページの背景画像　壁紙　無料,フリー画像素材<br />
-    b075.jpg<br />
-    <a href="http://www.netyasun.com/home/background.html">http://www.netyasun.com/home/background.html</a>
-  </li>
-  <li>
-    サイトロゴ<br />
-    鳥のベクター線画セット (Adobe Stock)<br />
-    <a href="https://stock.adobe.com/jp/images/%E9%B3%A5%E3%81%AE%E3%83%99%E3%82%AF%E3%82%BF%E3%83%BC%E7%B7%9A%E7%94%BB%E3%82%BB%E3%83%83%E3%83%88/586507938">
-      https://stock.adobe.com/jp/images/%E9%B3%A5%E3%81%AE%E3%83%99%E3%82%AF%E3%82%BF%E3%83%BC%E7%B7%9A%E7%94%BB%E3%82%BB%E3%83%83%E3%83%88/586507938
-    </a><br />
-    Animals human footprints. Prints animal bird paw, wildlife foot icon, domestic pets footstep silhouette, print hoofed feet, black amphibia feet track vector set. Cat, turkey, chicken and horse trail (Adobe Stock)<br />
-    <a href="https://stock.adobe.com/jp/images/animals-human-footprints-prints-animal-bird-paw-wildlife-foot-icon-domestic-pets-footstep-silhouette-print-hoofed-feet-black-amphibia-feet-track-vector-set-cat-turkey-chicken-and-horse-trail/687084239">
-      https://stock.adobe.com/jp/images/animals-human-footprints-prints-animal-bird-paw-wildlife-foot-icon-domestic-pets-footstep-silhouette-print-hoofed-feet-black-amphibia-feet-track-vector-set-cat-turkey-chicken-and-horse-trail/687084239
-    </a>
-  </li>
-</ul>
+<h5>フォント</h5>
+<a href="https://fonts.google.com/specimen/Kiwi+Maru" target="_blank" rel="noopener noreferrer">Kiwi Maru (Google Fonts)</a>
+
+<h5>背景画像</h5>
+<a href="http://www.netyasun.com/home/background.html" target="_blank" rel="noopener noreferrer">ホームページの背景画像　壁紙　無料,フリー画像素材</a>
+
+<h5>サイトロゴ</h5>
+<a href="https://stock.adobe.com/jp/images/%E9%B3%A5%E3%81%AE%E3%83%99%E3%82%AF%E3%82%BF%E3%83%BC%E7%B7%9A%E7%94%BB%E3%82%BB%E3%83%83%E3%83%88/586507938" target="_blank" rel="noopener noreferrer">
+  鳥のベクター線画セット (Adobe Stock)
+</a>
+<br />
+<a href="https://stock.adobe.com/jp/images/animals-human-footprints-prints-animal-bird-paw-wildlife-foot-icon-domestic-pets-footstep-silhouette-print-hoofed-feet-black-amphibia-feet-track-vector-set-cat-turkey-chicken-and-horse-trail/687084239"  target="_blank" rel="noopener noreferrer">
+  Animals human footprints (Adobe Stock)
+</a>

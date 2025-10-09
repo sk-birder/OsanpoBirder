@@ -16,6 +16,22 @@ main {
   max-width: 512px;
 }
 
+.post-image {
+  max-width: 90%;
+}
+
+.post-title-form {
+  width: 60%;
+}
+
+.post-body-form {
+  width: 80%;
+}
+
+.comment-form {
+  width: 80%;
+}
+
 /* map(id)の設定は未使用だがFallback値として残しておく */
 #map {
   width: 100%;
