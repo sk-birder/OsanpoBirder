@@ -1,20 +1,10 @@
-<h2>管理者トップページ</h2>
-
-<table>
-  <tr>
-    <td><%= link_to '全投稿一覧', admin_posts_path %></td>
-    <td>エンドユーザーの全投稿一覧を表示します</td>
-  </tr>
-  <tr>
-    <td><%= link_to '全コメント一覧', admin_post_comments_path %></td>
-    <td>エンドユーザーの全コメント一覧を表示します</td>
-  </tr>
-  <tr>
-    <td><%= link_to '違反報告された投稿一覧', admin_reports_path %></td>
-    <td>違反報告を受けた投稿の一覧を表示します</td>
-  </tr>
-  <tr>
-    <td><%= link_to 'ユーザー一覧', admin_users_path(status: 'active') %></td>
-    <td>エンドユーザー一覧を状態別に表示します</td>
-  </tr>
-</table>
+<div class="d-flex flex-column align-items-center">
+  <%= image_tag 'logo.png', class: "mt-5", style: "max-width: 90%" %>
+  <h1 class="mb-5">管理者モード</h1>
+  
+  <%= link_to '全投稿一覧', admin_posts_path, class:"top-button btn btn-info btn-lg mb-5" %>
+  <%= link_to '全コメント一覧', admin_post_comments_path, class:"top-button btn btn-info btn-lg mb-5" %>
+  <%= link_to '違反報告された投稿一覧', admin_reports_path, class:"top-button btn btn-info btn-lg mb-5" %>
+  <%= link_to 'ユーザー一覧', admin_users_path(status: 'active'), class:"top-button btn btn-info btn-lg mb-5" %>
+  <%= link_to 'ログアウト', destroy_admin_session_path, method: :delete, class:"top-button btn btn-danger btn-lg mb-5" %>
+</div>

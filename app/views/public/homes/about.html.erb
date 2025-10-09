@@ -1,4 +1,4 @@
-<h2>このサイトについて</h2>
+<h2>サイト紹介</h2>
 
 <h4>サイトのテーマ</h4>
 <p>散歩や自然観察を愛する人のためのSNS</p>
@@ -32,8 +32,29 @@
   他の人の散歩コースを見たいとき<br />
 </p>
 
-<h4>アカウントを作成する</h4>
-<p><%= link_to 'アカウント作成', new_user_registration_path %></p>
+<% if user_signed_in? == false %>
+  <h4>アカウントを作成する</h4>
+  <p><%= link_to 'アカウント作成', new_user_registration_path %></p>
+<% end %>
 
-<h4>試しに使ってみる</h4>
-<p><%= link_to 'ゲストログイン', users_guest_sign_in_path, method: :post %></p>
+<% if user_signed_in? == false %>
+  <h4>試しに使ってみる</h4>
+  <p><%= link_to 'ゲストモード', users_guest_sign_in_path, method: :post %></p>
+<% end %>
+
+<h4>使用素材について</h4>
+以下の素材をお借りしています。
+<h5>フォント</h5>
+<a href="https://fonts.google.com/specimen/Kiwi+Maru" target="_blank" rel="noopener noreferrer">Kiwi Maru (Google Fonts)</a>
+
+<h5>背景画像</h5>
+<a href="http://www.netyasun.com/home/background.html" target="_blank" rel="noopener noreferrer">ホームページの背景画像　壁紙　無料,フリー画像素材</a>
+
+<h5>サイトロゴ</h5>
+<a href="https://stock.adobe.com/jp/images/%E9%B3%A5%E3%81%AE%E3%83%99%E3%82%AF%E3%82%BF%E3%83%BC%E7%B7%9A%E7%94%BB%E3%82%BB%E3%83%83%E3%83%88/586507938" target="_blank" rel="noopener noreferrer">
+  鳥のベクター線画セット (Adobe Stock)
+</a>
+<br />
+<a href="https://stock.adobe.com/jp/images/animals-human-footprints-prints-animal-bird-paw-wildlife-foot-icon-domestic-pets-footstep-silhouette-print-hoofed-feet-black-amphibia-feet-track-vector-set-cat-turkey-chicken-and-horse-trail/687084239"  target="_blank" rel="noopener noreferrer">
+  Animals human footprints (Adobe Stock)
+</a>

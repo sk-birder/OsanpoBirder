@@ -33,6 +33,9 @@ class Public::PostsController < ApplicationController
   end
 
   def timeline
+    if current_user.guest_user?
+      redirect_to posts_path
+    end
     # フォローしているユーザー全てのIDを配列に格納
     followed_users_ids = current_user.followers.pluck(:followed_user_id)
     # 公開投稿全てからフォローしているユーザーの投稿を取得

@@ -9,46 +9,57 @@
   </ul>
 <% end %>
 
+<%= render '/public/attention' %>
+
 <h4>スポット選択</h4>
-<div id="map" style="width: 750px; height: 750px;"></div>
+<div id="map" class="w-100 mb-2" style="height: calc(50vh);"></div>
 
 <%= form_with model: @post, url: posts_path do |f| %>
   <!-- 地図座標 -->
   <%= f.hidden_field :latitude,  id: "lat" %>
   <%= f.hidden_field :longitude, id: "lng" %>
 
-  <p>写真</p>
+  <h4>写真</h4>
   <p>
     <%= f.file_field :post_images, accept: "image/*",  multiple: true %>
   </p>
 
-  <p>タイトル(100文字まで)</p>
-  <%= f.text_field :title, autofocus: true %>
+  <h4>タイトル(100文字まで)</h4>
+  <p>
+    <%= f.text_field :title, autofocus: true, class: "post-title-form" %>
+  </p>
   
-  <p>カテゴリ</p>
+  <h4>カテゴリ</h4>
   <!-- Categoryモデルからデータを呼び出しセレクトボックスに表示 -->
   <p>
     <%= f.collection_select(:category_id, Category.all, :id, :name) %>
   </p>
 
-  <p>都道府県</p>
-  ※ 自動入力されますが、誤っている場合は訂正できます。海上や日本以外の場所を選択すると表示されません。<br />
-  <%= f.select :prefecture, Post.prefectures.keys, {selected: current_user.prefecture}, id: "post_prefecture"  %>
+  <h4>都道府県</h4>
+  <p>
+    ※ 自動入力されますが、誤っている場合は訂正できます。海上や日本以外の場所を選択すると表示されません。<br />
+    <%= f.select :prefecture, Post.prefectures.keys, {selected: current_user.prefecture}, id: "post_prefecture"  %>
+  </p>
 
-  <p>月</p>
-  <%= f.select :month, Post.months.keys, {} %>
+  <h4>月</h4>
+  <p>
+    <%= f.select :month, Post.months.keys, {} %>
+  </p>
   
-  <p>本文(1000文字まで)</p>
-  <%= f.text_area :body %>
+  <h4>本文(1000文字まで)</h4>
+  <p>
+    <%= f.text_area :body, rows: '10', class: "post-body-form" %>
+  </p>
 
-  <p>公開・非公開</p>
-  <%= f.radio_button(:is_public, true, checked: true) %>
-  <%= f.label(:is_public, '公開', value: true) %>
-  <%= f.radio_button(:is_public, false) %>
-  <%= f.label(:is_public, '非公開', value: false) %>
+  <h4>公開・非公開</h4>
+  <p>
+    <%= f.radio_button(:is_public, true, checked: true) %>
+    <%= f.label(:is_public, '公開', value: true) %>
+    <%= f.radio_button(:is_public, false) %>
+    <%= f.label(:is_public, '非公開', value: false) %>
+  </p>
 
-  <p></p>
-  <%= f.submit '投稿' %>
+  <%= f.submit '投稿する', class: "btn btn-success px-3 py-2" %>
 <% end %>
 
 <!-- 初期位置の設定とJS呼び出し -->

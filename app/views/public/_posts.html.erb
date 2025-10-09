@@ -1,55 +1,55 @@
-<table>
-  <thead>
-    <th>画像</th>
-    <th>タイトル</th>
-    <th>カテゴリ</th>
-    <th>都道府県</th>
-    <th>月</th>
-    <th>本文</th>
-    <th>コメント</th>
-    <th>いいね</th>
-    <th>ユーザー</th>
-    <th>更新日</th>
-  </thead>
+<div class="card-list-container">
   <% posts.each do |post| %>
-    <tr>
-      <td>
-        <% if post.post_images.attached? %>
-          <%= image_tag post.show_first_post_image(50, 50) %>
-        <% else %>
-          なし
-        <% end %>
-      </td>
-      <td>
-        <%= link_to post_path(post.id) do %>
-          <%= post.title %>
-        <% end %>
-      </td>
-      <td><%= Category.find(post.category_id).name %></td>
-      <td><%= post.prefecture %></td>
-      <td><%= post.month %></td>
-      <td><%= post.body %></td>
-      <td><i class="fa-regular fa-comment"></i> <%= post.post_comments.count %></td>
-      <td>
-        <% if current_user.guest_user? %>
-          <i class="fa-regular fa-heart"></i>  <%= post.likes.count %>
-        <% elsif post.liked_by?(current_user) %>
-          <%= link_to post_like_path(post), method: :delete do %>
-           <i class="fa-solid fa-heart"></i>  <%= post.likes.count %>
+    <div class="card mt-3 shadow">
+      <div class="d-flex flex-column">
+        <div class="p-2">
+          <% if post.post_images.attached? %>
+            <%= image_tag post.show_first_post_image(50, 50) %>
+          <% else %>
+            なし
           <% end %>
-        <% else %>
-          <%= link_to post_like_path(post), method: :post do %>
-            <i class="fa-regular fa-heart"></i>  <%= post.likes.count %>
+        </div>
+        <div class="p-2">
+          <%= link_to post_path(post.id) do %>
+            <%= post.title %>
           <% end %>
-        <% end %>
-      </td>
-      <td>
-        <%= link_to user_path(post.user_id) do %>
-          <%= image_tag post.user.get_profile_image(50, 50) %>
-          <%= post.user.name %>
-        <% end %>
-      </td>
-      <td><%= post.updated_at.strftime('%Y/%m/%d') %></td>
-    </tr>
+        </div>
+        <div class="row justify-content-around p-2">
+          <span><%= Category.find(post.category_id).name %></span>
+          <span><%= post.prefecture %></span>
+          <span><%= post.month %></span>
+        </div>
+        <div class="row p-2">
+          <div class="col-8">
+            <%= link_to user_path(post.user_id) do %>
+              <%= image_tag post.user.get_profile_image(50, 50) %>
+              <span class="ml-2"><%= post.user.name %></span>
+            <% end %>
+          </div>
+          <div class="col-4">
+            <div class="text-center"><%= post.updated_at.strftime('%Y/%m/%d') %></div>
+            <div class="text-center">
+              <span class="mr-1">
+                <i class="fa-regular fa-comment"></i> <%= post.post_comments.count %>
+              </span>
+              <span class="ml-1">
+                <% if current_user.guest_user? %>
+                  <i class="fa-regular fa-heart"></i>  <%= post.likes.count %>
+                <% elsif post.liked_by?(current_user) %>
+                  <%= link_to post_like_path(post), method: :delete do %>
+                  <i class="fa-solid fa-heart"></i>  <%= post.likes.count %>
+                  <% end %>
+                <% else %>
+                  <%= link_to post_like_path(post), method: :post do %>
+                    <i class="fa-regular fa-heart"></i>  <%= post.likes.count %>
+                  <% end %>
+                <% end %>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   <% end %>
-</table>
+</div>
+
