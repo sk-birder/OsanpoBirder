@@ -9,7 +9,6 @@ class Public::LikesController < ApplicationController
     like.save
     # いいねのカウント
     @count_likes = @post.likes.count
-    # redirect_back fallback_location: root_path
   end
 
   def destroy
@@ -18,7 +17,6 @@ class Public::LikesController < ApplicationController
     like.destroy
     # いいねのカウント
     @count_likes = @post.likes.count
-    # redirect_back fallback_location: root_path
   end
 
   private
