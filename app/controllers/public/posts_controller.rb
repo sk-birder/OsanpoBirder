@@ -58,7 +58,7 @@ class Public::PostsController < ApplicationController
       @report = current_user.reports.find_by(post_id: @post.id).detail
     end
     # コメント関連
-    @new_user_comment = PostComment.new
+    @post_comment = PostComment.new
     @comments = PostComment.where(post_id: params[:id])
   end
 

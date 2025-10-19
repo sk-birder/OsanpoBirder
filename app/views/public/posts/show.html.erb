@@ -79,37 +79,8 @@
     </p>
   <% end %>
 
-  <% if current_user.guest_user? == false %>
-    <h4>コメントフォーム</h4>
-    <%= form_with model: @new_user_comment, url: post_comments_path(@post), method: :post, local: true do |f| %>
-      <%= f.text_area :body, rows: 3, placeholder: "最大1000文字", rows: '3', class: "comment-form" %> <br />
-      <%= f.submit 'コメントする', class: "btn btn-success px-3 py-2" %>
-    <% end %>
-  <% end %>
-
-  <h4>コメント一覧</h4>
-  <% if @comments.count == 0 %>
-    <p>この投稿にはまだコメントがありません。</p>
-  <% else %>
-    <% @comments.each do |comment| %>
-      <div class="row mx-auto mb-3">
-        <div class="mx-3">
-          <%= link_to user_path(comment.user_id) do %>
-            <%= image_tag comment.user.get_profile_image(50, 50) %>
-          <% end %>
-        </div>
-        <div>
-          <%= comment.body %><br />
-          <%= comment.created_at.strftime('%Y/%m/%d') %><br />
-          <%= link_to user_path(comment.user_id) do %>
-            <%= comment.user.name %>
-          <% end %><br />
-          <% if comment.user_id == current_user.id %>
-            <%= link_to '削除する', post_comment_path(comment.post_id, comment.id), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger btn-sm" %>
-          <% end %>
-        </div>
-      </div>
-    <% end %>
-  <% end %>
+  <div id="comment_form">
+    <%= render 'public/post_comments/comment_form', post_comment: @post_comment, post: @post, comments: @comments %>
+  </div>
 
 <% end %>

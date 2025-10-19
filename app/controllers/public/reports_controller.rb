@@ -6,28 +6,25 @@ class Public::ReportsController < ApplicationController
     @post = Post.find(params[:post_id])
     report = current_user.reports.new(post_id: @post.id, detail: params[:detail])
     report.save
-    # redirect_to post_path(post)
-    count_and_detail
+    count_and_check_detail
   end
 
   def update
     @post = Post.find(params[:post_id])
     report = current_user.reports.find_by(post_id: @post.id)
     report.update(detail: params[:detail])
-    # redirect_to post_path(post)
-    count_and_detail
+    count_and_check_detail
   end
 
   def destroy
     @post = Post.find(params[:post_id])
     report = current_user.reports.find_by(post_id: @post.id)
     report.destroy
-    # redirect_to post_path(post)
-    count_and_detail
+    count_and_check_detail
   end
 
   private
-  def count_and_detail
+  def count_and_check_detail
     # 報告件数のカウント
     reports = @post.reports
     @count_report0 = reports.where(detail: 0).count

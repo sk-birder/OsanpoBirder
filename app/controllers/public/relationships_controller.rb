@@ -15,14 +15,14 @@ class Public::RelationshipsController < ApplicationController
         flash[:notice] = '既にフォロー中です。'
       end
     end
-    redirect_back fallback_location: root_path
+    @user = User.find(params[:user_id])
   end
 
   def destroy
     # current_user.followers.find_byで「follower_user_idカラムにcurrent_user.idが入ったデータ」にfind_byを実行する
     destroy_relationship = current_user.followers.find_by(followed_user_id: params[:user_id])
     destroy_relationship.destroy
-    redirect_back fallback_location: root_path
+    @user = User.find(params[:user_id])
   end
 
   private
