@@ -1,0 +1,2 @@
+$("#like_btn_<%= @post.id %>").html("<%= j(render '/public/likes/like_btn_at_posts_show', post: @post) %>");
+<%# j()はHTMLをJavaScript文字列として安全に埋め込むためのエスケープ処理に必要 %>

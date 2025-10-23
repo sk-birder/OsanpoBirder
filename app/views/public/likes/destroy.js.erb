@@ -1,1 +1,1 @@
-$("#like_btn").html("<%= j(render '/public/likes/like_btn', post: @post, count_likes: @count_likes) %>");
+$("#like_btn_<%= @post.id %>").html("<%= j(render '/public/likes/like_btn', post: @post) %>");

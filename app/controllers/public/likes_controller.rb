@@ -7,19 +7,34 @@ class Public::LikesController < ApplicationController
     @post = Post.find(params[:post_id])
     like = current_user.likes.new(post_id: @post.id)
     like.save
-    # いいねのカウント
-    @count_likes = @post.likes.count
+    respond_to do |format|
+      if from_posts_show?
+        format.js { render :create_at_posts_show }
+      else
+        format.js { render :create }
+      end
+    end
   end
 
   def destroy
     @post = Post.find(params[:post_id])
     like = current_user.likes.find_by(post_id: @post.id)
     like.destroy
-    # いいねのカウント
-    @count_likes = @post.likes.count
+    respond_to do |format|
+      if from_posts_show?
+        format.js { render :destroy_at_posts_show }
+      else
+        format.js { render :destroy }
+      end
+    end
   end
 
   private
+  def from_posts_show?
+    # posts#showでの操作時のみTrueを返す。URLがposts/idかposts/id?=queryの時のみTrueになる
+    request.referer&.match?(/\/posts\/\d+(\?.*)?$/)
+  end
+
   def ensure_guest_user
     if current_user.guest_user?
       redirect_to posts_path, notice: 'ゲストユーザーはいいね機能を使用できません。'

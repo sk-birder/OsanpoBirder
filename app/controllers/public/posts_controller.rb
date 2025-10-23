@@ -46,8 +46,6 @@ class Public::PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
     @categories = Category.all
-    # いいねのカウント
-    @count_likes = @post.likes.count
     # 報告件数のカウント
     reports = @post.reports
     @count_report0 = reports.where(detail: 0).count
