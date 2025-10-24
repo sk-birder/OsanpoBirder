@@ -8,7 +8,7 @@ class Public::LikesController < ApplicationController
     like = current_user.likes.new(post_id: @post.id)
     like.save
     respond_to do |format|
-      if from_posts_show?
+      if params[:from_page] == 'posts_show'
         format.js { render :create_at_posts_show }
       else
         format.js { render :create }
@@ -21,7 +21,7 @@ class Public::LikesController < ApplicationController
     like = current_user.likes.find_by(post_id: @post.id)
     like.destroy
     respond_to do |format|
-      if from_posts_show?
+      if params[:from_page] == 'posts_show'
         format.js { render :destroy_at_posts_show }
       else
         format.js { render :destroy }
@@ -32,6 +32,7 @@ class Public::LikesController < ApplicationController
   private
   def from_posts_show?
     # posts#showでの操作時のみTrueを返す。URLがposts/idかposts/id?=queryの時のみTrueになる
+    # 実装変更のため未使用
     request.referer&.match?(/\/posts\/\d+(\?.*)?$/)
   end
 

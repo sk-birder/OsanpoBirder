@@ -53,8 +53,7 @@
       <% end %>
     </p>
     <h4>いいね・報告</h4>
-    <p id="like_btn_<%= @post.id %>"> <%# Javascriptのセレクタ用にidを設定する。部分テンプレートにブロック要素を入れる場合はpではなくdivを使用すること %>
-                                      <%# idにpost.idを含めているのは_postsの部分テンプレートといいねボタンを共用するため %>
+    <p id="like_btn"> <%# Javascriptのセレクタ用にidを設定する。部分テンプレートにブロック要素を入れる場合はpではなくdivを使用すること %>
       <%= render '/public/likes/like_btn_at_posts_show', post: @post %>
     </p>
     <p id="report_btn">
