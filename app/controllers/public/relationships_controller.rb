@@ -16,6 +16,13 @@ class Public::RelationshipsController < ApplicationController
       end
     end
     @user = User.find(params[:user_id])
+    respond_to do |format|
+      if params[:from_page] == 'users_show'
+        format.js { render :create_at_users_show }
+      else
+        format.js { render :create }
+      end
+    end
   end
 
   def destroy
@@ -23,6 +30,13 @@ class Public::RelationshipsController < ApplicationController
     destroy_relationship = current_user.followers.find_by(followed_user_id: params[:user_id])
     destroy_relationship.destroy
     @user = User.find(params[:user_id])
+    respond_to do |format|
+      if params[:from_page] == 'users_show'
+        format.js { render :destroy_at_users_show }
+      else
+        format.js { render :destroy }
+      end
+    end
   end
 
   private

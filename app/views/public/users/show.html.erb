@@ -47,7 +47,7 @@
     <% end %>
   </p>
   <p id="relationship_btn">
-    <%= render '/public/relationships/relationship_btn', user: @user %>
+    <%= render '/public/relationships/relationship_btn_at_users_show', user: @user %>
   </p>
 
   <% if @user.id == current_user.id && @user.guest_user? == false %>
