@@ -45,15 +45,9 @@ class Public::PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
-    @categories = Category.all
-    # 報告件数のカウント
-    reports = @post.reports
-    @count_report0 = reports.where(detail: 0).count
-    @count_report1 = reports.where(detail: 1).count
-    @count_report2 = reports.where(detail: 2).count
     # ログイン中のユーザーの報告の有無と報告内容の確認
     if @post.reported_by?(current_user)
-      @report = current_user.reports.find_by(post_id: @post.id).detail
+      @current_user_report_detail = current_user.reports.find_by(post_id: @post.id).detail
     end
     # コメント関連
     @post_comment = PostComment.new

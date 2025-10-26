@@ -1,51 +1,51 @@
-<!-- 報告内容(detail)詳細 0: 見られました, 1: なくなりました, 2: 違反投稿 -->
-<% if current_user.guest_user? || post.user_id == current_user.id %>
-  <i class="fa-regular fa-square"></i> 見られました ( <%= count_report0 %> )
-  <i class="fa-regular fa-square"></i> なくなりました ( <%= count_report1 %> )
-  <i class="fa-regular fa-square"></i> 違反報告 ( <%= count_report2 %> )
+<%# 報告内容(detail)詳細 0: 見られました, 1: なくなりました, 2: 違反投稿 %>
+<% if current_user.guest_user? || post.user_id == current_user.id %> <%# ゲストモードまたは自分の投稿 %>
+  <i class="fa-regular fa-square"></i> 見られました ( <%= post.count_report(0) %> )
+  <i class="fa-regular fa-square"></i> なくなりました ( <%= post.count_report(1) %> )
+  <i class="fa-regular fa-square"></i> 違反報告 ( <%= post.count_report(2) %> )
 
-<% elsif report == nil %> <!-- 報告をしていない場合 -->
+<% elsif current_user_report_detail == nil %>  <%# 報告をしていない %>
   <%= link_to post_report_path(post, detail: 0), method: :post, remote: true do %>
-    <i class="fa-regular fa-square"></i> 見られました ( <%= count_report0 %> )
+    <i class="fa-regular fa-square"></i> 見られました ( <%= post.count_report(0) %> )
   <% end %>
   <%= link_to post_report_path(post, detail: 1), method: :post, remote: true do %>
-    <i class="fa-regular fa-square"></i> なくなりました ( <%= count_report1 %> )
+    <i class="fa-regular fa-square"></i> なくなりました ( <%= post.count_report(1) %> )
   <% end %>
   <%= link_to post_report_path(post, detail: 2), method: :post, remote: true, "data-confirm" => "営巣写真など違反投稿の報告ボタンです。本当に違反報告しますか？" do %>
-    <i class="fa-regular fa-square"></i> 違反報告 ( <%= count_report2 %> )
+    <i class="fa-regular fa-square"></i> 違反報告 ( <%= post.count_report(2) %> )
   <% end %>
 
-<% else %> <!-- いずれかの報告をしている場合 -->
-  <!-- 見られました -->
-  <% if report == 0 %> <!-- 見られました報告済み -->
+<% else %> <%# いずれかの報告をしている %>
+  <%# 見られました %>
+  <% if current_user_report_detail == 0 %> <%# 見られました報告済み %>
     <%= link_to post_report_path(post), method: :delete, remote: true do %>
-      <i class="fa-regular fa-square-check"></i> 見られました ( <%= count_report0 %> )
+      <i class="fa-regular fa-square-check"></i> 見られました ( <%= post.count_report(0) %> )
     <% end %>
-  <% else %> <!-- 他の報告済み -->
+  <% else %>
     <%= link_to post_report_path(post, detail: 0), method: :patch, remote: true do %>
-      <i class="fa-regular fa-square"></i> 見られました ( <%= count_report0 %> )
+      <i class="fa-regular fa-square"></i> 見られました ( <%= post.count_report(0) %> )
     <% end %>
   <% end %>
 
-  <!-- なくなりました -->
-  <% if report == 1 %> <!-- なくなりました報告済み -->
+  <%# なくなりました %>
+  <% if current_user_report_detail == 1 %> <%# なくなりました報告済み %>
     <%= link_to post_report_path(post), method: :delete, remote: true do %>
-      <i class="fa-regular fa-square-check"></i> なくなりました ( <%= count_report1 %> )
+      <i class="fa-regular fa-square-check"></i> なくなりました ( <%= post.count_report(1) %> )
     <% end %>
-  <% else %> <!-- 他の報告済み -->
+  <% else %>
     <%= link_to post_report_path(post, detail: 1), method: :patch, remote: true do %>
-      <i class="fa-regular fa-square"></i> なくなりました ( <%= count_report1 %> )
+      <i class="fa-regular fa-square"></i> なくなりました ( <%= post.count_report(1) %> )
     <% end %>
   <% end %>
 
-  <!-- 違反報告 -->
-  <% if report == 2 %> <!-- 違反報告済み -->
+  <%# 違反報告 %>
+  <% if current_user_report_detail == 2 %> <%# 違反報告済み %>
     <%= link_to post_report_path(post), method: :delete, remote: true do %>
-      <i class="fa-regular fa-square-check"></i> 違反報告 ( <%= count_report2 %> )
+      <i class="fa-regular fa-square-check"></i> 違反報告 ( <%= post.count_report(2) %> )
     <% end %>
   <% else %>
     <%= link_to post_report_path(post, detail: 2), method: :patch, remote: true, "data-confirm" => "営巣写真など違反投稿の報告ボタンです。本当に違反報告しますか？" do %>
-      <i class="fa-regular fa-square"></i> 違反報告 ( <%= count_report2 %> )
+      <i class="fa-regular fa-square"></i> 違反報告 ( <%= post.count_report(2) %> )
     <% end %>
   <% end %>
 

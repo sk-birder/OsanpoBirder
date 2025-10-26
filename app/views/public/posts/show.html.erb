@@ -31,7 +31,7 @@
     </p>
     <h4>カテゴリ</h4>
     <p>
-      <%= @categories.find(@post.category_id).name %>
+      <%= Category.find(@post.category_id).name %>
     </p>
     <h4>都道府県</h4>
     <p>
@@ -57,7 +57,7 @@
       <%= render '/public/likes/like_btn_at_posts_show', post: @post %>
     </p>
     <p id="report_btn">
-      <%= render '/public/reports/report_btn', post: @post, count_report0: @count_report0, count_report1: @count_report1, count_report2: @count_report2, report: @report %>
+      <%= render '/public/reports/report_btn', post: @post, current_user_report_detail: @current_user_report_detail %>
     </p>
   </div>
 
