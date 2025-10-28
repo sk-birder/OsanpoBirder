@@ -15,7 +15,7 @@ class Public::RelationshipsController < ApplicationController
         flash[:notice] = '既にフォロー中です。'
       end
     end
-    @user = User.find(params[:user_id])
+    @user = User.find(params[:user_id]) # インスタンス変数で宣言するのはjQueryでの部分テンプレート呼出時に必要なため
     respond_to do |format|
       if params[:from_page] == 'users_show'
         format.js { render :create_at_users_show }
@@ -29,7 +29,7 @@ class Public::RelationshipsController < ApplicationController
     # current_user.followers.find_byで「follower_user_idカラムにcurrent_user.idが入ったデータ」にfind_byを実行する
     destroy_relationship = current_user.followers.find_by(followed_user_id: params[:user_id])
     destroy_relationship.destroy
-    @user = User.find(params[:user_id])
+    @user = User.find(params[:user_id]) # インスタンス変数で宣言するのはjQueryでの部分テンプレート呼出時に必要なため
     respond_to do |format|
       if params[:from_page] == 'users_show'
         format.js { render :destroy_at_users_show }
