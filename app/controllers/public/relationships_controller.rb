@@ -15,14 +15,28 @@ class Public::RelationshipsController < ApplicationController
         flash[:notice] = '既にフォロー中です。'
       end
     end
-    redirect_back fallback_location: root_path
+    @user = User.find(params[:user_id]) # インスタンス変数で宣言するのはjQueryでの部分テンプレート呼出時に必要なため
+    respond_to do |format|
+      if params[:from_page] == 'users_show'
+        format.js { render :create_at_users_show }
+      else
+        format.js { render :create }
+      end
+    end
   end
 
   def destroy
     # current_user.followers.find_byで「follower_user_idカラムにcurrent_user.idが入ったデータ」にfind_byを実行する
     destroy_relationship = current_user.followers.find_by(followed_user_id: params[:user_id])
     destroy_relationship.destroy
-    redirect_back fallback_location: root_path
+    @user = User.find(params[:user_id]) # インスタンス変数で宣言するのはjQueryでの部分テンプレート呼出時に必要なため
+    respond_to do |format|
+      if params[:from_page] == 'users_show'
+        format.js { render :destroy_at_users_show }
+      else
+        format.js { render :destroy }
+      end
+    end
   end
 
   private

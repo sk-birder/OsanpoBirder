@@ -1,8 +1,8 @@
 <h2>投稿詳細</h2>
 
-<% if @show_post.is_public == false && @show_post.user_id != current_user.id %>
+<% if @post.is_public == false && @post.user_id != current_user.id %>
   <p>この投稿は非公開です。</p>
-<% elsif @show_post.is_forbidden && @show_post.user_id != current_user.id %>
+<% elsif @post.is_forbidden && @post.user_id != current_user.id %>
   <p>この投稿は非公開です。</p>
 <% else %>
   <h4>スポット</h4>
@@ -10,15 +10,15 @@
 
   <div>
     <!-- JSに座標を渡すための記述 valueの設定は%=でないと機能しない -->
-    <input type="hidden" id="lat" value="<%= @show_post.latitude %>">
-    <input type="hidden" id="lng" value="<%= @show_post.longitude %>">
+    <input type="hidden" id="lat" value="<%= @post.latitude %>">
+    <input type="hidden" id="lng" value="<%= @post.longitude %>">
     <!-- JS呼び出し 座標を渡すためここに記述 -->
     <%= javascript_pack_tag 'map_posts_show', 'data-turbolinks-track': 'reload' %>
 
     <h4>写真</h4>
     <p>
-      <% if @show_post.post_images.attached? %>
-        <% @show_post.post_images.each do |post_image| %>
+      <% if @post.post_images.attached? %>
+        <% @post.post_images.each do |post_image| %>
           <%= image_tag post_image.variant(resize_to_limit: [1000, 1000]).processed, class: "post-image" %>
         <% end %>
       <% else %>
@@ -27,107 +27,47 @@
     </p>
     <h4>タイトル</h4>
     <p>
-      <%= @show_post.title %>
+      <%= @post.title %>
     </p>
     <h4>カテゴリ</h4>
     <p>
-      <%= @categories.find(@show_post.category_id).name %>
+      <%= Category.find(@post.category_id).name %>
     </p>
     <h4>都道府県</h4>
     <p>
-      <%= @show_post.prefecture %>
+      <%= @post.prefecture %>
     </p>
     <h4>月</h4>
     <p>
-      <%= @show_post.month %>
+      <%= @post.month %>
     </p>
     <h4>本文</h4>
     <p>
-      <%= @show_post.body %>
+      <%= @post.body %>
     </p>
     <h4>投稿ユーザー</h4>
     <p>
-      <%= link_to user_path(@show_post.user_id) do %>
-        <%= image_tag @show_post.user.get_profile_image(150, 150) %><br />
-        <%= @show_post.user.name %>
+      <%= link_to user_path(@post.user_id) do %>
+        <%= image_tag @post.user.get_profile_image(150, 150) %><br />
+        <%= @post.user.name %>
       <% end %>
     </p>
     <h4>いいね・報告</h4>
-    <p>
-      <% if current_user.guest_user? %>
-        <i class="fa-regular fa-heart"></i> いいね ( <%= @count_likes %> )
-      <% elsif @show_post.liked_by?(current_user) %>
-        <%= link_to post_like_path(@show_post), method: :delete do %>
-          <i class="fa-solid fa-heart"></i> いいね ( <%= @count_likes %> )
-        <% end %>
-      <% else %>
-        <%= link_to post_like_path(@show_post), method: :post do %>
-          <i class="fa-regular fa-heart"></i> いいね ( <%= @count_likes %> )
-        <% end %>
-      <% end %>
+    <p id="like_btn"> <%# Javascriptのセレクタ用にidを設定する。部分テンプレートにブロック要素を入れる場合はpではなくdivを使用すること %>
+      <%= render '/public/likes/like_btn_at_posts_show', post: @post %>
     </p>
-    <p>
-      <!-- 報告内容(detail)詳細 0: 見られました, 1: なくなりました, 2: 違反投稿 -->
-      <% if current_user.guest_user? || @show_post.user_id == current_user.id %>
-        <i class="fa-regular fa-square"></i> 見られました ( <%= @count_report0 %> )
-        <i class="fa-regular fa-square"></i> なくなりました ( <%= @count_report1 %> )
-        <i class="fa-regular fa-square"></i> 違反報告 ( <%= @count_report2 %> )
-      <% elsif @report == nil %> <!-- 報告をしていない場合 -->
-        <%= link_to post_report_path(@show_post, detail: 0), method: :post do %>
-          <i class="fa-regular fa-square"></i> 見られました ( <%= @count_report0 %> )
-        <% end %>
-        <%= link_to post_report_path(@show_post, detail: 1), method: :post do %>
-          <i class="fa-regular fa-square"></i> なくなりました ( <%= @count_report1 %> )
-        <% end %>
-        <%= link_to post_report_path(@show_post, detail: 2), method: :post, "data-confirm" => "営巣写真など違反投稿の報告ボタンです。本当に違反報告しますか？" do %>
-          <i class="fa-regular fa-square"></i> 違反報告 ( <%= @count_report2 %> )
-        <% end %>
-
-      <% else %> <!-- いずれかの報告をしている場合 -->
-        <!-- 見られました -->
-        <% if @report == 0 %> <!-- 見られました報告済み -->
-          <%= link_to post_report_path(@show_post), method: :delete do %>
-            <i class="fa-regular fa-square-check"></i> 見られました ( <%= @count_report0 %> )
-          <% end %>
-        <% else %> <!-- 他の報告済み -->
-          <%= link_to post_report_path(@show_post, detail: 0), method: :patch do %>
-            <i class="fa-regular fa-square"></i> 見られました ( <%= @count_report0 %> )
-          <% end %>
-        <% end %>
-
-        <!-- なくなりました -->
-        <% if @report == 1 %> <!-- なくなりました報告済み -->
-          <%= link_to post_report_path(@show_post), method: :delete do %>
-            <i class="fa-regular fa-square-check"></i> なくなりました ( <%= @count_report1 %> )
-          <% end %>
-        <% else %> <!-- 他の報告済み -->
-          <%= link_to post_report_path(@show_post, detail: 1), method: :patch do %>
-            <i class="fa-regular fa-square"></i> なくなりました ( <%= @count_report1 %> )
-          <% end %>
-        <% end %>
-
-        <!-- 違反報告 -->
-        <% if @report == 2 %> <!-- 違反報告済み -->
-          <%= link_to post_report_path(@show_post), method: :delete do %>
-            <i class="fa-regular fa-square-check"></i> 違反報告 ( <%= @count_report2 %> )
-          <% end %>
-        <% else %>
-          <%= link_to post_report_path(@show_post, detail: 2), method: :patch, "data-confirm" => "営巣写真など違反投稿の報告ボタンです。本当に違反報告しますか？" do %>
-            <i class="fa-regular fa-square"></i> 違反報告 ( <%= @count_report2 %> )
-          <% end %>
-        <% end %>
-
-        <% end %>
+    <p id="report_btn">
+      <%= render '/public/reports/report_btn', post: @post, current_user_report_detail: @current_user_report_detail %>
     </p>
   </div>
 
   <!-- 投稿ユーザ本人のみ表示 公開状態・編集・削除 -->
-  <% if @show_post.user_id == current_user.id %>
+  <% if @post.user_id == current_user.id %>
     <h4>公開ステータス</h4>
     <p>
-      <% if @show_post.is_forbidden %>
+      <% if @post.is_forbidden %>
         <span style="color: red">管理者による非公開</span>
-      <% elsif @show_post.is_public == false %>
+      <% elsif @post.is_public == false %>
         非公開
       <% else %>
         公開
@@ -139,37 +79,8 @@
     </p>
   <% end %>
 
-  <% if current_user.guest_user? == false %>
-    <h4>コメントフォーム</h4>
-    <%= form_with model: @new_user_comment, url: post_comments_path(@show_post), method: :post, local: true do |f| %>
-      <%= f.text_area :body, rows: 3, placeholder: "最大1000文字", rows: '3', class: "comment-form" %> <br />
-      <%= f.submit 'コメントする', class: "btn btn-success px-3 py-2" %>
-    <% end %>
-  <% end %>
-
-  <h4>コメント一覧</h4>
-  <% if @comments.count == 0 %>
-    <p>この投稿にはまだコメントがありません。</p>
-  <% else %>
-    <% @comments.each do |comment| %>
-      <div class="row mx-auto mb-3">
-        <div class="mx-3">
-          <%= link_to user_path(comment.user_id) do %>
-            <%= image_tag comment.user.get_profile_image(50, 50) %>
-          <% end %>
-        </div>
-        <div>
-          <%= comment.body %><br />
-          <%= comment.created_at.strftime('%Y/%m/%d') %><br />
-          <%= link_to user_path(comment.user_id) do %>
-            <%= comment.user.name %>
-          <% end %><br />
-          <% if comment.user_id == current_user.id %>
-            <%= link_to '削除する', post_comment_path(comment.post_id, comment.id), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger btn-sm" %>
-          <% end %>
-        </div>
-      </div>
-    <% end %>
-  <% end %>
+  <div id="comment_form">
+    <%= render 'public/post_comments/comment_form', post_comment: @post_comment, post: @post, comments: @comments %>
+  </div>
 
 <% end %>

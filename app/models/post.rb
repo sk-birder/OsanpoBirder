@@ -59,6 +59,11 @@ class Post < ApplicationRecord
     likes.exists?(user_id: user.id)
   end
 
+  # 報告件数のカウント用メソッド
+  def count_report(detail)
+    reports.where(detail: detail).count
+  end
+
   # posts/showでの報告判定メソッド
   def reported_by?(user)
     reports.exists?(user_id: user.id)
