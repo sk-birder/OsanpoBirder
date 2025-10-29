@@ -4,7 +4,7 @@
   <i class="fa-regular fa-square"></i> なくなりました ( <%= post.count_report(1) %> )
   <i class="fa-regular fa-square"></i> 違反報告 ( <%= post.count_report(2) %> )
 
-<% elsif current_user_report_detail == nil %>  <%# 報告をしていない %>
+<% elsif current_user_report_detail.blank? %>  <%# 報告をしていない %>
   <%= link_to post_report_path(post, detail: 0), method: :post, remote: true do %>
     <i class="fa-regular fa-square"></i> 見られました ( <%= post.count_report(0) %> )
   <% end %>

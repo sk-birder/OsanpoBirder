@@ -7,11 +7,12 @@ class Post < ApplicationRecord
   belongs_to :user
   belongs_to :category
 
+  # 地点選択を必須にするカスタムバリデーション
+  validate :location_presence
+
   # 必須のバリデーション
-  validates :latitude,  presence: true
-  validates :longitude, presence: true
-  validates :title,     presence: true, length: {maximum:100}
-  validates :body,      presence: true, length: {maximum:1000}
+  validates :title, presence: true, length: {maximum:100}
+  validates :body,  presence: true, length: {maximum:1000}
 
   # 無くとも良いかもしれないバリデーション
   validates :category_id, presence: true
@@ -33,6 +34,14 @@ class Post < ApplicationRecord
     １月: 1, ２月: 2, ３月: 3, ４月: 4, ５月: 5, ６月: 6,
     ７月: 7, ８月: 8, ９月: 9, １０月: 10, １１月: 11, １２月: 12
   }
+
+  # 地点選択を必須にするカスタムメソッド（バリデーションエラーメッセージを1文にするために必要）
+  def location_presence
+    if latitude.blank? || longitude.blank?
+      # :baseを指定することで全体のエラーメッセージ（特定のカラムに対するものではない）とする。カスタムコンテキストを同時に設定
+      errors.add(:base, '地点を選択してください')
+    end
+  end
 
   # 投稿画像の1枚目のみを表示するメソッド(posts#indexなどで使用)
   def show_first_post_image(width, height)
