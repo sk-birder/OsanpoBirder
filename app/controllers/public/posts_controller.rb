@@ -2,6 +2,7 @@ class Public::PostsController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_guest_user, only: [:new]
   before_action :deny_deactivated_user
+  before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   def new
     @post = Post.new
@@ -44,7 +45,6 @@ class Public::PostsController < ApplicationController
   end
 
   def show
-    @post = Post.find(params[:id])
     # ログイン中のユーザーの報告の有無と報告内容の確認
     if @post.reported_by?(current_user)
       @current_user_report_detail = current_user.reports.find_by(post_id: @post.id).detail
@@ -86,10 +86,18 @@ class Public::PostsController < ApplicationController
     end
   end
 
+  def set_post
+    @post = Post.find_by(id: params[:id]) # findではエラーになるが、find_byを使うと投稿が存在しない時にnilが戻り値になる
+    if @post.blank?
+      flash[:alert] = '指定された投稿は存在しないか、削除されています。'
+      redirect_to timeline_path
+    end
+  end
+
   def is_matching_login_user
-    @post = Post.find(params[:id])
+    # @postはset_postで定義済み
     if @post.user_id != current_user.id
-      redirect_to posts_path
+      redirect_to timeline_path
     end
   end
 end

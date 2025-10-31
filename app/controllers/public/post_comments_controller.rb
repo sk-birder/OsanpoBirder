@@ -1,9 +1,9 @@
 class Public::PostCommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :deny_deactivated_user
+  before_action :set_post
   
   def create
-    @post = Post.find(params[:post_id])
     @post_comment = PostComment.new(post_comment_params)
     @post_comment.post_id = @post.id
     @post_comment.user_id = current_user.id
@@ -28,7 +28,6 @@ class Public::PostCommentsController < ApplicationController
       flash[:notice_of_comment] = 'コメントを削除しました。'
     end
     # 再表示に必要なインスタンス変数の宣言
-    @post = Post.find(params[:post_id])
     @post_comment = PostComment.new
     @comments = PostComment.where(post_id: params[:post_id])
   end
@@ -36,5 +35,13 @@ class Public::PostCommentsController < ApplicationController
   private
   def post_comment_params
     params.require(:post_comment).permit(:body)
+  end
+
+  def set_post
+    @post = Post.find_by(id: params[:post_id]) # インスタンス変数で宣言するのはjQueryでの部分テンプレート呼出時に必要なため
+    if @post.blank?
+      flash[:alert] = 'コメント対象の投稿が削除されています。'
+      redirect_to timeline_path
+    end
   end
 end
