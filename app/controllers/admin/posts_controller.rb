@@ -3,7 +3,7 @@ class Admin::PostsController < ApplicationController
   before_action :deny_deactivated_admin
 
   def index
-    @posts = Post.all
+    @posts = Post.recent
   end
 
   def show

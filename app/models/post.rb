@@ -35,12 +35,21 @@ class Post < ApplicationRecord
     ７月: 7, ８月: 8, ９月: 9, １０月: 10, １１月: 11, １２月: 12
   }
 
+  # 新着順で並び替えるクラスメソッドの定義
+  scope :recent, -> { order(created_at: :desc) }
+
   # 地点選択を必須にするカスタムメソッド（バリデーションエラーメッセージを1文にするために必要）
   def location_presence
     if latitude.blank? || longitude.blank?
       # :baseを指定することで全体のエラーメッセージ（特定のカラムに対するものではない）とする。カスタムコンテキストを同時に設定
       errors.add(:base, '地点を選択してください')
     end
+  end
+
+  # 投稿後の更新の有無を確認するメソッド
+  def updated_after_creation?
+    # ぼっち演算子でnilのときのエラーを回避
+    updated_at&.>created_at
   end
 
   # 投稿画像の1枚目のみを表示するメソッド(posts#indexなどで使用)

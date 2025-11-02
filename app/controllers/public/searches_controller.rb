@@ -9,7 +9,7 @@ class Public::SearchesController < ApplicationController
     if @model == 'user'
       @records = User.search_for(@text, @method)
     else
-      @records = Post.search_for(@text, @method)
+      @records = Post.search_for(@text, @method).recent
     end
   end
 end

@@ -29,7 +29,7 @@ class Public::PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.where(is_public: true, is_forbidden: false)
+    @posts = Post.where(is_public: true, is_forbidden: false).recent
     @categories = Category.all
   end
 
@@ -41,7 +41,7 @@ class Public::PostsController < ApplicationController
     followed_users_ids = current_user.followers.pluck(:followed_user_id)
     # 公開投稿全てからフォローしているユーザーの投稿を取得
     public_posts = Post.where(is_public: true, is_forbidden: false)
-    @posts = public_posts.where(user_id: followed_users_ids).or(public_posts.where(user_id: current_user.id))
+    @posts = public_posts.where(user_id: followed_users_ids).or(public_posts.where(user_id: current_user.id)).recent
   end
 
   def show

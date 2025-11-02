@@ -10,7 +10,7 @@
     <th>違反報告</th>
     <th>管理</th>
     <th>ユーザー</th>
-    <th>更新日</th>
+    <th>投稿日</th>
   </thead>
   <% posts.each do |post| %>
     <tr>
@@ -46,7 +46,7 @@
           <%= post.user.name %>
         <% end %>
       </td>
-      <td><%= post.updated_at.strftime('%Y/%m/%d') %></td>
+      <td><%= post.created_at.strftime('%Y/%m/%d') %></td>
     </tr>
   <% end %>
 </table>
