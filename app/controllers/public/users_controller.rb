@@ -70,6 +70,15 @@ class Public::UsersController < ApplicationController
     else
       user = User.find(current_user.id)
       user.update(is_active: false)
+      # フォロー・いいね・報告の削除(強制)
+      Relationship.where(followed_user_id: user.id).or(Relationship.where(follower_user_id: user.id)).destroy_all
+      user.likes.destroy_all
+      user.reports.destroy_all
+      # 投稿・コメントの削除(任意)
+      if params[:delete_posts].to_i == 1
+        user.posts.destroy_all
+        user.post_comments.destroy_all
+      end
       sign_out(current_user)
       redirect_to root_path, notice: '退会処理が完了しました。'
     end
