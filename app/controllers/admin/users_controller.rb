@@ -41,26 +41,27 @@ class Admin::UsersController < ApplicationController
     # @commented_posts = Post.where(id: commented_post_ids)
   end
 
-  # 退会の代行・取消
-  def toggle_activity
+  # 退会の取り消し
+  def activate
     user = User.find(params[:id])
-    user.toggle(:is_active).save
-    if user.is_active
-      flash[:notice] = '退会を取り消しました。'
-    else
-      flash[:notice] = '退会させました。'
-    end
-    redirect_to admin_user_path(params[:id])
+    user.update(is_active: true)
+    redirect_to admin_user_path(user), notice: '退会を取り消しました。'
+  end
+
+  # 退会の代行
+  def deactivate
+    user = User.find(params[:id])
+    user.update(is_active: false)
+    destroy_all_likes_reports_relationships(user)
+    redirect_to admin_user_path(user), notice: '退会させました。'
   end
 
   # 除名
   def banish
     user = User.find(params[:id])
-    # ステータスの変更
-    user.update(is_active: false)
-    user.update(is_forbidden: true)
-    # 全投稿・コメントの削除
-    delete_all_posts_and_comments
+    user.update(is_active: false, is_forbidden: true)
+    destroy_all_likes_reports_relationships(user)
+    destroy_all_posts_and_comments(user)
     redirect_to admin_user_path(params[:id]), notice: '除名しました。'
   end
 
@@ -75,23 +76,21 @@ class Admin::UsersController < ApplicationController
 
   # 除名を伴わない全投稿・コメントの削除
   def only_delete_posts_and_comments
-    delete_all_posts_and_comments
+    user = User.find(params[:id])
+    destroy_all_posts_and_comments(user)
     redirect_to admin_user_path(params[:id]), notice: '全投稿・コメントを削除しました。'
   end
 
   private
-  def delete_all_posts_and_comments
-    Post.where(user_id: params[:id]).destroy_all
-    PostComment.where(user_id: params[:id]).destroy_all
+  def destroy_all_likes_reports_relationships(user)
+    Relationship.where(followed_user_id: user.id).or(Relationship.where(follower_user_id: user.id)).destroy_all
+    user.likes.destroy_all
+    user.reports.destroy_all
   end
 
-  # テスト用
-  # def activate_all
-  #   users = User.all
-  #   users.each do |user|
-  #     user.update(is_active: true)
-  #     user.update(is_forbidden: false)
-  #   end
-  #   redirect_to admin_users_path
-  # end
+  def destroy_all_posts_and_comments(user)
+    user.posts.destroy_all
+    user.post_comments.destroy_all
+  end
+
 end
