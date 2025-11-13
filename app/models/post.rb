@@ -78,8 +78,8 @@ class Post < ApplicationRecord
   end
 
   # 報告件数のカウント用メソッド
-  def count_report(detail)
-    reports.where(detail: detail).count
+  def count_report
+    reports.group(:detail).count
   end
 
   # posts/showでの報告判定メソッド
