@@ -35,15 +35,25 @@ class Public::UsersController < ApplicationController
   def following
     @user = User.find(params[:id])
     # @user.followersで「follower_user_idカラムにparams[:id]が入ったデータ」を取得し、followed_user_idを配列に格納
-    following_ids = @user.followers.pluck(:followed_user_id)
-    @following = User.where(id: following_ids)
+    following_ids = @user.followers.pluck(:followed_user_id).reverse # 新規フォローを上に表示するためのreverse
+    # 以下2行の方が高速だが、理解が進んでから実装する
+    # order_map = following_ids.each_with_index.to_h
+    # @following = User.where(id: following_ids).sort_by{ |following| order_map[following.id] }
+    @following = User.where(id: following_ids).sort_by do |following|
+      following_ids.index(following.id)
+    end
   end
 
   def followers
     @user = User.find(params[:id])
     # @user.followedsで「followed_user_idカラムにparams[:id]が入ったデータ」を取得し、follower_user_idを配列に格納
-    follower_ids = @user.followeds.pluck(:follower_user_id)
-    @followers = User.where(id: follower_ids)
+    follower_ids = @user.followeds.pluck(:follower_user_id).reverse # 新規フォローを上に表示するためのreverse
+    # 以下2行の方が高速だが、理解が進んでから実装する
+    # order_map = follower_ids.each_with_index.to_h
+    # @followers = User.where(id: follower_ids).sort_by{ |follower| order_map[follower.id] }
+    @followers = User.where(id: follower_ids).sort_by do |follower|
+      follower_ids.index(follower.id)
+    end
   end
 
   def likes
