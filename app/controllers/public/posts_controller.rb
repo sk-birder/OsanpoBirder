@@ -35,13 +35,12 @@ class Public::PostsController < ApplicationController
 
   def timeline
     if current_user.guest_user?
-      redirect_to posts_path
+      redirect_to posts_path and return
     end
-    # フォローしているユーザー全てのIDを配列に格納
     followed_users_ids = current_user.followers.pluck(:followed_user_id)
-    # 公開投稿全てからフォローしているユーザーの投稿を取得
-    public_posts = Post.where(is_public: true, is_forbidden: false)
-    @posts = public_posts.where(user_id: followed_users_ids).or(public_posts.where(user_id: current_user.id)).recent
+    @posts = Post.where(user_id: [current_user.id] + followed_users_ids)
+                 .where(is_public: true, is_forbidden: false)
+                 .recent
   end
 
   def show
