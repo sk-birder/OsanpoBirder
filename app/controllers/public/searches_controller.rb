@@ -9,7 +9,7 @@ class Public::SearchesController < ApplicationController
     if @model == 'user'
       @records = User.search_for(@text, @method)
     else
-      @records = Post.search_for(@text, @method).recent
+      @records = Post.search_for(@text, @method).recent.page(params[:page])
     end
   end
 end

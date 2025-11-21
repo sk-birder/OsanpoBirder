@@ -29,7 +29,7 @@ class Public::PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.where(is_public: true, is_forbidden: false).recent
+    @posts = Post.where(is_public: true, is_forbidden: false).recent.page(params[:page])
     @categories = Category.all
   end
 
@@ -41,6 +41,7 @@ class Public::PostsController < ApplicationController
     @posts = Post.where(user_id: [current_user.id] + followed_users_ids)
                  .where(is_public: true, is_forbidden: false)
                  .recent
+                 .page(params[:page])
   end
 
   def show
