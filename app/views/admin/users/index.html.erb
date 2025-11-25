@@ -47,7 +47,7 @@
           <%= user.introduction %>
         </td>
         <td>
-          <% if user.is_forbidden == true %>
+          <% if user.is_forbidden %>
             除名済み
           <% elsif user.is_active == false %>
             退会済

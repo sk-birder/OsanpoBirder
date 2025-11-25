@@ -34,7 +34,7 @@
       <td><i class="fa-solid fa-ban"></i> <%= post.reports.count %></td>
       <td>
         <%= link_to '削除', admin_post_path(post.id), method: :delete, "data-confirm" => "管理者非公開で改善を促すことも出来ます。本当に削除しますか？" %><br />
-        <% if post.is_forbidden == true %>
+        <% if post.is_forbidden %>
           <%= link_to '非公開を解除', admin_post_toggle_publicity_path(post), method: :patch, "data-confirm" => "管理者非公開を解除しますか？" %>
         <% else %>
           <%= link_to '非公開にする', admin_post_toggle_publicity_path(post), method: :patch, "data-confirm" => "迷惑投稿や違反投稿用の機能です。本当に非公開にしますか？"  %>

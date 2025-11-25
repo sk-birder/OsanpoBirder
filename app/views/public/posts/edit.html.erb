@@ -55,7 +55,7 @@
 
   <h4>公開・非公開</h4>
   <p>
-    <% if @post.is_forbidden == true %>
+    <% if @post.is_forbidden %>
       <p style="color: red">管理者による非公開状態のため、公開を選択しても公開されません。</p>
     <% end %>
     <%= f.radio_button(:is_public, true, checked: true) %>
