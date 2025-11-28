@@ -1,4 +1,4 @@
-<% if current_user.guest_user? == false %>
+<% if !current_user.guest_user? %>
   <h4>コメントフォーム</h4>
   <%= form_with model: @post_comment, url: post_comments_path(@post), method: :post, local: false do |f| %>
     <%= f.text_area :body, rows: 3, placeholder: "最大1000文字", rows: '3', class: "comment-form" %> <br />

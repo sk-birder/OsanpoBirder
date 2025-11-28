@@ -8,27 +8,27 @@
 
   <h4>ユーザーネーム</h4>
   <p><%= @user.name %></p>
-  <p style="color: red">
-    <% if @user.is_active == false %>
+  <p class="text-danger">
+    <% if !@user.is_active %>
       退会済みユーザー
     <% end %>
   </p>
 
   <h4>都道府県</h4>
   <p>
-    <% if @user.hide_prefecture == false %>
-      <%= @user.prefecture %>
-    <% else %>
+    <% if @user.hide_prefecture %>
       非公開
+    <% else %>
+      <%= @user.prefecture %>
     <% end %>
   </p>
 
   <h4>誕生年</h4>
   <p>
-    <% if @user.hide_birth_year == false %>
-      <%= @user.birth_year %>
-    <% else %>
+    <% if @user.hide_birth_year %>
       非公開
+    <% else %>
+      <%= @user.birth_year %>年
     <% end %>
   </p>
 
@@ -50,8 +50,8 @@
     <%= render '/public/relationships/relationship_btn_at_users_show', user: @user %>
   </p>
 
-  <% if @user.id == current_user.id && @user.guest_user? == false %>
-    <%= link_to 'プロフィール編集', edit_user_path(@user.id) %>
+  <% if @user.id == current_user.id && !@user.guest_user? %>
+    <%= link_to 'プロフィール編集', edit_user_path(@user.id), class: "btn btn-success btn-sm mb-3" %>
   <% end %>
 
   <h4><%= @user.name %>の公開投稿</h4>

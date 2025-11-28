@@ -14,7 +14,7 @@
                 <%= user.name %>
               <% end %>
             </h4>
-            <% if current_user.guest_user? == false && user != current_user %>
+            <% if !current_user.guest_user? && user != current_user %>
               <span id="relationship_btn_<%= user.id %>" class="ml-auto">
                 <%= render '/public/relationships/relationship_btn', user: user %>
               </span>

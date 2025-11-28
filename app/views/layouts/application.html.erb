@@ -69,7 +69,7 @@
             </button>
             <div class="collapse navbar-collapse row" id="endUserMenu">
               <ul class="mx-auto d-block d-md-none" style="list-style: none">
-                <% if current_user.guest_user? == false %>
+                <% if !current_user.guest_user? %>
                   <li class="mb-2">
                     <%= link_to timeline_path do %>
                       <i class="fa-solid fa-timeline mr-2"></i>タイムライン
@@ -189,7 +189,7 @@
               <% else %>
                 <ul class="navbar-nav">
                   <% if user_signed_in? %>
-                    <% if current_user.guest_user? == false %>
+                    <% if !current_user.guest_user? %>
                       <li class="nav-link active">
                         <%= link_to timeline_path, class:"d-flex align-items-center" do %>
                           <i class="fa-solid fa-timeline mr-2"></i>タイムライン

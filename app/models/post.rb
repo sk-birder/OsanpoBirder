@@ -46,6 +46,13 @@ class Post < ApplicationRecord
     end
   end
 
+  # posts#showでの非公開判定メソッド
+  def visible_to?(user)
+    return true if user.id == self.user_id
+    return false if !is_public || is_forbidden
+    true
+  end
+
   # 投稿後の更新の有無を確認するメソッド
   def updated_after_creation?
     # ぼっち演算子でnilのときのエラーを回避

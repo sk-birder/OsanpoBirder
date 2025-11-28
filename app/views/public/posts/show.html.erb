@@ -1,10 +1,6 @@
 <h2>投稿詳細</h2>
 
-<% if @post.is_public == false && @post.user_id != current_user.id %>
-  <p>この投稿は非公開です。</p>
-<% elsif @post.is_forbidden && @post.user_id != current_user.id %>
-  <p>この投稿は非公開です。</p>
-<% else %>
+<% if @post.visible_to?(current_user) %>
   <h4>スポット</h4>
   <div id="map" class="w-100 mb-2" style="height: calc(50vh);"></div>
 
@@ -75,10 +71,10 @@
     <p>
       <% if @post.is_forbidden %>
         <span style="color: red">管理者による非公開</span>
-      <% elsif @post.is_public == false %>
-        非公開
-      <% else %>
+      <% elsif @post.is_public %>
         公開
+      <% else %>
+        非公開
       <% end %>
     </p>
     <p>
@@ -91,4 +87,6 @@
     <%= render 'public/post_comments/comment_form', post_comment: @post_comment, post: @post, comments: @comments %>
   </div>
 
+<% else %>
+  <p>この投稿は非公開です。</p>
 <% end %>
