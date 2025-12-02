@@ -7,6 +7,14 @@
   font-style: normal;
 }
 
+header {
+  background-color: springgreen;
+}
+
+.header-menu{
+  list-style: none;
+}
+
 main {
   background-image: url("../images/wallpaper.jpg");
 }
@@ -36,6 +44,11 @@ main {
 #map {
   width: 100%;
   height: calc(100vh - 88px - 179px);
+}
+
+footer {
+  color: white;
+  background-color: darkolivegreen;
 }
 
 /*

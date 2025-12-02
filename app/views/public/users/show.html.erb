@@ -37,12 +37,12 @@
 
   <p>
     <%= link_to user_following_path(@user) do %>
-      <!-- @user.followersで取得できるのはfollower_user_idが@user.idのもの。フォロー中の数を表示するために呼び出す -->
+      <%# @user.followersで取得できるのはfollower_user_idが@user.idのもの。フォロー中の数を表示するために呼び出す %>
       <%= @user.followers.count %> フォロー
     <% end %>
     / 
     <%= link_to user_followers_path(@user) do %>
-      <!-- @user.followedsで取得できるのはfollowed_user_idが@user.idのもの。フォロワーの数を表示するために呼び出す -->
+      <%# @user.followedsで取得できるのはfollowed_user_idが@user.idのもの。フォロワーの数を表示するために呼び出す %>
       <%= @user.followeds.count %> フォロワー
     <% end %>
   </p>

@@ -15,10 +15,8 @@
 <div id="map" class="w-100 mb-2" style="height: calc(50vh);"></div>
 
 <%= form_with model: @post, url: post_path, method: :patch do |f| %>
-  <!-- 地図座標 -->
   <%= f.hidden_field :latitude,  id: "lat" %>
   <%= f.hidden_field :longitude, id: "lng" %>
-  <!-- JS呼び出し 座標を渡すためここに記述 -->
   <%= javascript_pack_tag 'map_posts_edit', 'data-turbolinks-track': 'reload' %>
 
   <h4>写真</h4>
@@ -32,7 +30,7 @@
   </p>
   
   <h4>カテゴリ</h4>
-  <!-- Categoryモデルからデータを呼び出しセレクトボックスに表示 -->
+  <%# Categoryモデルからデータを呼び出しセレクトボックスに表示 %>
   <p>
     <%= f.collection_select(:category_id, Category.all, :id, :name) %>
   </p>
@@ -56,7 +54,7 @@
   <h4>公開・非公開</h4>
   <p>
     <% if @post.is_forbidden %>
-      <p style="color: red">管理者による非公開状態のため、公開を選択しても公開されません。</p>
+      <p class="text-danger">管理者による非公開状態のため、公開を選択しても公開されません。</p>
     <% end %>
     <%= f.radio_button(:is_public, true, checked: true) %>
     <%= f.label(:is_public, '公開', value: true) %>

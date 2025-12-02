@@ -15,7 +15,6 @@
 <div id="map" class="w-100 mb-2" style="height: calc(50vh);"></div>
 
 <%= form_with model: @post, url: posts_path do |f| %>
-  <!-- 地図座標 -->
   <%= f.hidden_field :latitude,  id: "lat" %>
   <%= f.hidden_field :longitude, id: "lng" %>
 
@@ -30,7 +29,7 @@
   </p>
   
   <h4>カテゴリ</h4>
-  <!-- Categoryモデルからデータを呼び出しセレクトボックスに表示 -->
+  <%# Categoryモデルからデータを呼び出しセレクトボックスに表示 %>
   <p>
     <%= f.collection_select(:category_id, Category.all, :id, :name) %>
   </p>
@@ -62,8 +61,9 @@
   <%= f.submit '投稿する', class: "btn btn-success px-3 py-2" %>
 <% end %>
 
-<!-- 初期位置の設定とJS呼び出し -->
+<%# 拠点地に基づいて初期位置を設定 %>
 <input type="hidden" id="initlat" value="<%= current_user.default_map_position(current_user.prefecture)[:lat] %>">
 <input type="hidden" id="initlng" value="<%= current_user.default_map_position(current_user.prefecture)[:lng] %>">
+<%# バリデーションエラー時にマーカーを維持するための記述 %>
 <input type="hidden" id="hasLatLngAlready" value="<%= @has_latlng_already %>">
 <%= javascript_pack_tag 'map_posts_new', 'data-turbolinks-track': 'reload' %>
