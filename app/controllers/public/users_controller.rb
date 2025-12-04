@@ -3,13 +3,19 @@ class Public::UsersController < ApplicationController
   before_action :deny_deactivated_user
 
   def index
-    users_include_guest_user = User.where(is_active: true)
-    # ゲストユーザーを取り除く
-    @users = users_include_guest_user.where.not(email: 'guest@guest')
+    @users = User.active.except_guest # ページネータを追加すること
   end
 
   def mypage
-    @posts = Post.where(user_id: current_user.id).recent.page(params[:page])
+    posts = current_user.posts
+
+    drafts = posts.where(is_public: false)
+    @drafts = drafts.recent.limit(3)
+    @drafts_count = drafts.count
+
+    forbidden_posts = posts.where(is_forbidden: true)
+    @forbidden_posts = forbidden_posts.recent.limit(3)
+    @forbidden_posts_count = forbidden_posts.count
   end
 
   def edit

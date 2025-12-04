@@ -59,6 +59,18 @@
   <% end %>
 </div>
 
-<div>
-  <h4>投稿一覧</h4>
-  <%= render '/public/posts', posts: @posts %>
+<div class="mb-3">
+  <h4>下書き一覧</h4>
+  <% if @drafts_count > 0 %>
+    <%= render '/public/users/mypage_posts', posts: @drafts %>
+  <% else %>
+    下書きがありません。
+  <% end %>
+</div>
+
+<% if @forbidden_posts_count > 0 %>
+  <div class="mb-3">
+    <h4>管理者による非公開状態の投稿一覧</h4>
+    <%= render '/public/users/mypage_posts', posts: @forbidden_posts %>
+  </div>
+<% end %>

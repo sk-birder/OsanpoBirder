@@ -4,7 +4,7 @@ class Admin::UsersController < ApplicationController
 
   def index
     if params[:status] == 'active'
-      @users = User.where(is_active: true)
+      @users = User.active
     elsif params[:status] == 'deactivated'
       @users = User.where(is_active: false, is_forbidden: false)
     elsif params[:status] == 'banned'

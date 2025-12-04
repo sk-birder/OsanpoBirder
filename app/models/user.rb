@@ -30,6 +30,9 @@ class User < ApplicationRecord
     福岡県: 40, 佐賀県: 41, 長崎県: 42, 熊本県: 43, 大分県: 44, 宮崎県: 45, 鹿児島県: 46, 沖縄県: 47
   }
 
+  scope :active, -> { where(is_active: true) }
+  scope :except_guest, -> { where.not(email: 'guest@guest') }
+
   # プロフィール画像用
   def get_profile_image(width, height)
     # unless profile_image.attached?
@@ -42,7 +45,7 @@ class User < ApplicationRecord
   # 検索用のメソッド
   # 入力テキストをtext, 検索方式をmethodとする
   def self.search_for(text, method)
-    user = User.where(is_active: true) # 退会済会員・除名済会員を除外
+    user = User.active
     if method == 'perfect'
       user.where(name: text) # 完全一致
     elsif method == 'forward'

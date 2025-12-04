@@ -9,8 +9,13 @@ Rails.application.routes.draw do
     post "users/guest_sign_in", to: "public/sessions#guest_sign_in"
   end
 
-  # public/homes ルートディレクトリの設定を兼ねる
-  root to: 'public/homes#top'
+  # public/homes
+  authenticated :user do
+    root to: 'public/posts#timeline', as: 'user_root'
+  end
+  unauthenticated do
+    root to: 'public/homes#top'
+  end
   get 'about' => 'public/homes#about'
 
   # public/users
