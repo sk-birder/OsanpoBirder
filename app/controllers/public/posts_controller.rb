@@ -75,6 +75,14 @@ class Public::PostsController < ApplicationController
     redirect_to mypage_path
   end
 
+  def draft
+    @drafts = current_user.posts.unpublished.page(params[:page])
+  end
+
+  def forbidden
+    @forbidden_posts = current_user.posts.forbidden.page(params[:page])
+  end
+
   private
   def post_params
     params.require(:post).permit(:latitude, :longitude, :title, :category_id, :prefecture, :month, :body, :is_public, post_images: [])

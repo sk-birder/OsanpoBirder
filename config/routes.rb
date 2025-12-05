@@ -33,6 +33,8 @@ Rails.application.routes.draw do
 
   # public/posts
   get 'timeline' => 'public/posts#timeline'
+  get 'posts/draft'     => 'public/posts#draft',     as: 'drafts'
+  get 'posts/forbidden' => 'public/posts#forbidden', as: 'forbidden_posts'
   resources :posts, controller: 'public/posts' do
     resource  :like,     only: [:create, :destroy],          controller: 'public/likes'
     resource  :report,   only: [:create, :update, :destroy], controller: 'public/reports'
