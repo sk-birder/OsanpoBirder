@@ -9,11 +9,11 @@ class Public::UsersController < ApplicationController
   def mypage
     posts = current_user.posts
 
-    drafts = posts.where(is_public: false)
+    drafts = posts.user_draft
     @drafts = drafts.recent.limit(3)
     @drafts_count = drafts.count
 
-    forbidden_posts = posts.where(is_forbidden: true)
+    forbidden_posts = posts.admin_forbidden
     @forbidden_posts = forbidden_posts.recent.limit(3)
     @forbidden_posts_count = forbidden_posts.count
   end

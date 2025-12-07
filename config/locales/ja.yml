@@ -3,10 +3,39 @@ ja:
     models:
       user: ユーザー
       post: 投稿
+      post_comment: 投稿コメント
+      admin: 管理者
     attributes:
+      user:
+        email: メールアドレス
+        name: ユーザー名
+        prefecture: 拠点地
+        hide_prefecture: 拠点地の公開
+        birth_year: 誕生年
+        hide_birth_year: 誕生年の公開
+        introduction: 自己紹介
+        is_active: 会員ステータス
+        is_forbidden: 除名ステータス
+        created_at: 登録日時
+        updated_at: プロフィールの更新日時
       post:
         title: タイトル
+        prefecture: 都道府県
+        month: 月
         body: 本文
+        is_public: 公開ステータス
+        is_forbidden: 管理者非公開ステータス
+        created_at: 投稿日時
+        updated_at: 更新日時
+      post_comment:
+        body: コメント本文
+        created_at: コメント日時
+      admin:
+        name: 管理者名
+        introduction: 自己紹介
+        main_admin: 主管理者権限
+        is_active: 管理者ステータス
+        is_forbidden: 除名ステータス
   views:
     pagination:
       first: '<<'

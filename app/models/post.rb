@@ -35,9 +35,11 @@ class Post < ApplicationRecord
     ７月: 7, ８月: 8, ９月: 9, １０月: 10, １１月: 11, １２月: 12
   }
 
-  scope :published, -> { where(is_public: true) }
-  scope :unpublished, -> { where(is_public: false) }
-  scope :forbidden, -> { where(is_forbidden: true) }
+  scope :user_published,  -> { where(is_public: true) }
+  scope :user_draft,      -> { where(is_public: false) }
+  scope :admin_forbidden, -> { where(is_forbidden: true) }
+  scope :admin_allowed,   -> { where(is_forbidden: false) }
+  scope :visible,         -> { user_published.admin_allowed }
 
   # 新着順で並び替えるクラスメソッドの定義
   scope :recent, -> { order(created_at: :desc) }

@@ -29,7 +29,7 @@ class Public::PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.where(is_public: true, is_forbidden: false).recent.page(params[:page])
+    @posts = Post.visible.recent.page(params[:page])
     @categories = Category.all
   end
 
@@ -38,8 +38,8 @@ class Public::PostsController < ApplicationController
       redirect_to posts_path and return
     end
     followed_users_ids = current_user.followers.pluck(:followed_user_id)
-    @posts = Post.where(user_id: [current_user.id] + followed_users_ids)
-                 .where(is_public: true, is_forbidden: false)
+    @posts = Post.visible
+                 .where(user_id: [current_user.id] + followed_users_ids)
                  .recent
                  .page(params[:page])
   end
@@ -76,11 +76,11 @@ class Public::PostsController < ApplicationController
   end
 
   def draft
-    @drafts = current_user.posts.unpublished.page(params[:page])
+    @drafts = current_user.posts.user_draft.recent.page(params[:page])
   end
 
   def forbidden
-    @forbidden_posts = current_user.posts.forbidden.page(params[:page])
+    @forbidden_posts = current_user.posts.admin_forbidden.recent.page(params[:page])
   end
 
   private
