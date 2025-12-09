@@ -6,7 +6,7 @@ class Public::LikesController < ApplicationController
   
   def create
     like = current_user.likes.new(post_id: @post.id)
-    like.save
+    like.save # NOT NULL制約があるため分岐不要
     respond_to do |format|
       if params[:from_page] == 'posts_show'
         format.js { render :create_at_posts_show }
@@ -18,7 +18,9 @@ class Public::LikesController < ApplicationController
 
   def destroy
     like = current_user.likes.find_by(post_id: @post.id)
-    like.destroy
+    if like
+      like.destroy # NoMethodError回避のためlikeが存在するときのみ実行
+    end
     respond_to do |format|
       if params[:from_page] == 'posts_show'
         format.js { render :destroy_at_posts_show }

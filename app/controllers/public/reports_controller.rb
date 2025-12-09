@@ -15,9 +15,30 @@ class Public::ReportsController < ApplicationController
     @current_user_report_detail = report.detail
   end
 
+  # 未テスト alphaかbetaのどちらかを採用
+  def upsert_alpha
+    report = current_user.reports.find_or_initialize_by(post_id: @post.id)
+    report.update(detail: params[:detail])
+    @current_user_report_detail = report.detail
+  end
+
+  # 未テスト alphaかbetaのどちらかを採用
+  def upsert_beta
+    report = current_user.reports.find_by(post_id: @post.id)
+    if report
+      report.update(detail: params[:detail])
+    else
+      report = current_user.reports.new(post_id: @post.id, detail: params[:detail])
+      report.save
+    end
+    @current_user_report_detail = report.detail
+  end
+
   def destroy
     report = current_user.reports.find_by(post_id: @post.id)
-    report.destroy
+    if report
+      report.destroy # NoMethodError回避のためreportが存在するときのみ実行
+    end
   end
 
   private

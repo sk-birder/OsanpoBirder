@@ -8,7 +8,7 @@ class Public::RelationshipsController < ApplicationController
     if @user.id != current_user.id && @user.is_active # 自分自身と、退会済ユーザーはフォローできない
       # current_user.followers.newで「follower_user_idカラムにcurrent_user.idが入ったデータ」を作成する
       new_relationship = current_user.followers.new(followed_user_id: params[:user_id])
-      new_relationship.save
+      new_relationship.save # NOT NULL制約があるため分岐不要
     end
     respond_to do |format|
       if params[:from_page] == 'users_show'
@@ -22,9 +22,8 @@ class Public::RelationshipsController < ApplicationController
   def destroy
     # current_user.followers.find_byで「follower_user_idカラムにcurrent_user.idが入ったデータ」にfind_byを実行する
     destroy_relationship = current_user.followers.find_by(followed_user_id: @user.id)
-    # destroy_relationshipがnilでないときのみdestroyを実行 別の画面でフォローを解除していた場合と、対象ユーザーが退会していた時のNoMethodErrorエラー回避
     if destroy_relationship
-      destroy_relationship.destroy
+      destroy_relationship.destroy # NoMethodError回避のためrelationshipが存在するときのみ実行
     end
     respond_to do |format|
       if params[:from_page] == 'users_show'

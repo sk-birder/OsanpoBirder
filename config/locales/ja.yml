@@ -31,6 +31,7 @@ ja:
         body: コメント本文
         created_at: コメント日時
       admin:
+        email: メールアドレス
         name: 管理者名
         introduction: 自己紹介
         main_admin: 主管理者権限
