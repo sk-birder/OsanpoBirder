@@ -3,41 +3,15 @@ class Public::ReportsController < ApplicationController
   before_action :deny_deactivated_user
   before_action :set_post
 
-  def create
-    report = current_user.reports.new(post_id: @post.id, detail: params[:detail])
-    report.save
-    @current_user_report_detail = report.detail
-  end
-
-  def update
+  def switch
     report = current_user.reports.find_by(post_id: @post.id)
-    report.update(detail: params[:detail])
-    @current_user_report_detail = report.detail
-  end
-
-  # 未テスト alphaかbetaのどちらかを採用
-  def upsert_alpha
-    report = current_user.reports.find_or_initialize_by(post_id: @post.id)
-    report.update(detail: params[:detail])
-    @current_user_report_detail = report.detail
-  end
-
-  # 未テスト alphaかbetaのどちらかを採用
-  def upsert_beta
-    report = current_user.reports.find_by(post_id: @post.id)
-    if report
-      report.update(detail: params[:detail])
+    if report&.detail == params[:detail] # 新規作成時はreport.detailがnilのためぼっち演算子を使用
+      report.destroy
     else
-      report = current_user.reports.new(post_id: @post.id, detail: params[:detail])
-      report.save
-    end
-    @current_user_report_detail = report.detail
-  end
-
-  def destroy
-    report = current_user.reports.find_by(post_id: @post.id)
-    if report
-      report.destroy # NoMethodError回避のためreportが存在するときのみ実行
+      current_user.reports
+        .find_or_initialize_by(post_id: @post.id)
+        .update(detail: params[:detail])
+      @current_user_report_detail = params[:detail]
     end
   end
 

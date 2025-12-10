@@ -37,8 +37,8 @@ Rails.application.routes.draw do
   get 'posts/forbidden' => 'public/posts#forbidden', as: 'forbidden_posts'
   resources :posts, controller: 'public/posts' do
     resource  :like,     only: [:create, :destroy],          controller: 'public/likes'
-    resource  :report,   only: [:create, :update, :destroy], controller: 'public/reports'
     resources :comments, only: [:create, :destroy],          controller: 'public/post_comments'
+    post 'report' => 'public/reports#switch'
   end
 
   # public/searches
