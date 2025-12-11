@@ -27,9 +27,9 @@ class Admin::UsersController < ApplicationController
     if params[:filter] == 'reported'
       # 違反投稿の絞り込み
       # joinsでReportモデルと結合し、whereでdetailが2の投稿を絞り込み、distinctで重複を無くしている
-      @posts = @user.posts.joins(:reports).where(reports: {detail: 2}).distinct
+      @posts = @user.posts.joins(:reports).where(reports: {detail: 'violating'}).distinct.page(params[:page])
     else
-      @posts = @user.posts.all
+      @posts = @user.posts.page(params[:page])
     end
   end
 

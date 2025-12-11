@@ -11,7 +11,8 @@
   <%= link_to post_report_path(post, detail: 'gone'), method: :post, remote: true do %>
     <%= report_icon(@current_user_report_detail == 'gone') %> なくなりました ( <%= counts['gone'] || 0 %> )
   <% end %>
-  <%= link_to post_report_path(post, detail: 'violating'), method: :post, remote: true, "data-confirm" => "営巣写真など違反投稿の報告ボタンです。本当に違反報告しますか？" do %>
+  <%= link_to post_report_path(post, detail: 'violating'), method: :post, remote: true,
+              data: ( @current_user_report_detail == 'violating' ? {} : { "confirm" => "営巣写真など違反投稿の報告ボタンです。本当に違反報告しますか？" } ) do %>
     <%= report_icon(@current_user_report_detail == 'violating') %> 違反報告 ( <%= counts['violating'] || 0 %> )
   <% end %>
 <% end %>

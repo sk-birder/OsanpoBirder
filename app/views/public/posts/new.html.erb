@@ -50,12 +50,12 @@
     <%= f.text_area :body, rows: '10', class: "post-body-form" %>
   </p>
 
-  <h4>公開・非公開</h4>
+  <h4>公開・下書き</h4>
   <p>
     <%= f.radio_button(:is_public, true, checked: true) %>
     <%= f.label(:is_public, '公開', value: true) %>
     <%= f.radio_button(:is_public, false) %>
-    <%= f.label(:is_public, '非公開', value: false) %>
+    <%= f.label(:is_public, '下書き', value: false) %>
   </p>
 
   <%= f.submit '投稿する', class: "btn btn-success px-3 py-2" %>
