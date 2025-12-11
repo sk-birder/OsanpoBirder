@@ -1,32 +1,47 @@
 class Public::PostCommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :deny_deactivated_user
+  before_action :set_post
   
   def create
-    post = Post.find(params[:post_id])
-    comment = PostComment.new(post_comment_params)
-    comment.post_id = post.id
-    comment.user_id = current_user.id
-    if comment.save
-      flash[:notice] = 'コメントに成功しました。'
+    @post_comment = PostComment.new(post_comment_params)
+    @post_comment.post_id = @post.id
+    @post_comment.user_id = current_user.id
+    if @post_comment.save
+      flash[:notice_of_comment] = 'コメントに成功しました。'
+      @post_comment = PostComment.new
     else
-      flash[:notice] = 'コメントに失敗しました。'
+      if post_comment_params[:body].length == 0 
+        flash[:notice_of_comment] = 'コメントを入力してください。'
+      else
+        flash[:notice_of_comment] = '文字数オーバーです。'
+      end
     end
-    redirect_to post_path(post)
+    # 再表示に必要なインスタンス変数の宣言
+    @comments = PostComment.where(post_id: params[:post_id])
   end
 
   def destroy
     comment = PostComment.find(params[:id])
     if comment.user_id == current_user.id
       comment.destroy # コメントしたユーザーでない場合は実行しない
-      flash[:notice] = 'コメントを削除しました。'
+      flash[:notice_of_comment] = 'コメントを削除しました。'
     end
-    redirect_to post_path(params[:post_id])
+    # 再表示に必要なインスタンス変数の宣言
+    @post_comment = PostComment.new
+    @comments = PostComment.where(post_id: params[:post_id])
   end
-
 
   private
   def post_comment_params
     params.require(:post_comment).permit(:body)
+  end
+
+  def set_post
+    @post = Post.find_by(id: params[:post_id]) # インスタンス変数で宣言するのはjQueryでの部分テンプレート呼出時に必要なため
+    if @post.blank?
+      flash[:alert] = 'コメント対象の投稿が削除されています。'
+      redirect_to timeline_path
+    end
   end
 end

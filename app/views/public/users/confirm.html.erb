@@ -1,9 +1,23 @@
-<h2>退会確認画面</h2>
+<h2>退会</h2>
 
-<h4>退会処理は取り消すことが出来ません。</h4>
-<h4>本当に退会しますか？</h4>
+<h4>ご確認ください</h4>
+<ul>
+  <li class="text-danger">退会処理は取り消すことが出来ません。</li>
+  <li>退会後、同じメールアドレスで別のアカウントを作成することは出来ません。</li>
+  <li>以下のものが削除されます。</li>
+  <ul>
+    <li>フォロー関係</li>
+    <li>いいね</li>
+    <li>見られました・なくなりました・違反投稿の報告</li>
+  </ul>
+  <li>投稿・コメントは残すことも出来ます。</li>
+</ul>
 
-<!-- 退会確認のチェックボックスを追加予定 -->
-<!-- 投稿などデータを削除するか選択するチェックボックスを追加予定 -->
-
-<%= link_to '退会する', user_deactivate_path, method: :patch, "data-confirm" => "本当に退会しますか？" %>
+<h4>退会手続き</h4>
+<%= form_with url: user_deactivate_path, method: :patch do |f| %>
+  <%= f.label :delete_posts do %>
+    <%= f.check_box :delete_posts %> 投稿とコメントを削除します。
+  <% end %>
+  <br />
+  <%= f.submit :退会する, "data-confirm" => "本当に退会しますか？", class:"btn btn-danger" %>
+<% end %>

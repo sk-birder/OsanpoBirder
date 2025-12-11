@@ -34,5 +34,11 @@
 - IDE：Visual Studio Code
 ​
 ## 使用素材
+- Adobe Stock
+  - https://stock.adobe.com/
 - FontAwesmoe
   - https://fontawesome.com/
+- Google Fonts
+  - https://fonts.google.com/
+- ホームページの背景画像　壁紙　無料,フリー画像素材
+  - http://www.netyasun.com/home/background.html

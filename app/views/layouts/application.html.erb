@@ -12,7 +12,7 @@
   </head>
 
   <body class="d-flex flex-column vh-100">
-    <header style="background-color: springgreen">
+    <header>
       <nav class="navbar navbar-expand-md navbar-light">
         <div class="container">
           <% if admin_signed_in? %>
@@ -23,7 +23,7 @@
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse row" id="adminMenu">
-              <ul class="mx-auto d-block d-md-none" style="list-style: none">
+              <ul class="header-menu mx-auto d-block d-md-none">
                 <li class="mb-2">
                   <%= link_to admin_posts_path do %>
                     <i class="fa-solid fa-newspaper mr-2"></i>投稿一覧
@@ -68,8 +68,8 @@
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse row" id="endUserMenu">
-              <ul class="mx-auto d-block d-md-none" style="list-style: none">
-                <% if current_user.guest_user? == false %>
+              <ul class="header-menu mx-auto d-block d-md-none">
+                <% if !current_user.guest_user? %>
                   <li class="mb-2">
                     <%= link_to timeline_path do %>
                       <i class="fa-solid fa-timeline mr-2"></i>タイムライン
@@ -122,7 +122,7 @@
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse row" id="noSessionMenu">
-              <ul class="mx-auto d-block d-md-none" style="list-style: none">
+              <ul class="header-menu mx-auto d-block d-md-none">
                 <li class="mb-2">
                   <%= link_to about_path do %>
                     <i class="fa-solid fa-circle-info mr-2"></i>サイト紹介
@@ -156,7 +156,7 @@
       </div>
       <div class="container">
         <div class="row">
-          <div class="col-md-3 d-none d-md-block"> <!-- サイドバーここから -->
+          <div class="col-md-3 d-none d-md-block"> <%# サイドバーここから %>
             <nav class="navbar">
               <% if admin_signed_in? %>
                 <ul class="navbar-nav">
@@ -189,7 +189,7 @@
               <% else %>
                 <ul class="navbar-nav">
                   <% if user_signed_in? %>
-                    <% if current_user.guest_user? == false %>
+                    <% if !current_user.guest_user? %>
                       <li class="nav-link active">
                         <%= link_to timeline_path, class:"d-flex align-items-center" do %>
                           <i class="fa-solid fa-timeline mr-2"></i>タイムライン
@@ -256,7 +256,7 @@
                 </ul>
               <% end %>
             </nav>
-          </div> <!-- サイドバーここまで -->
+          </div> <%# サイドバーここまで %>
           <div class="col-12 col-md-9 mb-3">
             <% if flash[:notice].present? || flash[:alert].present? %>
               <p class="alert alert-info" role="alert">
@@ -270,7 +270,7 @@
       </div>
     </main>
 
-    <footer class="d-flex px-5 py-3" style="color: white; background-color: darkolivegreen">
+    <footer class="d-flex px-5 py-3">
       <span>
         <% if admin_signed_in? %>
           <i class="fa-solid fa-user-tie"></i>お散歩BIRDER　管理画面

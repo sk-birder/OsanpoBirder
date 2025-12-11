@@ -1,0 +1,11 @@
+<% if current_user.guest_user? %>
+  <i class="fa-regular fa-heart"></i>  <%= post.likes.count %>
+<% elsif post.liked_by?(current_user) %>
+  <%= link_to post_like_path(post, from_page: 'posts_list'), method: :delete, remote: true do %>
+    <i class="fa-solid fa-heart"></i>  <%= post.likes.count %>
+  <% end %>
+<% else %>
+  <%= link_to post_like_path(post, from_page: 'posts_list'), method: :post, remote: true do %>
+    <i class="fa-regular fa-heart"></i>  <%= post.likes.count %>
+  <% end %>
+<% end %>

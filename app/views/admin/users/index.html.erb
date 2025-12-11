@@ -47,12 +47,12 @@
           <%= user.introduction %>
         </td>
         <td>
-          <% if user.is_forbidden == true %>
+          <% if user.is_forbidden %>
             除名済み
-          <% elsif user.is_active == false %>
-            退会済
-          <% else %>
+          <% elsif user.is_active %>
             有効
+          <% else %>
+            退会済
           <% end %>
         </td>
         <td>

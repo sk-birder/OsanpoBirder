@@ -9,8 +9,13 @@ Rails.application.routes.draw do
     post "users/guest_sign_in", to: "public/sessions#guest_sign_in"
   end
 
-  # public/homes ルートディレクトリの設定を兼ねる
-  root to: 'public/homes#top'
+  # public/homes
+  authenticated :user do
+    root to: 'public/posts#timeline', as: 'user_root'
+  end
+  unauthenticated do
+    root to: 'public/homes#top'
+  end
   get 'about' => 'public/homes#about'
 
   # public/users
@@ -28,10 +33,12 @@ Rails.application.routes.draw do
 
   # public/posts
   get 'timeline' => 'public/posts#timeline'
+  get 'posts/draft'     => 'public/posts#draft',     as: 'drafts'
+  get 'posts/forbidden' => 'public/posts#forbidden', as: 'forbidden_posts'
   resources :posts, controller: 'public/posts' do
     resource  :like,     only: [:create, :destroy],          controller: 'public/likes'
-    resource  :report,   only: [:create, :update, :destroy], controller: 'public/reports'
     resources :comments, only: [:create, :destroy],          controller: 'public/post_comments'
+    post 'report' => 'public/reports#switch'
   end
 
   # public/searches
@@ -58,7 +65,8 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :show, :update, :edit]
     get 'users/:id/posts' => 'users#posts', as: 'user_posts'
     get 'users/:id/comments' => 'users#comments', as: 'user_comments'
-    patch 'users/:id/toggle_activity' => 'users#toggle_activity', as: 'users_toggle_activity'
+    patch 'users/:id/activate' => 'users#activate', as: 'users_activate'
+    patch 'users/:id/deactivate' => 'users#deactivate', as: 'users_deactivate'
     patch 'users/:id/banish' => 'users#banish', as: 'users_banish'
     patch 'users/:id/hide_posts' => 'users#hide_all_posts', as: 'user_hide_posts'
     patch 'users/:id/delete_posts' => 'users#only_delete_posts_and_comments', as: 'user_delete_posts'

@@ -14,13 +14,9 @@
                 <%= user.name %>
               <% end %>
             </h4>
-            <% if current_user.guest_user? == false && user != current_user %>
-              <span class="ml-auto">
-                <% if user.followeds.exists?(follower_user_id: current_user.id) %>
-                  <%= button_to 'フォロー解除', user_relationships_path(user), method: :delete, class: "btn btn-outline-danger" %>
-                <% else %>
-                  <%= button_to 'フォローする', user_relationships_path(user), method: :post, class: "btn btn-outline-primary" %>
-                <% end %>
+            <% if !current_user.guest_user? && user != current_user %>
+              <span id="relationship_btn_<%= user.id %>" class="ml-auto">
+                <%= render '/public/relationships/relationship_btn', user: user %>
               </span>
             <% end %>
           </div>

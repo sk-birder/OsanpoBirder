@@ -1,0 +1,13 @@
+<% if user.id != current_user.id && !user.guest_user? && !current_user.guest_user? %>
+  <% if user.followed_by?(current_user) %>
+    <%= link_to user_relationships_path(user, from_page: 'users_show'), method: :delete, remote: true, class: "btn btn-outline-danger btn-sm" do %>
+      <%= user.name %>さんのフォローを解除する
+    <% end %>
+  <% elsif user.is_active %>
+    <%= link_to user_relationships_path(user, from_page: 'users_show'), method: :post, remote: true, class: "btn btn-primary btn-sm" do %>
+      <%= user.name %>さんをフォローする
+    <% end %>
+  <% else %>
+    退会済みユーザーのためフォローできません。
+  <% end %>
+<% end %>

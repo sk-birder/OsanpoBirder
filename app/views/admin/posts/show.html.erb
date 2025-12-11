@@ -4,10 +4,8 @@
 <div id="map" class="w-100 mb-2" style="height: calc(50vh);"></div>
 
 <div>
-  <!-- JSに座標を渡すための記述 valueの設定は%=でないと機能しない -->
   <input type="hidden" id="lat" value="<%= @show_post.latitude %>">
   <input type="hidden" id="lng" value="<%= @show_post.longitude %>">
-  <!-- JS呼び出し 座標を渡すためここに記述 -->
   <%= javascript_pack_tag 'map_posts_show', 'data-turbolinks-track': 'reload' %>
 
   <h4>写真</h4>
@@ -38,7 +36,15 @@
   </p>
   <h4>本文</h4>
   <p>
-    <%= @show_post.body %>
+    <%= simple_format(@show_post.body, sanitize: true) %>
+  </p>
+  <h4>投稿日時</h4>
+  <p>
+    <%= @show_post.created_at.strftime('%Y/%m/%d %H:%M') %>
+    <% if @show_post.updated_after_creation? %>
+      <br />
+      （最終更新日時：<%= @show_post.updated_at.strftime('%Y/%m/%d %H:%M') %>）
+    <% end %>
   </p>
   <h4>投稿ユーザー</h4>
   <p>
@@ -47,18 +53,18 @@
       <%= @show_post.user.name %>
     <% end %>
   </p>
-  <h4>ユーザーの公開・非公開設定</h4>
+  <h4>ユーザーの公開設定</h4>
   <p>
     <% if @show_post.is_public %>
       公開
     <% else %>
-      非公開
+      下書き
     <% end %>
   </p>
   <h4>管理者非公開の設定</h4>
   <p>
     <% if @show_post.is_forbidden %>
-      <span style="color: red">管理者非公開</span>
+      <span class="text-danger">管理者非公開</span>
       <%= link_to '管理者非公開を解除する', admin_post_toggle_publicity_path, method: :patch, "data-confirm" => "管理者非公開を解除しますか？", class: "btn btn-outline-primary btn-sm ml-2" %>
     <% else %>
       <span>設定なし</span>
@@ -83,7 +89,7 @@
       </div>
       <div>
         <%= comment.body %><br />
-        <%= comment.created_at.strftime('%Y/%m/%d') %><br />
+        <%= comment.created_at.strftime('%Y/%m/%d %H:%M') %><br />
         <%= link_to admin_user_path(comment.user_id) do %>
           <%= comment.user.name %>
         <% end %><br />

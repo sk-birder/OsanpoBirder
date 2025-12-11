@@ -1,0 +1,18 @@
+<% counts = post.count_report %>
+
+<% if current_user.guest_user? || post.user_id == current_user.id %>
+  <i class="fa-regular fa-square"></i> 見られました ( <%= counts['confirmed'] || 0 %> )
+  <i class="fa-regular fa-square"></i> なくなりました ( <%= counts['gone'] || 0 %> )
+  <i class="fa-regular fa-square"></i> 違反報告 ( <%= counts['violating'] || 0 %> )
+<% else %>
+  <%= link_to post_report_path(post, detail: 'confirmed'), method: :post, remote: true do %>
+    <%= report_icon(@current_user_report_detail == 'confirmed') %> 見られました ( <%= counts['confirmed'] || 0 %> )
+  <% end %>
+  <%= link_to post_report_path(post, detail: 'gone'), method: :post, remote: true do %>
+    <%= report_icon(@current_user_report_detail == 'gone') %> なくなりました ( <%= counts['gone'] || 0 %> )
+  <% end %>
+  <%= link_to post_report_path(post, detail: 'violating'), method: :post, remote: true,
+              data: ( @current_user_report_detail == 'violating' ? {} : { "confirm" => "営巣写真など違反投稿の報告ボタンです。本当に違反報告しますか？" } ) do %>
+    <%= report_icon(@current_user_report_detail == 'violating') %> 違反報告 ( <%= counts['violating'] || 0 %> )
+  <% end %>
+<% end %>

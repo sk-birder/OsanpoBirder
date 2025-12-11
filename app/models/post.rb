@@ -7,11 +7,12 @@ class Post < ApplicationRecord
   belongs_to :user
   belongs_to :category
 
+  # 地点選択を必須にするカスタムバリデーション
+  validate :location_presence
+
   # 必須のバリデーション
-  validates :latitude,  presence: true
-  validates :longitude, presence: true
-  validates :title,     presence: true, length: {maximum:100}
-  validates :body,      presence: true, length: {maximum:1000}
+  validates :title, presence: true, length: {maximum:100}
+  validates :body,  presence: true, length: {maximum:1000}
 
   # 無くとも良いかもしれないバリデーション
   validates :category_id, presence: true
@@ -33,6 +34,36 @@ class Post < ApplicationRecord
     １月: 1, ２月: 2, ３月: 3, ４月: 4, ５月: 5, ６月: 6,
     ７月: 7, ８月: 8, ９月: 9, １０月: 10, １１月: 11, １２月: 12
   }
+
+  scope :user_published,  -> { where(is_public: true) }
+  scope :user_draft,      -> { where(is_public: false) }
+  scope :admin_forbidden, -> { where(is_forbidden: true) }
+  scope :admin_allowed,   -> { where(is_forbidden: false) }
+  scope :visible,         -> { user_published.admin_allowed }
+
+  # 新着順で並び替えるクラスメソッドの定義
+  scope :recent, -> { order(created_at: :desc) }
+
+  # 地点選択を必須にするカスタムメソッド（バリデーションエラーメッセージを1文にするために必要）
+  def location_presence
+    if latitude.blank? || longitude.blank?
+      # :baseを指定することで全体のエラーメッセージ（特定のカラムに対するものではない）とする。カスタムコンテキストを同時に設定
+      errors.add(:base, '地点を選択してください')
+    end
+  end
+
+  # posts#showでの非公開判定メソッド
+  def visible_to?(user)
+    return true if user.id == self.user_id
+    return false if !is_public || is_forbidden
+    true
+  end
+
+  # 投稿後の更新の有無を確認するメソッド
+  def updated_after_creation?
+    # ぼっち演算子でnilのときのエラーを回避
+    updated_at&.>created_at
+  end
 
   # 投稿画像の1枚目のみを表示するメソッド(posts#indexなどで使用)
   def show_first_post_image(width, height)
@@ -57,6 +88,11 @@ class Post < ApplicationRecord
   # posts/showでのいいね判定メソッド
   def liked_by?(user)
     likes.exists?(user_id: user.id)
+  end
+
+  # 報告件数のカウント用メソッド
+  def count_report
+    reports.group(:detail).count
   end
 
   # posts/showでの報告判定メソッド

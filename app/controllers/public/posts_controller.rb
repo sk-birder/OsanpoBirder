@@ -2,6 +2,7 @@ class Public::PostsController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_guest_user, only: [:new]
   before_action :deny_deactivated_user
+  before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   def new
     @post = Post.new
@@ -28,37 +29,28 @@ class Public::PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.where(is_public: true, is_forbidden: false)
+    @posts = Post.visible.recent.page(params[:page])
     @categories = Category.all
   end
 
   def timeline
     if current_user.guest_user?
-      redirect_to posts_path
+      redirect_to posts_path and return
     end
-    # フォローしているユーザー全てのIDを配列に格納
     followed_users_ids = current_user.followers.pluck(:followed_user_id)
-    # 公開投稿全てからフォローしているユーザーの投稿を取得
-    public_posts = Post.where(is_public: true, is_forbidden: false)
-    @posts = public_posts.where(user_id: followed_users_ids).or(public_posts.where(user_id: current_user.id))
+    @posts = Post.visible
+                 .where(user_id: [current_user.id] + followed_users_ids)
+                 .recent
+                 .page(params[:page])
   end
 
   def show
-    @show_post = Post.find(params[:id])
-    @categories = Category.all
-    # いいねのカウント
-    @count_likes = @show_post.likes.count
-    # 報告件数のカウント
-    reports = @show_post.reports
-    @count_report0 = reports.where(detail: 0).count
-    @count_report1 = reports.where(detail: 1).count
-    @count_report2 = reports.where(detail: 2).count
     # ログイン中のユーザーの報告の有無と報告内容の確認
-    if @show_post.reported_by?(current_user)
-      @report = current_user.reports.find_by(post_id: @show_post.id).detail
+    if @post.reported_by?(current_user)
+      @current_user_report_detail = current_user.reports.find_by(post_id: @post.id).detail
     end
     # コメント関連
-    @new_user_comment = PostComment.new
+    @post_comment = PostComment.new
     @comments = PostComment.where(post_id: params[:id])
   end
 
@@ -83,6 +75,14 @@ class Public::PostsController < ApplicationController
     redirect_to mypage_path
   end
 
+  def draft
+    @drafts = current_user.posts.user_draft.recent.page(params[:page])
+  end
+
+  def forbidden
+    @forbidden_posts = current_user.posts.admin_forbidden.recent.page(params[:page])
+  end
+
   private
   def post_params
     params.require(:post).permit(:latitude, :longitude, :title, :category_id, :prefecture, :month, :body, :is_public, post_images: [])
@@ -94,10 +94,18 @@ class Public::PostsController < ApplicationController
     end
   end
 
+  def set_post
+    @post = Post.find_by(id: params[:id]) # findではエラーになるが、find_byを使うと投稿が存在しない時にnilが戻り値になる
+    if @post.blank?
+      flash[:alert] = '指定された投稿は存在しないか、削除されています。'
+      redirect_to timeline_path
+    end
+  end
+
   def is_matching_login_user
-    @post = Post.find(params[:id])
+    # @postはset_postで定義済み
     if @post.user_id != current_user.id
-      redirect_to posts_path
+      redirect_to timeline_path
     end
   end
 end

@@ -35,22 +35,16 @@ class Admin::SessionsController < Devise::SessionsController
   # end
 
   private
-  # is_active, is_forbiddenの判定用メソッド
+  # 退会・除名判定
   def admin_status
     # 入力されたメールアドレスがUserテーブルにあるか確認して、無ければdeviseに返して拒否してもらう
     admin = Admin.find_by(email: params[:admin][:email])
     return if admin.nil?
     # パスワードが一致しているか確認して、無ければdeviseに返して拒否してもらう
     return unless admin.valid_password?(params[:admin][:password])
-    # is_forbiddenがtrueのときdeviseの処理を中断してサインアップ画面に遷移する
-    if admin.is_forbidden == true || admin.is_active == false
-      if admin.is_forbidden == true
-        flash[:notice] = '除名済みの管理者です。'
-      else
-        flash[:notice] = '退会済みの管理者です。'
-      end
-      redirect_to root_path
-    end
+    # 退会・除名状態でなければdeviseに返してサインイン成立
+    return if admin.is_active
+    flash[:notice] = admin.is_forbidden ? '除名済みの管理者です。' : '退会済みの管理者です。'
+    redirect_to new_admin_session_path
   end
-
 end
