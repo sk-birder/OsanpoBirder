@@ -130,7 +130,7 @@ Admin.create!(
   name: '除名副管理者',
   introduction: '除名されたサブ管理者',
   main_admin: false,
-  is_active: true,
+  is_active: false,
   is_forbidden: true
 )
 

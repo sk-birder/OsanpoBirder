@@ -43,8 +43,8 @@ class Admin::SessionsController < Devise::SessionsController
     # パスワードが一致しているか確認して、無ければdeviseに返して拒否してもらう
     return unless admin.valid_password?(params[:admin][:password])
     # 退会・除名状態でなければdeviseに返してサインイン成立
-    return if admin.is_active
-    flash[:notice] = admin.is_forbidden ? '除名済みの管理者です。' : '退会済みの管理者です。'
+    return if admin.available?
+    flash[:alert] = admin.is_forbidden ? '除名済みの管理者です。' : '退会済みの管理者です。'
     redirect_to new_admin_session_path
   end
 end

@@ -8,7 +8,7 @@ class Public::RelationshipsController < ApplicationController
     if @user.id != current_user.id && @user.is_active # 自分自身と、退会済ユーザーはフォローできない
       # current_user.followers.newで「follower_user_idカラムにcurrent_user.idが入ったデータ」を作成する
       new_relationship = current_user.followers.new(followed_user_id: params[:user_id])
-      new_relationship.save # NOT NULL制約があるため分岐不要
+      new_relationship.save # UNIQUE制約があるため分岐不要
     end
     respond_to do |format|
       if params[:from_page] == 'users_show'

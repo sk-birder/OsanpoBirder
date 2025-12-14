@@ -22,10 +22,11 @@ class Public::PostCommentsController < ApplicationController
   end
 
   def destroy
-    comment = PostComment.find(params[:id])
-    if comment.user_id == current_user.id
-      comment.destroy # コメントしたユーザーでない場合は実行しない
+    comment = PostComment.find_by(id: params[:id], user_id: current_user.id)
+    if comment&.destroy
       flash[:notice_of_comment] = 'コメントを削除しました。'
+    else
+      flash[:notice_of_comment] = 'コメントが存在しないか、削除できません。'
     end
     # 再表示に必要なインスタンス変数の宣言
     @post_comment = PostComment.new

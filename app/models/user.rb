@@ -33,6 +33,10 @@ class User < ApplicationRecord
   scope :active, -> { where(is_active: true) }
   scope :except_guest, -> { where.not(email: 'guest@guest') }
 
+  def available?
+    is_active && !is_forbidden
+  end
+
   # プロフィール画像用
   def get_profile_image(width, height)
     # unless profile_image.attached?

@@ -10,4 +10,8 @@ class Admin < ApplicationRecord
 
   validates :name, uniqueness: true, length: {minimum: 2, maximum: 20}
   validates :introduction, length: {maximum: 200}
+
+  def available?
+    is_active && !is_forbidden
+  end
 end
