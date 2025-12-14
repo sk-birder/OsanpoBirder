@@ -6,7 +6,7 @@ class Public::LikesController < ApplicationController
   
   def create
     like = current_user.likes.new(post_id: @post.id)
-    like.save # NOT NULL制約があるため分岐不要
+    like.save # UNIQUE制約があるため分岐不要
     respond_to do |format|
       if params[:from_page] == 'posts_show'
         format.js { render :create_at_posts_show }

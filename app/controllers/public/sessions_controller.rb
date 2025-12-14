@@ -49,7 +49,7 @@ class Public::SessionsController < Devise::SessionsController
     # パスワードが一致しているか確認して、無ければdeviseに返して拒否してもらう
     return unless user.valid_password?(params[:user][:password])
     # 退会・除名状態でなければdeviseに返してサインイン成立
-    return if user.is_active
+    return if user.available?
     flash[:alert] = user.is_forbidden ? '除名済みのアカウントです。' : '退会済みのアカウントです。'
     redirect_to new_user_session_path
   end
