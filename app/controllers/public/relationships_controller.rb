@@ -5,9 +5,8 @@ class Public::RelationshipsController < ApplicationController
   before_action :set_user
 
   def create
-    if @user.id != current_user.id && @user.is_active # 自分自身と、退会済ユーザーはフォローできない
-      # current_user.followers.newで「follower_user_idカラムにcurrent_user.idが入ったデータ」を作成する
-      new_relationship = current_user.followers.new(followed_user_id: params[:user_id])
+    if @user.id != current_user.id && @user.available? # 自分自身と、退会済ユーザーはフォローできない
+      new_relationship = current_user.following.new(followed_user_id: @user.id)
       new_relationship.save # UNIQUE制約があるため分岐不要
     end
     respond_to do |format|
@@ -20,8 +19,7 @@ class Public::RelationshipsController < ApplicationController
   end
 
   def destroy
-    # current_user.followers.find_byで「follower_user_idカラムにcurrent_user.idが入ったデータ」にfind_byを実行する
-    destroy_relationship = current_user.followers.find_by(followed_user_id: @user.id)
+    destroy_relationship = current_user.following.find_by(followed_user_id: @user.id)
     if destroy_relationship
       destroy_relationship.destroy # NoMethodError回避のためrelationshipが存在するときのみ実行
     end
