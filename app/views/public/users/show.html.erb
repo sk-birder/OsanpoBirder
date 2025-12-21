@@ -52,6 +52,6 @@
     <%= link_to 'プロフィール編集', edit_user_path(@user.id), class: "btn btn-success btn-sm mb-3" %>
   <% end %>
 
-  <h4><%= @user.name %>の公開投稿</h4>
+  <h4><%= @user.name %>の公開投稿（<%= @user.posts.visible.count %>件）</h4>
   <%= render '/public/posts', posts: @posts %>
 <% end %>

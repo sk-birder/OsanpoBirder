@@ -58,7 +58,7 @@
 </div>
 
 <div class="mb-3">
-  <h4>下書き一覧</h4>
+  <h4>下書き（<%= current_user.posts.user_draft.count %>件）</h4>
   <% if @drafts_count == 0 %>
     下書きがありません。
   <% else %>
@@ -69,7 +69,7 @@
 
 <% if @forbidden_posts_count > 0 %>
   <div class="mb-3">
-    <h4>管理者による非公開状態の投稿一覧</h4>
+    <h4>管理者による非公開状態の投稿（<%= current_user.posts.admin_forbidden.count %>件）</h4>
     <%= render '/public/users/mypage_posts', posts: @forbidden_posts %>
     <%= link_to '非公開状態の投稿一覧', forbidden_posts_path, class: "mt-3 btn btn-warning" if @forbidden_posts_count > 3 %>
   </div>
