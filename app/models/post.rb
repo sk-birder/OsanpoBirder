@@ -7,6 +7,8 @@ class Post < ApplicationRecord
   belongs_to :user
   belongs_to :category
 
+  before_validation :set_published_at, on: :create
+
   # 地点選択を必須にするカスタムバリデーション
   validate :location_presence
 
@@ -98,5 +100,11 @@ class Post < ApplicationRecord
   # posts/showでの報告判定メソッド
   def reported_by?(user)
     reports.exists?(user_id: user.id)
+  end
+
+  private
+  def set_published_at
+    return if !is_public
+    self.published_at ||= Time.current
   end
 end

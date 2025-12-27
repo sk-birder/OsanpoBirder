@@ -14,7 +14,7 @@ class Public::PostsController < ApplicationController
     @post.user_id = current_user.id
     @post.is_forbidden = false # 本番環境でのエラー回避用
     if @post.save
-      flash[:notice] = '投稿に成功しました。'
+      @post.is_public ? flash[:notice] = '投稿に成功しました。' : flash[:notice] = '下書きを保存しました。'
       redirect_to post_path(@post.id)
     else
       flash.now[:notice] = '投稿に失敗しました。'
