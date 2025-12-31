@@ -7,7 +7,7 @@ class Post < ApplicationRecord
   belongs_to :user
   belongs_to :category
 
-  before_validation :set_published_at, on: :create
+  before_validation :set_published_at, on: [ :create, :update ] 
 
   # 地点選択を必須にするカスタムバリデーション
   validate :location_presence
@@ -105,6 +105,7 @@ class Post < ApplicationRecord
   private
   def set_published_at
     return if !is_public
+    return if published_at.present?
     self.published_at ||= Time.current
   end
 end
