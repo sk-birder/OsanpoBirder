@@ -29,7 +29,7 @@ class Public::PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.visible.recent.page(params[:page])
+    @posts = Post.visible.published_recent.page(params[:page])
     @categories = Category.all
   end
 
@@ -38,7 +38,7 @@ class Public::PostsController < ApplicationController
     followed_users_ids = current_user.following.pluck(:followed_user_id)
     @posts = Post.visible
                  .where(user_id: [current_user.id] + followed_users_ids)
-                 .recent
+                 .published_recent
                  .page(params[:page])
   end
 

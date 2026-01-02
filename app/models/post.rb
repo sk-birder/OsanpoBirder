@@ -43,8 +43,8 @@ class Post < ApplicationRecord
   scope :admin_allowed,   -> { where(is_forbidden: false) }
   scope :visible,         -> { user_published.admin_allowed }
 
-  # 新着順で並び替えるクラスメソッドの定義
   scope :recent, -> { order(created_at: :desc) }
+  scope :published_recent, -> { order(published_at: :desc) }
 
   # 地点選択を必須にするカスタムメソッド（バリデーションエラーメッセージを1文にするために必要）
   def location_presence
