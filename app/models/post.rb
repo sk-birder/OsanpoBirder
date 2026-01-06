@@ -43,7 +43,8 @@ class Post < ApplicationRecord
   scope :admin_allowed,   -> { where(is_forbidden: false) }
   scope :visible,         -> { user_published.admin_allowed }
 
-  scope :recent, -> { order(created_at: :desc) }
+  scope :recent,           -> { order(created_at: :desc) }
+  scope :recently_updated, -> { order(updated_at: :desc) }
   scope :published_recent, -> { order(published_at: :desc) }
 
   # 地点選択を必須にするカスタムメソッド（バリデーションエラーメッセージを1文にするために必要）
@@ -75,7 +76,7 @@ class Post < ApplicationRecord
   # 検索用のメソッド
   # 入力テキストをtext, 検索方式をmethodとする
   def self.search_for(text, method)
-    post = Post.where(is_public: true, is_forbidden: false) # 投稿者非公開と管理者非公開を除外
+    post = Post.visible
     if method == 'perfect'
       post.where(title: text) # 完全一致
     elsif method == 'forward'

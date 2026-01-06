@@ -8,6 +8,6 @@ class Admin::ReportsController < ApplicationController
     # reported_post_ids_organized = reported_post_ids.uniq.sort
     # IDの重複を無くす
     reported_post_ids_organized = reported_post_ids.uniq
-    @posts = Post.where(id: reported_post_ids_organized).recent.page(params[:page])
+    @posts = Post.where(id: reported_post_ids_organized).published_recent.page(params[:page])
   end
 end

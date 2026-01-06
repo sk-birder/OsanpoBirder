@@ -5,9 +5,6 @@
   <p>※ 管理者非公開状態の投稿は含みません。</p>
 <% elsif params[:status] == 'forbidden'  %>
   <h2>管理者非公開の投稿一覧</h2>
-<% elsif params[:status] == 'user_published'  %>
-  <h2>ユーザー公開設定の投稿一覧</h2> <%# テスト用のため削除すること %>
-  <p>※ 管理者非公開状態の投稿を含みます。</p> <%# テスト用のため削除すること %>
 <% else %>
   <h2>全投稿一覧</h2>
 <% end %>
@@ -17,7 +14,6 @@
   <button><%= link_to '公開', admin_posts_path(status: 'visible') %></button>
   <button><%= link_to '下書き', admin_posts_path(status: 'draft') %></button>
   <button><%= link_to '管理者非公開', admin_posts_path(status: 'forbidden') %></button>
-  <button><%= link_to 'ユーザー公開', admin_posts_path(status: 'user_published') %></button><%# テスト用のため削除すること %>
 </div>
 
 <%= render '/admin/posts_test', posts: @posts %>

@@ -14,7 +14,7 @@ class Public::UsersController < ApplicationController
     @drafts_count = drafts.count
 
     forbidden_posts = posts.admin_forbidden
-    @forbidden_posts = forbidden_posts.recent.limit(3)
+    @forbidden_posts = forbidden_posts.recently_updated.limit(3)
     @forbidden_posts_count = forbidden_posts.count
   end
 
