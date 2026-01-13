@@ -62,6 +62,14 @@ class Post < ApplicationRecord
     true
   end
 
+  def display_datetime_label
+    published_at.present? ? '公開日時' : '下書き作成日時'
+  end
+
+  def display_main_datetime
+    (published_at || created_at).strftime('%Y/%m/%d %H:%M')
+  end
+
   # 投稿後の更新の有無を確認するメソッド
   def updated_after_creation?
     # ぼっち演算子でnilのときのエラーを回避

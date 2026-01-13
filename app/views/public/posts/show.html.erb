@@ -39,15 +39,9 @@
     <p>
       <%= simple_format(@post.body, sanitize: true) %>
     </p>
-    <% if @post.published_at.present? %>
-      <h4>公開日時</h4>
-      <p>
-        公開：<%= @post.published_at.strftime('%Y/%m/%d %H:%M') %>
-    <% else %>
-      <h4>下書き作成日時</h4>
-      <p>
-        <%= @post.created_at.strftime('%Y/%m/%d %H:%M') %>
-    <% end %>
+    <h4><%= @post.display_datetime_label %></h4>
+    <p>
+      <%= @post.display_main_datetime %>
       <br />
       （最終更新日時：<%= @post.updated_at.strftime('%Y/%m/%d %H:%M') %>）
     </p>

@@ -27,7 +27,7 @@
             <% end %>
           </div>
           <div class="col-4">
-            <div class="text-center"><%= post.created_at.strftime('%Y/%m/%d') %></div>
+            <div class="text-center"><%= post.display_main_datetime %></div>
             <div class="text-center">
               <span class="mr-1">
                 <i class="fa-regular fa-comment"></i> <%= post.post_comments.count %>
