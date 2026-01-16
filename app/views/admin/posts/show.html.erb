@@ -38,13 +38,11 @@
   <p>
     <%= simple_format(@show_post.body, sanitize: true) %>
   </p>
-  <h4>投稿日時</h4>
+  <h4><%= @show_post.display_datetime_label %></h4>
   <p>
-    <%= @show_post.created_at.strftime('%Y/%m/%d %H:%M') %>
-    <% if @show_post.updated_after_creation? %>
-      <br />
-      （最終更新日時：<%= @show_post.updated_at.strftime('%Y/%m/%d %H:%M') %>）
-    <% end %>
+    <%= @show_post.display_main_datetime %>
+    <br />
+    （最終更新日時：<%= @show_post.display_main_datetime %>）
   </p>
   <h4>投稿ユーザー</h4>
   <p>
@@ -89,7 +87,7 @@
       </div>
       <div>
         <%= comment.body %><br />
-        <%= comment.created_at.strftime('%Y/%m/%d %H:%M') %><br />
+        <%= comment.display_main_datetime %><br />
         <%= link_to admin_user_path(comment.user_id) do %>
           <%= comment.user.name %>
         <% end %><br />

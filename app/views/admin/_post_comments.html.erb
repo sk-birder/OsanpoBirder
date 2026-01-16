@@ -7,7 +7,7 @@
     </div>
     <div>
       <%= comment.body %><br />
-      <%= comment.created_at.strftime('%Y/%m/%d') %><br />
+      <%= comment.display_main_datetime %><br />
       <%= link_to '対象投稿', admin_post_path(comment.post_id) %><br />
       <%= link_to admin_user_path(comment.user_id) do %>
         <%= comment.user.name %>

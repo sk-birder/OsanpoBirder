@@ -21,7 +21,7 @@
       </div>
       <div>
         <%= comment.body %><br />
-        <%= comment.created_at.strftime('%Y/%m/%d %H:%M') %><br />
+        <%= comment.display_main_datetime %><br />
         <%= link_to user_path(comment.user_id) do %>
           <%= comment.user.name %>
         <% end %><br />
