@@ -46,6 +46,16 @@ class Post < ApplicationRecord
   scope :recent,           -> { order(created_at: :desc) }
   scope :recently_updated, -> { order(updated_at: :desc) }
   scope :published_recent, -> { order(published_at: :desc) }
+  scope :published_oldest, -> { order(published_at: :asc) }
+
+  scope :sorted_by_published, ->(sort) {
+    case sort
+    when 'old'
+      published_oldest
+    else
+      published_recent
+    end
+  }
 
   # 地点選択を必須にするカスタムメソッド（バリデーションエラーメッセージを1文にするために必要）
   def location_presence

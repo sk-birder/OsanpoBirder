@@ -1,3 +1,7 @@
 <h2>公開投稿一覧</h2>
-<%= render '/posts_sort_buttons', list_type: @list_type %>
+<div>
+  <button class="btn btn-outline-primary btn-sm"><%= link_to '新しい順', posts_path %></button>
+  <button class="btn btn-outline-primary btn-sm"><%= link_to '古い順', posts_path(sort: 'old') %></button>
+</div>
+<%# render '/posts_sort_buttons', list_type: @list_type %>
 <%= render '/public/posts', posts: @posts %>

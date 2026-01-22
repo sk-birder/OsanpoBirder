@@ -29,11 +29,10 @@ class Public::PostsController < ApplicationController
   end
 
   def index
-    # if params{:sort] == 'old'
-    # else
-    # end
+    @posts = Post.visible
+                 .sorted_by_published(params[:sort])
+                 .page(params[:page])
     @list_type = :published
-    @posts = Post.visible.published_recent.page(params[:page])
     @categories = Category.all
   end
 
