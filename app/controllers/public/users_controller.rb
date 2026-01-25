@@ -35,7 +35,10 @@ class Public::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @posts = Post.where(user_id: params[:id], is_public: true, is_forbidden: false).published_recent.page(params[:page])
+    @posts = Post.where(user_id: params[:id])
+                 .visible
+                 .sorted_by_published(params[:posts_sort])
+                 .page(params[:page])
   end
 
   def following
