@@ -45,7 +45,7 @@
       <br />
       （最終更新日時：<%= @post.updated_at.strftime('%Y/%m/%d %H:%M') %>）
     </p>
-    <h4>投稿ユーザー</h4>
+    <h4>投稿ユーザー</h4>id=
     <p>
       <%= link_to user_path(@post.user_id) do %>
         <%= image_tag @post.user.get_profile_image(150, 150) %><br />

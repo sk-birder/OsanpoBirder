@@ -1,2 +1,6 @@
 <h2><%= @user.name %>のいいね一覧</h2>
+<div>
+  <button class="btn btn-outline-primary btn-sm"><%= link_to '新しい順', user_likes_path(@user) %></button>
+  <button class="btn btn-outline-primary btn-sm"><%= link_to '古い順', user_likes_path(@user, sort: 'old') %></button>
+</div>
 <%= render '/public/posts', posts: @liked_posts %>

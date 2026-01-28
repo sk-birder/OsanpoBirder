@@ -52,7 +52,7 @@ class Public::PostsController < ApplicationController
     end
     # コメント関連
     @post_comment = PostComment.new
-    @comments = PostComment.where(post_id: params[:id])
+    @comments = PostComment.where(post_id: params[:id]).recent
   end
 
   def edit
