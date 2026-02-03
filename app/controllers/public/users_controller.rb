@@ -65,13 +65,10 @@ class Public::UsersController < ApplicationController
 
   def likes
     @user = User.find(params[:id])
-    # いいねした投稿のIDを取得して配列に格納
-    liked_post_ids = Like.where(user_id: @user.id).pluck(:post_id)
-    # 公開記事の中から該当する投稿のみ取得
-    @liked_posts = Post.where(id: liked_post_ids)
-                       .visible
-                       .sorted_by_published(params[:sort])
-                       .page(params[:page])
+    @liked_posts = @user.liked_posts
+                        .visible
+                        .page(params[:page])
+                        # .sorted_by_published(params[:sort])
   end
 
   def comments

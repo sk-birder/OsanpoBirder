@@ -12,6 +12,8 @@ class User < ApplicationRecord
   has_many :following, class_name: 'Relationship', foreign_key: 'follower_user_id', dependent: :destroy
   has_many :followers, class_name: 'Relationship', foreign_key: 'followed_user_id', dependent: :destroy
 
+  has_many :liked_posts, through: :likes, source: :post
+
   validates :email,
     format: { with: Devise.email_regexp },
     presence: true,
