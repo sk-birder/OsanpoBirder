@@ -65,10 +65,8 @@ class Public::UsersController < ApplicationController
 
   def likes
     @user = User.find(params[:id])
-    @liked_posts = @user.liked_posts
-                        .visible
+    @liked_posts = @user.order_liked_posts(params[:sort])
                         .page(params[:page])
-                        # .sorted_by_published(params[:sort])
   end
 
   def comments

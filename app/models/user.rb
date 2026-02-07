@@ -146,4 +146,20 @@ class User < ApplicationRecord
   def guest_user?
     email == GUEST_USER_EMAIL
   end
+
+  # public/users#likes用
+  def order_liked_posts(sort)
+    liked_visible_posts = liked_posts.visible
+    case sort
+    when 'published_oldest'
+      liked_visible_posts.order(published_at: :asc)
+    when 'published_newest'
+      liked_visible_posts.order(published_at: :desc)
+    when 'liked_oldest'
+      liked_visible_posts.order('likes.created_at ASC')
+    else # liked_newest
+      liked_visible_posts.order('likes.created_at DESC')
+    end
+  end
+
 end

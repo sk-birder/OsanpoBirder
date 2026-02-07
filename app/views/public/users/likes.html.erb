@@ -1,6 +1,14 @@
 <h2><%= @user.name %>のいいね一覧</h2>
-<div>
-  <button class="btn btn-outline-primary btn-sm"><%= link_to '新しい順', user_likes_path(@user) %></button>
-  <button class="btn btn-outline-primary btn-sm"><%= link_to '古い順', user_likes_path(@user, sort: 'old') %></button>
-</div>
+<%= form_with url: user_likes_path(@user), method: :get, local: true do |f| %>
+  <%= f.select :sort,
+                [
+                  ['いいねが新しい順', 'liked_newest'], ['いいねが古い順', 'liked_oldest'], ['公開日が新しい順', 'published_newest'], ['公開日が古い順', 'published_oldest']
+                ], 
+                { selected: params[:sort] },
+                { 
+                  onchange: "this.form.submit()",
+                  class: "mb-3 form-control"
+                }
+                 %>  
+<% end %>
 <%= render '/public/posts', posts: @liked_posts %>
