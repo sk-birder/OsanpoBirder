@@ -33,11 +33,11 @@
 
   <p>
     <%= link_to user_following_path(@user) do %>
-      <%= @user.following.count %> フォロー
+      <%= @user.following_relationships.count %> フォロー
     <% end %>
     / 
     <%= link_to user_followers_path(@user) do %>
-      <%= @user.followers.count %> フォロワー
+      <%= @user.follower_relationships.count %> フォロワー
     <% end %>
   </p>
   <p id="relationship_btn">

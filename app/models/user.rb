@@ -9,14 +9,12 @@ class User < ApplicationRecord
   has_many :post_comments,  dependent: :destroy
   has_many :likes,          dependent: :destroy
   has_many :reports,        dependent: :destroy
-  # 以下2つは名称変更する
-  has_many :following, class_name: 'Relationship', foreign_key: 'follower_user_id', dependent: :destroy
-  has_many :followers, class_name: 'Relationship', foreign_key: 'followed_user_id', dependent: :destroy
+  has_many :following_relationships, class_name: 'Relationship', foreign_key: 'follower_user_id', dependent: :destroy
+  has_many :follower_relationships,  class_name: 'Relationship', foreign_key: 'followed_user_id', dependent: :destroy
 
   has_many :liked_posts, through: :likes, source: :post
-  # 以下2つは外部キーの命名変更に合わせて内容を変更すること
-  has_many :following_users, through: :following, source: :followed
-  has_many :follower_users,  through: :followers, source: :follower
+  has_many :following_users, through: :following_relationships, source: :followed_user
+  has_many :follower_users,  through: :follower_relationships, source: :follower_user
 
   validates :email,
     format: { with: Devise.email_regexp },
@@ -69,7 +67,7 @@ class User < ApplicationRecord
 
   # users#showでのフォロー済み判定メソッド
   def followed_by?(user)
-    followers.exists?(follower_user_id: user.id)
+    follower_relationships.exists?(follower_user_id: user.id)
   end
 
   # posts#newとmaps#indexの地図の初期位置設定
