@@ -39,13 +39,11 @@
     <p>
       <%= simple_format(@post.body, sanitize: true) %>
     </p>
-    <h4>投稿日時</h4>
+    <h4><%= @post.display_datetime_label %></h4>
     <p>
-      <%= @post.created_at.strftime('%Y/%m/%d %H:%M') %>
-      <% if @post.updated_after_creation? %>
-        <br />
-        （最終更新日時：<%= @post.updated_at.strftime('%Y/%m/%d %H:%M') %>）
-      <% end %>
+      <%= @post.display_main_datetime %>
+      <br />
+      （最終更新日時：<%= @post.updated_at.strftime('%Y/%m/%d %H:%M') %>）
     </p>
     <h4>投稿ユーザー</h4>
     <p>

@@ -7,6 +7,8 @@ class Post < ApplicationRecord
   belongs_to :user
   belongs_to :category
 
+  before_validation :set_published_at, on: [ :create, :update ] 
+
   # 地点選択を必須にするカスタムバリデーション
   validate :location_presence
 
@@ -41,8 +43,19 @@ class Post < ApplicationRecord
   scope :admin_allowed,   -> { where(is_forbidden: false) }
   scope :visible,         -> { user_published.admin_allowed }
 
-  # 新着順で並び替えるクラスメソッドの定義
-  scope :recent, -> { order(created_at: :desc) }
+  scope :recent,           -> { order(created_at: :desc) }
+  scope :recently_updated, -> { order(updated_at: :desc) }
+  scope :published_recent, -> { order(published_at: :desc) }
+  scope :published_oldest, -> { order(published_at: :asc) }
+
+  scope :sorted_by_published, ->(sort) {
+    case sort
+    when 'old'
+      published_oldest
+    else
+      published_recent
+    end
+  }
 
   # 地点選択を必須にするカスタムメソッド（バリデーションエラーメッセージを1文にするために必要）
   def location_presence
@@ -59,6 +72,14 @@ class Post < ApplicationRecord
     true
   end
 
+  def display_datetime_label
+    published_at.present? ? '公開日時' : '下書き作成日時'
+  end
+
+  def display_main_datetime
+    (published_at || created_at).strftime('%Y/%m/%d %H:%M')
+  end
+
   # 投稿後の更新の有無を確認するメソッド
   def updated_after_creation?
     # ぼっち演算子でnilのときのエラーを回避
@@ -73,7 +94,7 @@ class Post < ApplicationRecord
   # 検索用のメソッド
   # 入力テキストをtext, 検索方式をmethodとする
   def self.search_for(text, method)
-    post = Post.where(is_public: true, is_forbidden: false) # 投稿者非公開と管理者非公開を除外
+    post = Post.visible
     if method == 'perfect'
       post.where(title: text) # 完全一致
     elsif method == 'forward'
@@ -98,5 +119,12 @@ class Post < ApplicationRecord
   # posts/showでの報告判定メソッド
   def reported_by?(user)
     reports.exists?(user_id: user.id)
+  end
+
+  private
+  def set_published_at
+    return if !is_public
+    return if published_at.present?
+    self.published_at ||= Time.current
   end
 end

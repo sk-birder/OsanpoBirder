@@ -1,2 +1,19 @@
-<h2>エンドユーザー投稿一覧</h2>
-<%= render '/admin/posts', posts: @posts %>
+<% if params[:status] == 'visible' %>
+  <h2>公開投稿一覧</h2>
+<% elsif params[:status] == 'draft' %>
+  <h2>下書き一覧</h2>
+  <p>※ 管理者非公開状態の投稿は含みません。</p>
+<% elsif params[:status] == 'forbidden'  %>
+  <h2>管理者非公開の投稿一覧</h2>
+<% else %>
+  <h2>全投稿一覧</h2>
+<% end %>
+
+<div>
+  <button><%= link_to '全て', admin_posts_path %></button>
+  <button><%= link_to '公開', admin_posts_path(status: 'visible') %></button>
+  <button><%= link_to '下書き', admin_posts_path(status: 'draft') %></button>
+  <button><%= link_to '管理者非公開', admin_posts_path(status: 'forbidden') %></button>
+</div>
+
+<%= render '/admin/posts_test', posts: @posts %>

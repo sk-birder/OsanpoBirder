@@ -9,8 +9,12 @@ class User < ApplicationRecord
   has_many :post_comments,  dependent: :destroy
   has_many :likes,          dependent: :destroy
   has_many :reports,        dependent: :destroy
-  has_many :following, class_name: 'Relationship', foreign_key: 'follower_user_id', dependent: :destroy
-  has_many :followers, class_name: 'Relationship', foreign_key: 'followed_user_id', dependent: :destroy
+  has_many :following_relationships, class_name: 'Relationship', foreign_key: 'follower_user_id', dependent: :destroy
+  has_many :follower_relationships,  class_name: 'Relationship', foreign_key: 'followed_user_id', dependent: :destroy
+
+  has_many :liked_posts, through: :likes, source: :post
+  has_many :following_users, through: :following_relationships, source: :followed_user
+  has_many :follower_users,  through: :follower_relationships, source: :follower_user
 
   validates :email,
     format: { with: Devise.email_regexp },
@@ -30,8 +34,19 @@ class User < ApplicationRecord
     福岡県: 40, 佐賀県: 41, 長崎県: 42, 熊本県: 43, 大分県: 44, 宮崎県: 45, 鹿児島県: 46, 沖縄県: 47
   }
 
-  scope :active, -> { where(is_active: true) }
+  scope :active, -> { where(is_active: true, is_forbidden: false) }
   scope :except_guest, -> { where.not(email: 'guest@guest') }
+  scope :recent, -> { order(created_at: :desc) }
+  scope :oldest, -> { order(created_at: :asc) }
+
+  scope :ordered_users, ->(sort) {
+    case sort.to_s
+    when 'oldest'
+      oldest
+    else
+      recent
+    end
+  }
 
   def available?
     is_active && !is_forbidden
@@ -63,7 +78,7 @@ class User < ApplicationRecord
 
   # users#showでのフォロー済み判定メソッド
   def followed_by?(user)
-    followers.exists?(follower_user_id: user.id)
+    follower_relationships.exists?(follower_user_id: user.id)
   end
 
   # posts#newとmaps#indexの地図の初期位置設定
@@ -144,4 +159,42 @@ class User < ApplicationRecord
   def guest_user?
     email == GUEST_USER_EMAIL
   end
+
+  # public/users#following用
+  def ordered_following_users(sort)
+    following = following_users
+    case sort.to_s
+    when 'oldest'
+      following.order('relationships.created_at ASC')
+    else # newest
+      following.order('relationships.created_at DESC')
+    end
+  end
+
+  # public/users#followers用
+  def ordered_follower_users(sort)
+    followers = follower_users
+    case sort.to_s
+    when 'oldest'
+      followers.order('relationships.created_at ASC')
+    else # newest
+      followers.order('relationships.created_at DESC')
+    end
+  end
+
+  # public/users#likes用
+  def ordered_liked_posts(sort)
+    liked_visible_posts = liked_posts.visible
+    case sort.to_s
+    when 'published_oldest'
+      liked_visible_posts.order(published_at: :asc)
+    when 'published_newest'
+      liked_visible_posts.order(published_at: :desc)
+    when 'liked_oldest'
+      liked_visible_posts.order('likes.created_at ASC')
+    else # liked_newest
+      liked_visible_posts.order('likes.created_at DESC')
+    end
+  end
+
 end

@@ -36,10 +36,13 @@
             <%= user.introduction %>
           </div>
           <div class="mb-2">
-            <%= user.posts.count %> ポスト / <%= user.following.count %> フォロー / <%= user.followers.count %> フォロワー
+            <%= user.posts.visible.count %> ポスト / <%= user.following_relationships.count %> フォロー / <%= user.follower_relationships.count %> フォロワー
           </div>
         </div>
       </div>
     </div>
   <% end %>
+  <div class="d-flex justify-content-center mt-3">
+    <%= paginate users %>
+  </div>
 </div>

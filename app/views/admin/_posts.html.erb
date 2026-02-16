@@ -46,7 +46,7 @@
           <%= post.user.name %>
         <% end %>
       </td>
-      <td><%= post.created_at.strftime('%Y/%m/%d') %></td>
+      <td><%= post.display_main_datetime %></td>
     </tr>
   <% end %>
 </table>

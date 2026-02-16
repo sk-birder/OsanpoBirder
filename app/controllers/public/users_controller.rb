@@ -3,7 +3,10 @@ class Public::UsersController < ApplicationController
   before_action :deny_deactivated_user
 
   def index
-    @users = User.active.except_guest # ページネータを追加すること
+    @users = User.active
+                 .except_guest
+                 .ordered_users(params[:sort])
+                 .page(params[:page])
   end
 
   def mypage
@@ -14,7 +17,7 @@ class Public::UsersController < ApplicationController
     @drafts_count = drafts.count
 
     forbidden_posts = posts.admin_forbidden
-    @forbidden_posts = forbidden_posts.recent.limit(3)
+    @forbidden_posts = forbidden_posts.recently_updated.limit(3)
     @forbidden_posts_count = forbidden_posts.count
   end
 
@@ -35,37 +38,28 @@ class Public::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @posts = Post.where(user_id: params[:id], is_public: true, is_forbidden: false).recent.page(params[:page])
+    @posts = Post.where(user_id: params[:id])
+                 .visible
+                 .sorted_by_published(params[:posts_sort])
+                 .page(params[:page])
   end
 
   def following
     @user = User.find(params[:id])
-    following_ids = @user.following.pluck(:followed_user_id).reverse # 新規フォローを上に表示するためのreverse
-    # 以下2行の方が高速だが、理解が進んでから実装する
-    # order_map = following_ids.each_with_index.to_h
-    # @following = User.where(id: following_ids).sort_by{ |following| order_map[following.id] }
-    @following = User.where(id: following_ids).sort_by do |following|
-      following_ids.index(following.id)
-    end
+    @following = @user.ordered_following_users(params[:sort])
+                      .page(params[:page])
   end
 
   def followers
     @user = User.find(params[:id])
-    follower_ids = @user.followers.pluck(:follower_user_id).reverse # 新規フォローを上に表示するためのreverse
-    # 以下2行の方が高速だが、理解が進んでから実装する
-    # order_map = follower_ids.each_with_index.to_h
-    # @followers = User.where(id: follower_ids).sort_by{ |follower| order_map[follower.id] }
-    @followers = User.where(id: follower_ids).sort_by do |follower|
-      follower_ids.index(follower.id)
-    end
+    @followers = @user.ordered_follower_users(params[:sort])
+                      .page(params[:page])
   end
 
   def likes
     @user = User.find(params[:id])
-    # いいねした投稿のIDを取得して配列に格納
-    liked_post_ids = Like.where(user_id: @user.id).pluck(:post_id)
-    # 公開記事の中から該当する投稿のみ取得
-    @liked_posts = Post.where(is_public: true, is_forbidden: false).where(id: liked_post_ids).recent.page(params[:page])
+    @liked_posts = @user.ordered_liked_posts(params[:sort])
+                        .page(params[:page])
   end
 
   def comments

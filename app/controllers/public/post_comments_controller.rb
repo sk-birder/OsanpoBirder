@@ -18,7 +18,7 @@ class Public::PostCommentsController < ApplicationController
       end
     end
     # 再表示に必要なインスタンス変数の宣言
-    @comments = PostComment.where(post_id: params[:post_id])
+    @comments = PostComment.where(post_id: params[:post_id]).recent
   end
 
   def destroy
@@ -30,7 +30,7 @@ class Public::PostCommentsController < ApplicationController
     end
     # 再表示に必要なインスタンス変数の宣言
     @post_comment = PostComment.new
-    @comments = PostComment.where(post_id: params[:post_id])
+    @comments = PostComment.where(post_id: params[:post_id]).recent
   end
 
   private

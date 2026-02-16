@@ -14,7 +14,7 @@ class Public::PostsController < ApplicationController
     @post.user_id = current_user.id
     @post.is_forbidden = false # 本番環境でのエラー回避用
     if @post.save
-      flash[:notice] = '投稿に成功しました。'
+      @post.is_public ? flash[:notice] = '投稿に成功しました。' : flash[:notice] = '下書きを保存しました。'
       redirect_to post_path(@post.id)
     else
       flash.now[:notice] = '投稿に失敗しました。'
@@ -29,16 +29,19 @@ class Public::PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.visible.recent.page(params[:page])
+    @posts = Post.visible
+                 .sorted_by_published(params[:sort])
+                 .page(params[:page])
+    @list_type = :published
     @categories = Category.all
   end
 
   def timeline
     return redirect_to(posts_path) if current_user.guest_user?
-    followed_users_ids = current_user.following.pluck(:followed_user_id)
-    @posts = Post.visible
-                 .where(user_id: [current_user.id] + followed_users_ids)
-                 .recent
+    @posts = Post.where(user_id: current_user.following_users.select(:id))
+                 .or(Post.where(user_id: current_user.id))
+                 .visible
+                 .published_recent
                  .page(params[:page])
   end
 
@@ -49,7 +52,7 @@ class Public::PostsController < ApplicationController
     end
     # コメント関連
     @post_comment = PostComment.new
-    @comments = PostComment.where(post_id: params[:id])
+    @comments = PostComment.where(post_id: params[:id]).recent
   end
 
   def edit
@@ -78,7 +81,7 @@ class Public::PostsController < ApplicationController
   end
 
   def forbidden
-    @forbidden_posts = current_user.posts.admin_forbidden.recent.page(params[:page])
+    @forbidden_posts = current_user.posts.admin_forbidden.recently_updated.page(params[:page])
   end
 
   private

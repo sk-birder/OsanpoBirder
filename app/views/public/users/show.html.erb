@@ -1,34 +1,30 @@
-<h2>ユーザープロフィール</h2>
-
 <% if @user.is_forbidden %>
-  このユーザーのプロフィールは表示できません。
+  <h4>このユーザーのプロフィールは表示できません。</h4>
 <% else %>
-  <h4>プロフィール画像</h4>
-  <p><%= image_tag @user.get_profile_image(150, 150) %></p>
+  <h2><%= @user.name %>のプロフィール</h2>
 
-  <h4>ユーザーネーム</h4>
-  <p><%= @user.name %></p>
-  <p class="text-danger">
-    <% if !@user.is_active %>
+  <% if !@user.is_active %>
+    <p class="text-danger">
       退会済みユーザー
-    <% end %>
-  </p>
+    </p>
+  <% end %>
+  <p><%= image_tag @user.get_profile_image(150, 150) %></p>
 
   <h4>都道府県</h4>
   <p>
     <% if @user.hide_prefecture %>
-      非公開
+      <span class="m-1 p-1  rounded bg-info text-white-50">非公開</span>
     <% else %>
-      <%= @user.prefecture %>
+      <span class="m-1 p-1  rounded bg-info text-white"><%= @user.prefecture %></span>
     <% end %>
   </p>
 
   <h4>誕生年</h4>
   <p>
     <% if @user.hide_birth_year %>
-      非公開
+      <span class="m-1 p-1  rounded bg-success text-white-50">非公開</span>
     <% else %>
-      <%= @user.birth_year %>年
+      <span class="m-1 p-1  rounded bg-success text-white"><%= @user.birth_year %>年</span>
     <% end %>
   </p>
 
@@ -37,11 +33,11 @@
 
   <p>
     <%= link_to user_following_path(@user) do %>
-      <%= @user.following.count %> フォロー
+      <%= @user.following_relationships.count %> フォロー
     <% end %>
     / 
     <%= link_to user_followers_path(@user) do %>
-      <%= @user.followers.count %> フォロワー
+      <%= @user.follower_relationships.count %> フォロワー
     <% end %>
   </p>
   <p id="relationship_btn">
@@ -52,6 +48,10 @@
     <%= link_to 'プロフィール編集', edit_user_path(@user.id), class: "btn btn-success btn-sm mb-3" %>
   <% end %>
 
-  <h4><%= @user.name %>の公開投稿</h4>
+  <h4><%= @user.name %>の公開投稿（<%= @user.posts.visible.count %>件）</h4>
+  <div>
+    <button class="btn btn-outline-primary btn-sm"><%= link_to '新しい順', user_path(@user) %></button>
+    <button class="btn btn-outline-primary btn-sm"><%= link_to '古い順', user_path(@user, posts_sort: 'old') %></button>
+  </div>
   <%= render '/public/posts', posts: @posts %>
 <% end %>

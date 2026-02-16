@@ -3,7 +3,18 @@ class Admin::PostsController < ApplicationController
   before_action :deny_deactivated_admin
 
   def index
-    @posts = Post.recent.page(params[:page])
+    posts =
+      case params[:status]
+      when 'visible'
+        Post.visible.published_recent
+      when 'draft'
+        Post.user_draft.admin_allowed.recent
+      when 'forbidden'
+        Post.admin_forbidden.published_recent
+      else
+        Post.recent
+      end
+    @posts = posts.page(params[:page])
   end
 
   def show
