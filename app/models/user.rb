@@ -36,6 +36,17 @@ class User < ApplicationRecord
 
   scope :active, -> { where(is_active: true, is_forbidden: false) }
   scope :except_guest, -> { where.not(email: 'guest@guest') }
+  scope :recent, -> { order(created_at: :desc) }
+  scope :oldest, -> { order(created_at: :asc) }
+
+  scope :ordered_users, ->(sort) {
+    case sort.to_s
+    when 'oldest'
+      oldest
+    else
+      recent
+    end
+  }
 
   def available?
     is_active && !is_forbidden

@@ -3,7 +3,10 @@ class Public::UsersController < ApplicationController
   before_action :deny_deactivated_user
 
   def index
-    @users = User.active.except_guest # ページネータを追加すること
+    @users = User.active
+                 .except_guest
+                 .ordered_users(params[:sort])
+                 .page(params[:page])
   end
 
   def mypage

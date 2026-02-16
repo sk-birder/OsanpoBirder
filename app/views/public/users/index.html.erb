@@ -1,2 +1,15 @@
 <h2>アクティブユーザー一覧</h2>
+<%= form_with url: users_path, method: :get, local: true do |f| %>
+  <%= f.select :sort,
+                [
+                  ['登録日が新しい順', 'newest'],
+                  ['登録日が古い順', 'oldest']
+                ], 
+                { selected: params[:sort] },
+                { 
+                  onchange: "this.form.submit()",
+                  class: "mb-3 form-control"
+                }
+                 %>
+<% end %>
 <%= render '/public/users', users: @users %>

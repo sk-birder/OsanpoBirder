@@ -7,7 +7,7 @@ class Public::SearchesController < ApplicationController
     @text = params[:text]     # 検索テキスト
     @method = params[:method] # 検索方式
     if @model == 'user'
-      @records = User.search_for(@text, @method)
+      @records = User.search_for(@text, @method).page(params[:page])
     else
       @records = Post.search_for(@text, @method).published_recent.page(params[:page])
     end
