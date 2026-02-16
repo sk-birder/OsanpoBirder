@@ -38,9 +38,9 @@ class Public::PostsController < ApplicationController
 
   def timeline
     return redirect_to(posts_path) if current_user.guest_user?
-    followed_users_ids = current_user.following_relationships.pluck(:followed_user_id)
-    @posts = Post.visible
-                 .where(user_id: [current_user.id] + followed_users_ids)
+    @posts = Post.where(user_id: current_user.following_users.select(:id))
+                 .or(Post.where(user_id: current_user.id))
+                 .visible
                  .published_recent
                  .page(params[:page])
   end

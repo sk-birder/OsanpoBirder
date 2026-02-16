@@ -149,10 +149,32 @@ class User < ApplicationRecord
     email == GUEST_USER_EMAIL
   end
 
+  # public/users#following用
+  def ordered_following_users(sort)
+    following = following_users
+    case sort.to_s
+    when 'oldest'
+      following.order('relationships.created_at ASC')
+    else # newest
+      following.order('relationships.created_at DESC')
+    end
+  end
+
+  # public/users#followers用
+  def ordered_follower_users(sort)
+    followers = follower_users
+    case sort.to_s
+    when 'oldest'
+      followers.order('relationships.created_at ASC')
+    else # newest
+      followers.order('relationships.created_at DESC')
+    end
+  end
+
   # public/users#likes用
-  def order_liked_posts(sort)
+  def ordered_liked_posts(sort)
     liked_visible_posts = liked_posts.visible
-    case sort
+    case sort.to_s
     when 'published_oldest'
       liked_visible_posts.order(published_at: :asc)
     when 'published_newest'

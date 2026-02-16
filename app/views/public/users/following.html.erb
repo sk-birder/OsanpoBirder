@@ -1,2 +1,15 @@
 <h2><%= @user.name %>のフォロー一覧</h2>
+<%= form_with url: user_following_path(@user), method: :get, local: true do |f| %>
+  <%= f.select :sort,
+                [
+                  ['フォローが新しい順', 'newest'],
+                  ['フォローが古い順', 'oldest']
+                ], 
+                { selected: params[:sort] },
+                { 
+                  onchange: "this.form.submit()",
+                  class: "mb-3 form-control"
+                }
+                 %>
+<% end %>
 <%= render '/public/users', users: @following %>

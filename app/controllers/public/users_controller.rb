@@ -43,17 +43,19 @@ class Public::UsersController < ApplicationController
 
   def following
     @user = User.find(params[:id])
-    @following = @user.following_users # ソート機能を追加予定
+    @following = @user.ordered_following_users(params[:sort])
+                      .page(params[:page])
   end
 
   def followers
     @user = User.find(params[:id])
-    @followers = @user.follower_users # ソート機能を追加予定
+    @followers = @user.ordered_follower_users(params[:sort])
+                      .page(params[:page])
   end
 
   def likes
     @user = User.find(params[:id])
-    @liked_posts = @user.order_liked_posts(params[:sort])
+    @liked_posts = @user.ordered_liked_posts(params[:sort])
                         .page(params[:page])
   end
 
