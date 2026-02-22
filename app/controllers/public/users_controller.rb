@@ -10,6 +10,7 @@ class Public::UsersController < ApplicationController
   end
 
   def mypage
+    return redirect_to(posts_path) if current_user.guest_user?
     posts = current_user.posts
 
     drafts = posts.user_draft

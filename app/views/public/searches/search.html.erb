@@ -1,6 +1,6 @@
 <% if @model == 'user' %>
   <h2>ユーザー検索：<%= @text %></h2>
-  <%= render '/public/users', users: @records %>
+  <%= render '/public/users/users_list', users: @records %>
 <% else %>
   <h2>投稿タイトル検索：<%= @text %></h2>
   <%= render '/public/posts', posts: @records %>

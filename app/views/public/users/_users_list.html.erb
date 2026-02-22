@@ -1,0 +1,8 @@
+<div class="card-list-container">
+  <% users.each do |user| %>
+    <%= render '/public/users/user_card', user: user %>
+  <% end %>
+  <div class="d-flex justify-content-center mt-3">
+    <%= paginate users %>
+  </div>
+</div>

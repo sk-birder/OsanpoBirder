@@ -1,6 +1,7 @@
 <% if @user.is_forbidden %>
   <h4>このユーザーのプロフィールは表示できません。</h4>
 <% else %>
+  <%= render '/public/users/user_card', user: @user %>
   <h2><%= @user.name %>のプロフィール</h2>
 
   <% if !@user.is_active %>
