@@ -18,28 +18,39 @@
     </div>
 
     <div>
-      <div class="d-flex flex-row my-2 mr-2">
-        <h4>
-          <%= user.name %>
-        </h4>
-      </div>
-      <div class="mb-2">
-        <% if user.hide_prefecture %>
-          <span class="m-1 p-1  rounded bg-info text-white-50">非公開</span>
-        <% else %>
-          <span class="m-1 p-1  rounded bg-info text-white"><%= user.prefecture %></span>
-        <% end %>
-        <% if user.hide_birth_year %>
-          <span class="m-1 p-1  rounded bg-success text-white-50">非公開</span>
-        <% else %>
-          <span class="m-1 p-1  rounded bg-success text-white"><%= user.birth_year %>年</span>
-        <% end %>
-      </div>
-      <div class="mb-2">
+      <h4 class="ml-2 mb-2">
+        <%= user.name %>
+      </h4>
+      <% if !@user.is_active %>
+        <div class="ml-2 mb-2 text-danger">
+          退会済みユーザー
+        </div>
+      <% end %>
+      <div class="ml-2 mb-2">
         <%= user.introduction %>
       </div>
-      <div class="mb-2">
-        <%= user.posts.visible.count %> ポスト / <%= user.following_relationships.count %> フォロー / <%= user.follower_relationships.count %> フォロワー
+      <div class="ml-2 mb-2">
+        <%# 何か気持ち悪い構造になっているのでCSSの部分を含めてhelperに逃がせないか検討 %>
+        <% if user.hide_prefecture %>
+          <span class="mr-2 p-1  rounded bg-info text-white-50"><%= hidden_prefecture_display(user) %></span>
+        <% else %>
+          <span class="mr-2 p-1  rounded bg-info text-white"><%= user.prefecture %></span>
+        <% end %>
+        <% if user.hide_birth_year %>
+          <span class="p-1  rounded bg-success text-white-50">誕生年非公開</span>
+        <% else %>
+          <span class="p-1  rounded bg-success text-white"><%= user.birth_year %>年</span>
+        <% end %>
+      </div>
+      <div class="ml-2 mb-2">
+        <%= user.posts.visible.count %> ポスト / 
+        <%= link_to user_following_path(@user) do %>
+          <%= user.following_relationships.count %> フォロー 
+        <% end %>
+        /
+        <%= link_to user_followers_path(@user) do %>
+          <%= user.follower_relationships.count %> フォロワー
+        <% end %>
       </div>
     </div>
   </div>
