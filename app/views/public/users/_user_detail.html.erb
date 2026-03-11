@@ -30,12 +30,8 @@
         <%= user.introduction %>
       </div>
       <div class="ml-2 mb-2">
-        <%# 何か気持ち悪い構造になっているのでCSSの部分を含めてhelperに逃がせないか検討 %>
-        <% if user.hide_prefecture %>
-          <span class="mr-2 p-1  rounded bg-info text-white-50"><%= hidden_prefecture_display(user) %></span>
-        <% else %>
-          <span class="mr-2 p-1  rounded bg-info text-white"><%= user.prefecture %></span>
-        <% end %>
+        <% data = display_prefecture_data(user) %>
+        <span class="mr-2 p-1  rounded bg-info <%= data[:css] %>"><%= data[:text] %></span>
         <% if user.hide_birth_year %>
           <span class="p-1  rounded bg-success text-white-50">誕生年非公開</span>
         <% else %>
