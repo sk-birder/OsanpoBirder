@@ -30,13 +30,10 @@
         <%= user.introduction %>
       </div>
       <div class="ml-2 mb-2">
-        <% data = display_prefecture_data(user) %>
-        <span class="mr-2 p-1  rounded bg-info <%= data[:css] %>"><%= data[:text] %></span>
-        <% if user.hide_birth_year %>
-          <span class="p-1  rounded bg-success text-white-50">誕生年非公開</span>
-        <% else %>
-          <span class="p-1  rounded bg-success text-white"><%= user.birth_year %>年</span>
-        <% end %>
+        <% prefecture_data = prefecture_display_data(user) %>
+        <span class="mr-2 p-1 rounded bg-info <%= prefecture_data[:css] %>"><%= prefecture_data[:text] %></span>
+        <% birth_year_data = birth_year_display_data(user) %>
+        <span class="mr-2 p-1 rounded bg-success <%= birth_year_data[:css] %>"><%= birth_year_data[:text] %></span>
       </div>
       <div class="ml-2 mb-2">
         <%= user.posts.visible.count %> ポスト / 
