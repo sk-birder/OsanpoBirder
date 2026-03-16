@@ -19,16 +19,10 @@
         <% end %>
       </div>
       <div class="mb-2">
-        <% if user.hide_prefecture %>
-          <span class="m-1 p-1  rounded bg-info text-white-50">非公開</span>
-        <% else %>
-          <span class="m-1 p-1  rounded bg-info text-white"><%= user.prefecture %></span>
-        <% end %>
-        <% if user.hide_birth_year %>
-          <span class="m-1 p-1  rounded bg-success text-white-50">非公開</span>
-        <% else %>
-          <span class="m-1 p-1  rounded bg-success text-white"><%= user.birth_year %>年</span>
-        <% end %>
+        <% prefecture_data = prefecture_display_data(user) %>
+        <span class="m-1 p-1 rounded bg-info <%= prefecture_data[:css] %>"><%= prefecture_data[:text] %></span>
+        <% birth_year_data = birth_year_display_data(user) %>
+        <span class="m-1 p-1 rounded bg-success <%= birth_year_data[:css] %>"><%= birth_year_data[:text] %></span>
       </div>
       <div class="mb-2">
         <%= user.introduction %>

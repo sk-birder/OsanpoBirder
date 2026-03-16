@@ -9,26 +9,12 @@ class Public::RelationshipsController < ApplicationController
       new_relationship = current_user.following_relationships.new(followed_user_id: @user.id)
       new_relationship.save # UNIQUE制約があるため分岐不要
     end
-    respond_to do |format|
-      if params[:from_page] == 'users_show'
-        format.js { render :create_at_users_show }
-      else
-        format.js { render :create }
-      end
-    end
   end
 
   def destroy
     current_user.following_relationships
                 .find_by(followed_user_id: @user.id)
                 &.destroy
-    respond_to do |format|
-      if params[:from_page] == 'users_show'
-        format.js { render :destroy_at_users_show }
-      else
-        format.js { render :destroy }
-      end
-    end
   end
 
   private

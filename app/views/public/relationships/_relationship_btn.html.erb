@@ -1,7 +1,7 @@
 <% if !user.is_active %>
   <button class="btn btn-outline-secondary">退会済み</button>
 <% elsif user.followed_by?(current_user) %>
-  <%= button_to 'フォロー解除', user_relationships_path(user, from_page: 'users_list'), method: :delete, remote: true, class: "btn btn-outline-danger" %>
+  <%= button_to 'フォロー解除', user_relationships_path(user), method: :delete, remote: true, class: "btn btn-outline-danger" %>
 <% else %>
-  <%= button_to 'フォローする', user_relationships_path(user, from_page: 'users_list'), method: :post, remote: true, class: "btn btn-outline-primary" %>
+  <%= button_to 'フォローする', user_relationships_path(user), method: :post, remote: true, class: "btn btn-outline-primary" %>
 <% end %>

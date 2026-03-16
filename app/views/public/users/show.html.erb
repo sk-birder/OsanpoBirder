@@ -1,11 +1,7 @@
 <% if @user.is_forbidden %>
   <h4>このユーザーのプロフィールは表示できません。</h4>
 <% else %>
-  <%# 部分テンプレート内のフォローボタンは正常に機能しない可能性あり %>
   <%= render '/public/users/user_detail', user: @user %>
-  <p id="relationship_btn">
-    <%= render '/public/relationships/relationship_btn_at_users_show', user: @user %>
-  </p>
 
   <h4>ポスト一覧</h4>
   <div>
