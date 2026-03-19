@@ -1,4 +1,4 @@
-<div class="card my-3 shadow">
+<div class="my-3">
   <div class="d-flex flex-column">
     <div class="d-flex flex-row justify-content-between">
       <div>
@@ -7,7 +7,7 @@
     
       <div class="d-flex align-items-end">
         <% if user == current_user %>
-          <%= link_to 'プロフィール編集', edit_user_path(current_user), class: "btn btn-outline-primary btn-sm m-2" %>
+          <%= link_to 'プロフィール編集', edit_user_path(current_user), class: "btn btn-outline-primary m-2" %>
         <% elsif !user.guest_user? %>
           <span id="relationship_btn_<%= user.id %>" class="m-2">
             <%= render '/public/relationships/relationship_btn', user: user %>
@@ -21,13 +21,13 @@
       <h4 class="ml-2 mb-2">
         <%= user.name %>
       </h4>
-      <% if !@user.is_active %>
+      <% if !user.is_active %>
         <div class="ml-2 mb-2 text-danger">
           退会済みユーザー
         </div>
       <% end %>
       <div class="ml-2 mb-2">
-        <%= user.introduction %>
+        <%= simple_format(user.introduction, sanitize: true) %>
       </div>
       <div class="ml-2 mb-2">
         <% prefecture_data = prefecture_display_data(user) %>
@@ -37,11 +37,11 @@
       </div>
       <div class="ml-2 mb-2">
         <%= user.posts.visible.count %> ポスト / 
-        <%= link_to user_following_path(@user) do %>
+        <%= link_to user_following_path(user) do %>
           <%= user.following_relationships.count %> フォロー 
         <% end %>
         /
-        <%= link_to user_followers_path(@user) do %>
+        <%= link_to user_followers_path(user) do %>
           <%= user.follower_relationships.count %> フォロワー
         <% end %>
       </div>
