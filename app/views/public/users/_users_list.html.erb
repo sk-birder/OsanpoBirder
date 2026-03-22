@@ -7,7 +7,7 @@
             <%= image_tag user.get_profile_image(50, 50), class: "m-2" %>
           <% end %>
         </div>
-        <div class="flex-grow-1">
+        <div class="flex-grow-1 user-card-content">
           <div class="d-flex flex-row my-2 mr-2">
             <h4>
               <%= link_to user_path(user) do %>
@@ -26,8 +26,7 @@
             <% birth_year_data = birth_year_display_data(user) %>
             <span class="m-1 p-1 rounded bg-success <%= birth_year_data[:css] %>"><%= birth_year_data[:text] %></span>
           </div>
-          <div class="mb-2">
-            <%# text-overflow: ellipsis;でレスポンシブ対応できないか検討する %>
+          <div class="mb-2 text-truncate">
             <%= user.introduction %>
           </div>
           <div class="mb-2">

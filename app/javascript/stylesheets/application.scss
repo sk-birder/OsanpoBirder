@@ -40,6 +40,10 @@ main {
   width: 80%;
 }
 
+.user-card-content {
+  min-width: 0;
+}
+
 /* map(id)の設定は未使用だがFallback値として残しておく */
 #map {
   width: 100%;
