@@ -6,7 +6,7 @@ json.data do
         json.postImage    post_image_path(post, 100, 100)
       end
       json.countImage   post.post_images.count
-      json.category     Category.find(post.category_id).name
+      json.category     post.category.name
       json.title        post.title
       json.latitude     post.latitude
       json.longitude    post.longitude

@@ -11,7 +11,7 @@ class Public::UsersController < ApplicationController
 
   def mypage
     return redirect_to(posts_path) if current_user.guest_user?
-    posts = current_user.posts
+    posts = current_user.posts.includes(:category)
 
     drafts = posts.user_draft
     @drafts = drafts.recent.limit(3)
@@ -41,6 +41,7 @@ class Public::UsersController < ApplicationController
     @user = User.find(params[:id])
     @posts = Post.where(user_id: params[:id])
                  .visible
+                 .includes(:category)
                  .sorted_by_published(params[:posts_sort])
                  .page(params[:page])
   end

@@ -38,7 +38,8 @@ class Public::PostsController < ApplicationController
 
   def timeline
     return redirect_to(posts_path) if current_user.guest_user?
-    @posts = Post.where(user_id: current_user.following_users.select(:id))
+    @posts = Post.includes(:category)
+                 .where(user_id: current_user.following_users.select(:id))
                  .or(Post.where(user_id: current_user.id))
                  .visible
                  .published_recent
