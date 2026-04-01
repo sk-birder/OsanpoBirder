@@ -10,55 +10,57 @@
 <% end %>
 
 <%= form_with model: @user, url: user_path, method: :patch do |f| %>
-  <div>
-    <p>プロフィール画像</p>
+  <div class="mb-3">
+    <%= f.label :profile_image, class: "h5 d-block" %>
     <%= f.file_field :profile_image, accept: "image/*" %>  
   </div>
 
-  <div>
-    <p>メールアドレス</p>
+  <div class="mb-3">
+    <%= f.label :email, class: "h5 d-block" %>
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div>
 
-  <div>
-    <p>名前（２～２０文字）</p>
+  <div class="mb-3">
+    <%= f.label :name, class: "h5 d-block" %>
+    <p>（２～２０文字）</p>
     <%= f.text_field :name %>
   </div>
 
-  <div>
-    <p>都道府県</p>
+  <div class="mb-3">
+    <%= f.label :prefecture, class: "h5 d-block" %>
     <%= f.select :prefecture, User.prefectures.keys, {} %>
   </div>
 
-  <div>
-    <p>都道府県の公開</p>
+  <div class="mb-3">
+    <%= f.label :hide_prefecture, class: "h5 d-block" %>
     <%= f.radio_button(:hide_prefecture, 'true', checked: true) %>
     <%= f.label(:hide_prefecture, '非公開', value: 'true') %>
     <%= f.radio_button(:hide_prefecture, 'false') %>
     <%= f.label(:hide_prefecture, '公開', value: 'false') %>
   </div>
 
-  <div>
-    <p>誕生年</p>
+  <div class="mb-3">
+    <%= f.label :birth_year, class: "h5 d-block" %>
     <%= f.select :birth_year, (1900..2100).to_a, selected: '2000' %>
   </div>
 
-  <div>
-    <p>誕生年の公開</p>
+  <div class="mb-3">
+    <%= f.label :hide_birth_year, class: "h5 d-block" %>
     <%= f.radio_button(:hide_birth_year, 'true', checked: true) %>
     <%= f.label(:hide_birth_year, '非公開', value: 'true') %>
     <%= f.radio_button(:hide_birth_year, 'false') %>
     <%= f.label(:hide_birth_year, '公開', value: 'false') %>
   </div>
 
-  <div>
-    <p>自己紹介（２００文字以下）</p>
-    <%= f.text_area :introduction %>
+  <div class="mb-3">
+    <%= f.label :introduction, class: "h5 d-block" %>
+    <p>（２００文字以下）</p>
+    <%= f.text_area :introduction, rows: '5', class: "user-introduction-form" %>
   </div>
 
   <div class="actions">
-    <%= f.submit "編集完了" %>
+    <%= f.submit "編集完了", class: "btn btn-success px-3 py-2" %>
   </div>
 <% end %>
 
-<%= link_to '退会', user_confirm_path %>
+<%= link_to '退会手続き', user_confirm_path, class: "btn btn-sm btn-danger mt-5" %>
