@@ -22,7 +22,7 @@
 
   <div class="mb-3">
     <%= f.label :name, class: "h5 d-block" %>
-    <p>（２～２０文字）</p>
+    <small class="d-block mb-2">(2 ～ 20文字)</small>
     <%= f.text_field :name %>
   </div>
 
@@ -54,7 +54,7 @@
 
   <div class="mb-3">
     <%= f.label :introduction, class: "h5 d-block" %>
-    <p>（２００文字以下）</p>
+    <small class="d-block mb-2">(200文字以下)</small>
     <%= f.text_area :introduction, rows: '5', class: "user-introduction-form" %>
   </div>
 
