@@ -23,6 +23,7 @@
   <div class="mb-3">
     <%= f.label :name, class: "h5 d-block" %>
     <small class="d-block mb-2">(2 ～ 20文字)</small>
+    <small class="d-block mb-2">※ 既存ユーザーの名前と同じ名前は登録できません。</small>
     <%= f.text_field :name %>
   </div>
 
@@ -58,7 +59,7 @@
     <%= f.text_area :introduction, rows: '5', class: "user-introduction-form" %>
   </div>
 
-  <div class="actions">
+  <div>
     <%= f.submit "編集完了", class: "btn btn-success px-3 py-2" %>
   </div>
 <% end %>

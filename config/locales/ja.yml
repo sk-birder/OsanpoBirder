@@ -19,6 +19,7 @@ ja:
         created_at: 登録日時
         updated_at: プロフィールの更新日時
         profile_image: プロフィール画像
+        remember_me: ログインしたままにする
       post:
         title: タイトル
         prefecture: 都道府県

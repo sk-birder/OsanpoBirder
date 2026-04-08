@@ -3,64 +3,66 @@
 <%= form_with model: @user, url: user_registration_path do |f| %>
   <%= render "public/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <%= f.label :メールアドレス %><br />
-    ※ 1つのメールアドレスで作成できるアカウントは1つのみです。<br />
+  <div class="mb-3">
+    <%= f.label :email, class: "h5 d-block" %>
+    <small class="d-block mb-2">※ 1つのメールアドレスで作成できるアカウントは1つのみです。</small>
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div>
 
-  <div class="field">
-    <%= f.label :パスワード %>
+  <div class="mb-3">
+    <%= f.label :password, class: "h5 d-block" %>
     <% if @minimum_password_length %>
-    （<%= @minimum_password_length %>文字以上）
-    <% end %><br />
+      <small class="d-block mb-2">(<%= @minimum_password_length %>文字以上)</small>
+    <% end %>
     <%= f.password_field :password, autocomplete: "new-password" %>
   </div>
 
-  <div class="field">
-    <%= f.label :パスワード（確認） %><br />
+  <div class="mb-3">
+    <%= f.label :password_confirmation, class: "h5 d-block" %>
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
-  <div class="field">
-    <%= f.label :名前（２～２０文字） %><br />
-    ※ 既存ユーザーの名前と同じ名前は登録できません。<br />
+  <div class="mb-3">
+    <%= f.label :name, class: "h5 d-block" %>
+    <small class="d-block mb-2">(2 ～ 20文字)</small>
+    <small class="d-block mb-2">※ 既存ユーザーの名前と同じ名前は登録できません。</small>
     <%= f.text_field :name %>
   </div>
 
-  <div class="field">
-    <%= f.label :都道府県 %><br />
+  <div class="mb-3">
+    <%= f.label :prefecture, class: "h5 d-block" %>
     <%= f.select :prefecture, User.prefectures.keys, {selected: '東京都'} %>
   </div>
 
-  <div class="field">
-    <%= f.label :都道府県の公開 %><br />
+  <div class="mb-3">
+    <%= f.label :hide_prefecture, class: "h5 d-block" %>
     <%= f.radio_button(:hide_prefecture, 'true', checked: true) %>
     <%= f.label(:hide_prefecture, '非公開', value: 'true') %>
     <%= f.radio_button(:hide_prefecture, 'false') %>
     <%= f.label(:hide_prefecture, '公開', value: 'false') %>
   </div>
 
-  <div class="field">
-    <%= f.label :誕生年 %><br />
+  <div class="mb-3">
+    <%= f.label :birth_year, class: "h5 d-block" %>
     <%= f.select :birth_year, (1900..2100).to_a, selected: '2000' %>
   </div>
 
-  <div class="field">
-    <%= f.label :誕生年の公開 %><br />
+  <div class="mb-3">
+    <%= f.label :hide_birth_year, class: "h5 d-block" %>
     <%= f.radio_button(:hide_birth_year, 'true', checked: true) %>
     <%= f.label(:hide_birth_year, '非公開', value: 'true') %>
     <%= f.radio_button(:hide_birth_year, 'false') %>
     <%= f.label(:hide_birth_year, '公開', value: 'false') %>
   </div>
 
-  <div class="field">
-    <%= f.label :自己紹介（２００文字以下） %><br />
+  <div class="mb-3">
+    <%= f.label :introduction, class: "h5 d-block" %>
+    <small class="d-block mb-2">(200文字以下)</small>
     <%= f.text_area :introduction %>
   </div>
 
-  <div class="actions">
-    <%= f.submit "会員登録" %>
+  <div>
+    <%= f.submit "会員登録", class: "btn btn-success px-3 py-2" %>
   </div>
 <% end %>
 
