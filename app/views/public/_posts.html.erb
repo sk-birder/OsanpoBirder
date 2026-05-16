@@ -6,7 +6,7 @@
           <% if post.post_images.attached? %>
             <%= image_tag post.show_first_post_image(50, 50) %>
           <% else %>
-            なし
+            画像なし
           <% end %>
         </div>
         <div class="p-2">
@@ -15,7 +15,7 @@
           <% end %>
         </div>
         <div class="row justify-content-around p-2">
-          <span><%= Category.find(post.category_id).name %></span>
+          <span><%= post.category.name %></span>
           <span><%= post.prefecture %></span>
           <span><%= post.month %></span>
         </div>

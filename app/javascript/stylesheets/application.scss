@@ -24,6 +24,10 @@ main {
   max-width: 512px;
 }
 
+.user-introduction-form {
+  width: 80%;
+}
+
 .post-image {
   max-width: 90%;
 }
@@ -38,6 +42,10 @@ main {
 
 .comment-form {
   width: 80%;
+}
+
+.user-card-content {
+  min-width: 0;
 }
 
 /* map(id)の設定は未使用だがFallback値として残しておく */

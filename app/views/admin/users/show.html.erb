@@ -1,19 +1,39 @@
 <h2>エンドユーザープロフィール</h2>
 
-<h4>プロフィール画像</h4>
-<p><%= image_tag @user.get_profile_image(150, 150) %></p>
+<div class="mb-3">
+  <label class="h5 d-block">
+    <%= attribute_name(User, :profile_image) %>
+  </label>
+  <%= image_tag @user.get_profile_image(150, 150) %>
+</div>
 
-<h4>ユーザーネーム</h4>
-<p><%= @user.name %></p>
+<div class="mb-3">
+  <label class="h5 d-block">
+    <%= attribute_name(User, :name) %>
+  </label>
+  <%= @user.name %>
+</div>
 
-<h4>都道府県</h4>
-<p><%= @user.prefecture %></p>
+<div class="mb-3">
+  <label class="h5 d-block">
+    <%= attribute_name(User, :prefecture) %>
+  </label>
+  <%= @user.prefecture %>
+</div>
 
-<h4>誕生年</h4>
-<p><%= @user.birth_year %></p>
+<div class="mb-3">
+  <label class="h5 d-block">
+    <%= attribute_name(User, :birth_year) %>
+  </label>
+  <%= @user.birth_year %>
+</div>
 
-<h4>自己紹介</h4>
-<p><%= @user.introduction %></p>
+<div class="mb-3">
+  <label class="h5 d-block">
+    <%= attribute_name(User, :introduction) %>
+  </label>
+  <%= @user.introduction %>
+</div>
 
 <h4>ステータス</h4>
 <p>

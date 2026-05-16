@@ -7,7 +7,7 @@
             <%= image_tag user.get_profile_image(50, 50), class: "m-2" %>
           <% end %>
         </div>
-        <div class="flex-grow-1">
+        <div class="flex-grow-1 user-card-content">
           <div class="d-flex flex-row my-2 mr-2">
             <h4>
               <%= link_to user_path(user) do %>
@@ -21,18 +21,12 @@
             <% end %>
           </div>
           <div class="mb-2">
-            <% if user.hide_prefecture %>
-              <span class="m-1 p-1  rounded bg-info text-white-50">非公開</span>
-            <% else %>
-              <span class="m-1 p-1  rounded bg-info text-white"><%= user.prefecture %></span>
-            <% end %>
-            <% if user.hide_birth_year %>
-              <span class="m-1 p-1  rounded bg-success text-white-50">非公開</span>
-            <% else %>
-              <span class="m-1 p-1  rounded bg-success text-white"><%= user.birth_year %>年</span>
-            <% end %>
+            <% prefecture_data = prefecture_display_data(user) %>
+            <span class="m-1 p-1 rounded bg-info <%= prefecture_data[:css] %>"><%= prefecture_data[:text] %></span>
+            <% birth_year_data = birth_year_display_data(user) %>
+            <span class="m-1 p-1 rounded bg-success <%= birth_year_data[:css] %>"><%= birth_year_data[:text] %></span>
           </div>
-          <div class="mb-2">
+          <div class="mb-2 text-truncate">
             <%= user.introduction %>
           </div>
           <div class="mb-2">

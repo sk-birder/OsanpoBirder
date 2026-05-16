@@ -184,7 +184,7 @@ class User < ApplicationRecord
 
   # public/users#likes用
   def ordered_liked_posts(sort)
-    liked_visible_posts = liked_posts.visible
+    liked_visible_posts = liked_posts.visible.includes(:category)
     case sort.to_s
     when 'published_oldest'
       liked_visible_posts.order(published_at: :asc)

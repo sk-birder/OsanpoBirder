@@ -9,8 +9,8 @@ ja:
       user:
         email: メールアドレス
         name: ユーザー名
-        prefecture: 拠点地
-        hide_prefecture: 拠点地の公開
+        prefecture: 都道府県
+        hide_prefecture: 都道府県の公開
         birth_year: 誕生年
         hide_birth_year: 誕生年の公開
         introduction: 自己紹介
@@ -18,6 +18,8 @@ ja:
         is_forbidden: 除名ステータス
         created_at: 登録日時
         updated_at: プロフィールの更新日時
+        profile_image: プロフィール画像
+        remember_me: ログインしたままにする
       post:
         title: タイトル
         prefecture: 都道府県

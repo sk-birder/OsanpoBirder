@@ -29,16 +29,17 @@ class Public::PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.visible
+    @posts = Post.includes(:category)
+                 .visible
                  .sorted_by_published(params[:sort])
                  .page(params[:page])
     @list_type = :published
-    @categories = Category.all
   end
 
   def timeline
     return redirect_to(posts_path) if current_user.guest_user?
-    @posts = Post.where(user_id: current_user.following_users.select(:id))
+    @posts = Post.includes(:category)
+                 .where(user_id: current_user.following_users.select(:id))
                  .or(Post.where(user_id: current_user.id))
                  .visible
                  .published_recent
@@ -77,11 +78,17 @@ class Public::PostsController < ApplicationController
   end
 
   def draft
-    @drafts = current_user.posts.user_draft.recent.page(params[:page])
+    @drafts = current_user.posts.includes(:category)
+                                .user_draft
+                                .recent
+                                .page(params[:page])
   end
 
   def forbidden
-    @forbidden_posts = current_user.posts.admin_forbidden.recently_updated.page(params[:page])
+    @forbidden_posts = current_user.posts.includes(:category)
+                                         .admin_forbidden
+                                         .recently_updated
+                                         .page(params[:page])
   end
 
   private
