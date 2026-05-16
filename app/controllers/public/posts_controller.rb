@@ -86,9 +86,9 @@ class Public::PostsController < ApplicationController
 
   def forbidden
     @forbidden_posts = current_user.posts.includes(:category)
-                                   .admin_forbidden
-                                   .recently_updated
-                                   .page(params[:page])
+                                         .admin_forbidden
+                                         .recently_updated
+                                         .page(params[:page])
   end
 
   private
