@@ -6,6 +6,7 @@ class Public::PostsController < ApplicationController
 
   def new
     @post = Post.new
+    @categories = Category.all
     @has_latlng_already = false
   end
 
@@ -24,6 +25,7 @@ class Public::PostsController < ApplicationController
       else
         @has_latlng_already = false
       end
+      @categories = Category.all
       render :new
     end
   end

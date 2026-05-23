@@ -21,11 +21,13 @@ ja:
         profile_image: プロフィール画像
         remember_me: ログインしたままにする
       post:
+        post_images: 写真
+        category_id: カテゴリ
         title: タイトル
         prefecture: 都道府県
         month: 月
         body: 本文
-        is_public: 公開ステータス
+        is_public: 公開設定
         is_forbidden: 管理者非公開ステータス
         created_at: 投稿日時
         updated_at: 更新日時

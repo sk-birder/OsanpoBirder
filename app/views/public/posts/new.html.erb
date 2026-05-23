@@ -11,52 +11,54 @@
 
 <%= render '/public/attention' %>
 
-<h4>スポット選択</h4>
+<h5>スポット選択</h5>
 <div id="map" class="w-100 mb-2" style="height: calc(50vh);"></div>
 
 <%= form_with model: @post, url: posts_path do |f| %>
   <%= f.hidden_field :latitude,  id: "lat" %>
   <%= f.hidden_field :longitude, id: "lng" %>
 
-  <h4>写真</h4>
-  <p>
+  <div class="mb-3">
+    <%= f.label :post_images, class: "h5 d-block" %>
     <%= f.file_field :post_images, accept: "image/*",  multiple: true %>
-  </p>
+  </div>
 
-  <h4>タイトル(100文字まで)</h4>
-  <p>
+  <div class="mb-3">
+    <%= f.label :title, class: "h5 d-block" %>
+    <small class="d-block mb-2">(100文字以下)</small>
     <%= f.text_field :title, autofocus: true, class: "post-title-form" %>
-  </p>
+  </div>
   
-  <h4>カテゴリ</h4>
-  <%# Categoryモデルからデータを呼び出しセレクトボックスに表示 %>
-  <p>
-    <%= f.collection_select(:category_id, Category.all, :id, :name) %>
-  </p>
+  <div class="mb-3">
+    <%= f.label :category_id, class: "h5 d-block" %>
+    <%# Categoryモデルからデータを呼び出しセレクトボックスに表示 %>
+    <%= f.collection_select(:category_id, @categories, :id, :name) %>
+  </div>
 
-  <h4>都道府県</h4>
-  <p>
-    ※ 自動入力されますが、誤っている場合は訂正できます。海上や日本以外の場所を選択すると表示されません。<br />
+  <div class="mb-3">
+    <%= f.label :prefecture, class: "h5 d-block" %>
+    <small class="d-block mb-2 text-muted">※ 自動入力されますが、誤っている場合は訂正できます。海上や日本以外の場所を選択すると表示されません。</small>
     <%= f.select :prefecture, Post.prefectures.keys, {selected: current_user.prefecture}, id: "post_prefecture"  %>
-  </p>
+  </div>
 
-  <h4>月</h4>
-  <p>
+  <div class="mb-3">
+    <%= f.label :month, class: "h5 d-block" %>
     <%= f.select :month, Post.months.keys, {} %>
-  </p>
+  </div>
   
-  <h4>本文(1000文字まで)</h4>
-  <p>
-    <%= f.text_area :body, rows: '10', class: "post-body-form" %>
-  </p>
+  <div class="mb-3">
+    <%= f.label :body, class: "h5 d-block" %>
+    <small class="d-block mb-2">(1000文字以下)</small>
+    <%= f.text_area :body, rows: 10, class: "post-body-form" %>
+  </div>
 
-  <h4>公開・下書き</h4>
-  <p>
+  <div class="mb-3">
+    <%= f.label :is_public, class: "h5 d-block" %>
     <%= f.radio_button(:is_public, true, checked: true) %>
     <%= f.label(:is_public, '公開', value: true) %>
     <%= f.radio_button(:is_public, false) %>
     <%= f.label(:is_public, '下書き', value: false) %>
-  </p>
+  </div>
 
   <%= f.submit '投稿する', class: "btn btn-success px-3 py-2" %>
 <% end %>
