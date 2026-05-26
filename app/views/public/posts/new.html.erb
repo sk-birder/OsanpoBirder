@@ -1,71 +1,13 @@
 <h2>新規投稿</h2>
 
-<% if @post.errors.any? %>
-  <p><%= @post.errors.count %>件のエラーが発生しました。</p>
-  <ul>
-    <% @post.errors.full_messages.each do |m| %>
-      <li><%= m %></li>
-    <% end %>
-  </ul>
-<% end %>
-
-<%= render '/public/attention' %>
-
-<h5>スポット選択</h5>
-<div id="map" class="w-100 mb-2" style="height: calc(50vh);"></div>
-
-<%= form_with model: @post, url: posts_path do |f| %>
-  <%= f.hidden_field :latitude,  id: "lat" %>
-  <%= f.hidden_field :longitude, id: "lng" %>
-
-  <div class="mb-3">
-    <%= f.label :post_images, class: "h5 d-block" %>
-    <%= f.file_field :post_images, accept: "image/*",  multiple: true %>
-  </div>
-
-  <div class="mb-3">
-    <%= f.label :title, class: "h5 d-block" %>
-    <small class="d-block mb-2">(100文字以下)</small>
-    <%= f.text_field :title, autofocus: true, class: "post-title-form" %>
-  </div>
-  
-  <div class="mb-3">
-    <%= f.label :category_id, class: "h5 d-block" %>
-    <%# Categoryモデルからデータを呼び出しセレクトボックスに表示 %>
-    <%= f.collection_select(:category_id, @categories, :id, :name) %>
-  </div>
-
-  <div class="mb-3">
-    <%= f.label :prefecture, class: "h5 d-block" %>
-    <small class="d-block mb-2 text-muted">※ 自動入力されますが、誤っている場合は訂正できます。海上や日本以外の場所を選択すると表示されません。</small>
-    <%= f.select :prefecture, Post.prefectures.keys, {selected: current_user.prefecture}, id: "post_prefecture"  %>
-  </div>
-
-  <div class="mb-3">
-    <%= f.label :month, class: "h5 d-block" %>
-    <%= f.select :month, Post.months.keys, {} %>
-  </div>
-  
-  <div class="mb-3">
-    <%= f.label :body, class: "h5 d-block" %>
-    <small class="d-block mb-2">(1000文字以下)</small>
-    <%= f.text_area :body, rows: 10, class: "post-body-form" %>
-  </div>
-
-  <div class="mb-3">
-    <%= f.label :is_public, class: "h5 d-block" %>
-    <%= f.radio_button(:is_public, true, checked: true) %>
-    <%= f.label(:is_public, '公開', value: true) %>
-    <%= f.radio_button(:is_public, false) %>
-    <%= f.label(:is_public, '下書き', value: false) %>
-  </div>
-
-  <%= f.submit '投稿する', class: "btn btn-success px-3 py-2" %>
-<% end %>
+<%= render 'error_messages', post: @post %>
+<%= render 'form', post: @post, categories: @categories %>
 
 <%# 拠点地に基づいて初期位置を設定 %>
 <input type="hidden" id="initlat" value="<%= current_user.default_map_position(current_user.prefecture)[:lat] %>">
 <input type="hidden" id="initlng" value="<%= current_user.default_map_position(current_user.prefecture)[:lng] %>">
+
 <%# バリデーションエラー時にマーカーを維持するための記述 %>
 <input type="hidden" id="hasLatLngAlready" value="<%= @has_latlng_already %>">
+
 <%= javascript_pack_tag 'map_posts_new', 'data-turbolinks-track': 'reload' %>

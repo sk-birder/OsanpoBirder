@@ -60,6 +60,7 @@ class Public::PostsController < ApplicationController
 
   def edit
     is_matching_login_user
+    @categories = Category.all
   end
 
   def update
@@ -69,6 +70,7 @@ class Public::PostsController < ApplicationController
       redirect_to post_path(@post.id)
     else
       flash.now[:notice] = '編集に失敗しました。'
+      @categories = Category.all
       render :edit
     end
   end
