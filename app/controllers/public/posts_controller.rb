@@ -110,14 +110,14 @@ class Public::PostsController < ApplicationController
     @post = Post.find_by(id: params[:id]) # findではエラーになるが、find_byを使うと投稿が存在しない時にnilが戻り値になる
     if @post.blank?
       flash[:alert] = '指定された投稿は存在しないか、削除されています。'
-      redirect_to timeline_path
+      redirect_to root_path
     end
   end
 
   def is_matching_login_user
     # @postはset_postで定義済み
     if @post.user_id != current_user.id
-      redirect_to timeline_path
+      redirect_to root_path
     end
   end
 end

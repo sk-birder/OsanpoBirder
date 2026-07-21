@@ -71,7 +71,7 @@
               <ul class="header-menu mx-auto d-block d-md-none">
                 <% if !current_user.guest_user? %>
                   <li class="mb-2">
-                    <%= link_to timeline_path do %>
+                    <%= link_to root_path do %>
                       <i class="fa-solid fa-timeline mr-2"></i>タイムライン
                     <% end %>
                   </li>
@@ -191,7 +191,7 @@
                   <% if user_signed_in? %>
                     <% if !current_user.guest_user? %>
                       <li class="nav-link active">
-                        <%= link_to timeline_path, class:"d-flex align-items-center" do %>
+                        <%= link_to root_path, class:"d-flex align-items-center" do %>
                           <i class="fa-solid fa-timeline mr-2"></i>タイムライン
                         <% end %>
                       </li>

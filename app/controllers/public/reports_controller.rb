@@ -20,7 +20,7 @@ class Public::ReportsController < ApplicationController
     @post = Post.find_by(id: params[:post_id]) # インスタンス変数で宣言するのはjQueryでの部分テンプレート呼出時に必要なため
     if @post.blank?
       flash[:alert] = '対象の投稿が削除されています。'
-      redirect_to timeline_path
+      redirect_to root_path
     end
   end
 end
